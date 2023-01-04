@@ -131,29 +131,27 @@ extension Member: CRUDModel {
     // MARK: - Customize replace data
     
     struct Replace: Content {
-        var id: UUID
-        var name: String
-        var phone: String
-        var birthday: Date
-        var from: MemberFromType
-        var address: String
-        var email: String
-        var note: String
-        var amount: Int
-        var isVip: Bool
+        var name: String?
+        var phone: String?
+        var birthday: Date?
+        var from: MemberFromType?
+        var address: String?
+        var email: String?
+        var note: String?
+        var amount: Int?
+        var isVip: Bool?
     }
     
     func replace(with data: Replace) throws -> Self {
-        self.id = data.id
-        self.name = data.name
-        self.phone = data.phone
-        self.birthday = data.birthday
-        self.from = data.from
-        self.address = data.address
-        self.email = data.email
-        self.note = data.note
-        self.amount = data.amount
-        self.isVip = data.isVip
+        self.name = data.name ?? self.name
+        self.phone = data.phone ?? self.phone
+        self.birthday = data.birthday ?? self.birthday
+        self.from = data.from ?? self.from
+        self.address = data.address ?? self.address
+        self.email = data.email ?? self.email
+        self.note = data.note ?? self.note
+        self.amount = data.amount ?? self.amount
+        self.isVip = data.isVip ?? self.isVip
     
         self.created = self.created
         self.lastUpdate = Date.now
@@ -163,17 +161,35 @@ extension Member: CRUDModel {
 
 
 // MARK: - Customize patch data
-/*
+
 extension Member: Patchable {
     struct Patch: Content {
         var name: String?
+        var phone: String?
+        var birthday: Date?
+        var from: MemberFromType?
+        var address: String?
+        var email: String?
+        var note: String?
+        var amount: Int?
+        var isVip: Bool?
     }
     
     func patch(with data: Patch) throws {
         self.name = data.name ?? self.name
+        self.phone = data.phone ?? self.phone
+        self.birthday = data.birthday ?? self.birthday
+        self.from = data.from ?? self.from
+        self.address = data.address ?? self.address
+        self.email = data.email ?? self.email
+        self.note = data.note ?? self.note
+        self.amount = data.amount ?? self.amount
+        self.isVip = data.isVip ?? self.isVip
+    
+        self.created = self.created
+        self.lastUpdate = Date.now
     }
 }
-*/
 
 
 // MARK: - Validations
@@ -209,7 +225,6 @@ extension Member {
         func prepare(on database: Database) -> EventLoopFuture<Void> {
             database
                 .schema(Member.schema)
-//                .id()
                 .field(.id, .uuid, .identifier(auto: true))
                 .field(.memberName, .string, .required)
                 .field(.memberPhone, .string, .required)
