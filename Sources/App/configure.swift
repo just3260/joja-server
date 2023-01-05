@@ -12,9 +12,11 @@ public func configure(_ app: Application) throws {
     //    app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
     app.middleware.use(FileMiddleware(publicDirectory: app.directory.workingDirectory))
     
+    app.middleware.use(app.sessions.middleware)
     
     // MARK: - Database
-    app.databases.use(.sqlite(.memory), as: .sqlite)
+//    app.databases.use(.sqlite(.memory), as: .sqlite)
+    app.databases.use(.sqlite(), as: .sqlite)
     
     
     // MARK: - Migrations

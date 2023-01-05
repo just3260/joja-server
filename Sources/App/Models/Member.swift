@@ -77,8 +77,8 @@ final class Member: Model, Content {
         self.note = note
         self.amount = 0
         self.isVip = false
-        self.created = Date.now
-        self.lastUpdate = Date.now
+        self.created = Date()
+        self.lastUpdate = Date()
     }
 }
 
@@ -154,7 +154,7 @@ extension Member: CRUDModel {
         self.isVip = data.isVip ?? self.isVip
     
         self.created = self.created
-        self.lastUpdate = Date.now
+        self.lastUpdate = Date()
         return self
     }
 }
@@ -187,7 +187,7 @@ extension Member: Patchable {
         self.isVip = data.isVip ?? self.isVip
     
         self.created = self.created
-        self.lastUpdate = Date.now
+        self.lastUpdate = Date()
     }
 }
 
