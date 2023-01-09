@@ -5,6 +5,9 @@ import FluentSQLiteDriver
 // configures your application
 public func configure(_ app: Application) throws {
     
+    // fot testing in Proxyman
+    app.http.server.configuration.port = 3000
+    
     setTimeConfigure()
     
     app.routes.defaultMaxBodySize = "10mb"
