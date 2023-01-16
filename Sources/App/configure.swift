@@ -40,19 +40,16 @@ public func configure(_ app: Application) throws {
 
 fileprivate func setTimeConfigure() {
     // create a new JSON encoder that uses unix-timestamp dates
-    let formatter = DateFormatter()
-    formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-    formatter.timeZone = TimeZone(secondsFromGMT: 0)
+    let formatter = ISO8601DateFormatter()
+    formatter.formatOptions = [.withFullDate, .withFullTime]
     
+    // Decoder
     let decoder = JSONDecoder()
-    decoder.dateDecodingStrategy = .formatted(formatter)
-//    decoder.dateDecodingStrategy = .secondsSince1970
+    decoder.dateDecodingStrategy = .iso8601joja
     ContentConfiguration.global.use(decoder: decoder, for: .json)
-//    ContentConfiguration.global.use(decoder: decoder, for: .formData)
     
+    // Encoder
     let encoder = JSONEncoder()
-    encoder.dateEncodingStrategy = .formatted(formatter)
-//    encoder.dateEncodingStrategy = .secondsSince1970
+    encoder.dateEncodingStrategy = .iso8601joja
     ContentConfiguration.global.use(encoder: encoder, for: .json)
-//    ContentConfiguration.global.use(encoder: encoder, for: .formData)
 }

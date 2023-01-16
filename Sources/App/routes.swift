@@ -6,11 +6,7 @@ func routes(_ app: Application) throws {
     let v1Routes = app.grouped("v1")
     
     // MARK: - System
-    v1Routes.get("sys", "info") { req in
-        return InfoData(version: "1.0.0")
-//        return "{\"version\": \"1.0.0\"}"
-    }
-    
+    try v1Routes.register(collection: SystemController())
     
     // MARK: - Member
     v1Routes.crud(Member.schema, model: Member.self) { routes, parentController in
