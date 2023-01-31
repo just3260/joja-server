@@ -39,8 +39,9 @@ final class Member: Model, Content {
     @Field(key: .memberPhone)
     var phone: String
     
-    @Field(key: .memberBirthday)
-    var birthday: Date
+//    @Field(key: .memberBirthday)
+    @Timestamp(key: .memberBirthday, on: .none)
+    var birthday: Date?
     
     @Field(key: .memberFrom)
     var from: MemberFromType
@@ -60,11 +61,13 @@ final class Member: Model, Content {
     @Field(key: .memberVip)
     var isVip: Bool
     
-    @Field(key: .memberCreateTime)
-    var created: Date
+//    @Timestamp(key: .memberCreateTime)
+    @Timestamp(key: .memberCreateTime, on: .create)
+    var created: Date?
     
-    @Field(key: .memberLastUpdate)
-    var lastUpdate: Date
+//    @Timestamp(key: .memberLastUpdate)
+    @Timestamp(key: .memberLastUpdate, on: .update)
+    var lastUpdate: Date?
     
     init(id: UUID? = nil, name: String, phone: String, birthday: Date, from: MemberFromType, address: String?, email: String?, note: String?) {
         self.id = id
@@ -77,8 +80,8 @@ final class Member: Model, Content {
         self.note = note
         self.amount = 0
         self.isVip = false
-        self.created = Date()
-        self.lastUpdate = Date()
+//        self.created = Date()
+//        self.lastUpdate = Date()
     }
 }
 
@@ -90,15 +93,15 @@ extension Member: CRUDModel {
         var id: UUID?
         var name: String
         var phone: String
-        var birthday: Date
+        var birthday: Date?
         var from: MemberFromType
         var address: String?
         var email: String?
         var note: String?
         var amount: Int
         var isVip: Bool
-        var created: Date
-        var lastUpdate: Date
+        var created: Date?
+        var lastUpdate: Date?
     }
 
     var `public`: Public {
@@ -153,8 +156,8 @@ extension Member: CRUDModel {
         self.amount = data.amount ?? self.amount
         self.isVip = data.isVip ?? self.isVip
     
-        self.created = self.created
-        self.lastUpdate = Date()
+//        self.created = self.created
+//        self.lastUpdate = Date()
         return self
     }
 }
@@ -186,8 +189,8 @@ extension Member: Patchable {
         self.amount = data.amount ?? self.amount
         self.isVip = data.isVip ?? self.isVip
     
-        self.created = self.created
-        self.lastUpdate = Date()
+//        self.created = self.created
+//        self.lastUpdate = Date()
     }
 }
 
@@ -228,15 +231,15 @@ extension Member {
                 .field(.id, .uuid, .identifier(auto: true))
                 .field(.memberName, .string, .required)
                 .field(.memberPhone, .string, .required)
-                .field(.memberBirthday, .date, .required)
+                .field(.memberBirthday, .datetime, .required)
                 .field(.memberFrom, .int, .required)
                 .field(.memberAddress, .string)
                 .field(.memberEmail, .string)
                 .field(.memberNote, .string)
                 .field(.memberAmount, .int, .required)
                 .field(.memberVip, .bool, .required)
-                .field(.memberCreateTime, .date, .required)
-                .field(.memberLastUpdate, .date, .required)
+                .field(.memberCreateTime, .datetime, .required)
+                .field(.memberLastUpdate, .datetime, .required)
                 .create()
         }
         
