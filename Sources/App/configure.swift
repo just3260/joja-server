@@ -1,6 +1,7 @@
 import Vapor
 import Fluent
 import FluentSQLiteDriver
+//import FluentPostgresDriver
 
 // configures your application
 public func configure(_ app: Application) throws {
@@ -11,15 +12,29 @@ public func configure(_ app: Application) throws {
     setTimeConfigure()
     
     app.routes.defaultMaxBodySize = "10mb"
-    // uncomment to serve files from /Public folder
-    //    app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
-    app.middleware.use(FileMiddleware(publicDirectory: app.directory.workingDirectory))
     
+    
+    // MARK: - Middleware
+    // uncomment to serve files from /Public folder
+    app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
+//    app.middleware.use(FileMiddleware(publicDirectory: app.directory.workingDirectory))
+    
+    app.middleware.use(Logging())
+//    app.middleware.use(APIKeyCheck())
     app.middleware.use(app.sessions.middleware)
+    
     
     // MARK: - Database
 //    app.databases.use(.sqlite(.memory), as: .sqlite)
     app.databases.use(.sqlite(), as: .sqlite)
+    
+//    app.databases.use(.postgres(
+//      hostname: Environment.get("DATABASE_HOST") ?? "localhost",
+//      port: 5432,
+//      username: Environment.get("POSTGRES_USER") ?? "joja_username",
+//      password: Environment.get("POSTGRES_PASSWORD") ?? "joja_password",
+//      database: Environment.get("POSTGRES_DB") ?? "joja-postgres"
+//    ), as: .psql)
     
     
     // MARK: - Migrations

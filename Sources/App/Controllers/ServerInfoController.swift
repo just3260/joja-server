@@ -54,7 +54,6 @@ struct ServerInfoController: RouteCollection {
     }
     
     private func uptime(since date: Date) -> String? {
-        
         let timeInterval = Date().timeIntervalSince(date)
         let duration: String
         
@@ -65,8 +64,6 @@ struct ServerInfoController: RouteCollection {
         } else {
             duration = String(format: "%.2f m", timeInterval/60)
         }
-        
         return duration
-        
     }
 }

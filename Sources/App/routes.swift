@@ -9,9 +9,10 @@ func routes(_ app: Application) throws {
     try v1Routes.register(collection: SystemController())
     
     // MARK: - Member
-    v1Routes.crud(Member.schema, model: Member.self) { routes, parentController in
-        routes.get("hello") { _ in "Hello World" }
-    }
+    try v1Routes.register(collection: MemberController())
+//    v1Routes.crud(Member.schema, model: Member.self) { routes, parentController in
+//        routes.get("hello") { _ in "Hello World" }
+//    }
     
     
     // MARK: - Todo Lists

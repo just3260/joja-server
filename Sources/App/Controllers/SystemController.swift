@@ -10,7 +10,8 @@ import Fluent
 
 final class SystemController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
-        routes.get("sys", "info") { req in
+        let protected = routes.grouped(APIKeyCheck())
+        protected.get("sys", "info") { req in
             return InfoData(version: "1.0.0")
         }
     }
