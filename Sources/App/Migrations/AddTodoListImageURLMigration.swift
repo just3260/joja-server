@@ -11,13 +11,13 @@ struct AddTodoListImageUrlMigration: Migration {
     func prepare(on database: Database) -> EventLoopFuture<Void> {
         database
             .schema(TodoList.schema)
-            .field(.imageUrl, .string)
+            .field(Todo.FieldKeys.imageUrl, .string)
             .update()
     }
     func revert(on database: Database) -> EventLoopFuture<Void> {
         database
             .schema(TodoList.schema)
-            .deleteField(.imageUrl)
+            .deleteField(Todo.FieldKeys.imageUrl)
             .update()
     }
 }

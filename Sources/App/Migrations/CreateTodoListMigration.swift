@@ -12,7 +12,7 @@ struct CreateTodoListMigration: Migration {
         database
             .schema(TodoList.schema)
             .id()
-            .field(.name, .string, .required)
+            .field(Todo.FieldKeys.name, .string, .required)
             .create()
     }
     

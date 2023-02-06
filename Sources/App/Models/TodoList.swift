@@ -14,13 +14,13 @@ final class TodoList: Model, Content {
     
     static let schema = "todo-lists"
     
-    @ID(key: .id)
+    @ID()
     var id: UUID?
     
-    @Field(key: .name)
+    @Field(key: Todo.FieldKeys.name)
     var name: String
     
-    @Field(key: .imageUrl)
+    @Field(key: Todo.FieldKeys.imageUrl)
     var imageUrl: String?
     
     @Children(for: \.$list)

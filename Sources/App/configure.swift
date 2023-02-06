@@ -25,8 +25,9 @@ public func configure(_ app: Application) throws {
     
     
     // MARK: - Database
-//    app.databases.use(.sqlite(.memory), as: .sqlite)
-    app.databases.use(.sqlite(), as: .sqlite)
+//    app.databases.use(.sqlite(), as: .sqlite)
+    app.databases.use(.sqlite(.file("JOJA.sqlite")), as: .sqlite)
+    
     
 //    app.databases.use(.postgres(
 //      hostname: Environment.get("DATABASE_HOST") ?? "localhost",
@@ -37,12 +38,17 @@ public func configure(_ app: Application) throws {
 //    ), as: .psql)
     
     
-    // MARK: - Migrations
-    app.migrations.add(Member.migration())
     
-    app.migrations.add(CreateTodoListMigration(), to: .sqlite)
-    app.migrations.add(CreateTodoMigration(), to: .sqlite)
-    app.migrations.add(AddTodoListImageUrlMigration(), to: .sqlite)
+    // MARK: - Migrations
+    app.middleware.use(ErrorMiddleware.default(environment: app.environment))
+    
+    app.migrations.add(Member.migration())
+    app.migrations.add(CreateUsersMigration())
+    app.migrations.add(CreateTokensMigration())
+    
+    app.migrations.add(CreateTodoListMigration())
+    app.migrations.add(CreateTodoMigration())
+    app.migrations.add(AddTodoListImageUrlMigration())
     
     try app.autoMigrate().wait()
     

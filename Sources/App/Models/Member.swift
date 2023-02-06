@@ -30,43 +30,43 @@ final class Member: Model, Content {
     
     init() { }
     
-    @ID(custom: .id)
+    @ID()
     var id: UUID?
     
-    @Field(key: .memberName)
+    @Field(key: FieldKeys.memberName)
     var name: String
     
-    @Field(key: .memberPhone)
+    @Field(key: FieldKeys.memberPhone)
     var phone: String
     
 //    @Field(key: .memberBirthday)
-    @Timestamp(key: .memberBirthday, on: .none)
+    @Timestamp(key: FieldKeys.memberBirthday, on: .none)
     var birthday: Date?
     
-    @Field(key: .memberFrom)
+    @Field(key: FieldKeys.memberFrom)
     var from: MemberFromType
     
-    @Field(key: .memberAddress)
+    @Field(key: FieldKeys.memberAddress)
     var address: String?
     
-    @Field(key: .memberEmail)
+    @Field(key: FieldKeys.memberEmail)
     var email: String?
     
-    @Field(key: .memberNote)
+    @Field(key: FieldKeys.memberNote)
     var note: String?
     
-    @Field(key: .memberAmount)
+    @Field(key: FieldKeys.memberAmount)
     var amount: Int
     
-    @Field(key: .memberVip)
+    @Field(key: FieldKeys.memberVip)
     var isVip: Bool
     
 //    @Timestamp(key: .memberCreateTime)
-    @Timestamp(key: .memberCreateTime, on: .create)
+    @Timestamp(key: FieldKeys.memberCreateTime, on: .create)
     var created: Date?
     
 //    @Timestamp(key: .memberLastUpdate)
-    @Timestamp(key: .memberLastUpdate, on: .update)
+    @Timestamp(key: FieldKeys.memberLastUpdate, on: .update)
     var lastUpdate: Date?
     
     init(id: UUID? = nil, name: String, phone: String, birthday: Date, from: MemberFromType, address: String?, email: String?, note: String?) {
@@ -82,6 +82,20 @@ final class Member: Model, Content {
         self.isVip = false
 //        self.created = Date()
 //        self.lastUpdate = Date()
+    }
+    
+    struct FieldKeys {
+        static let memberName: FieldKey = "member_name"
+        static let memberPhone: FieldKey = "member_phone"
+        static let memberBirthday: FieldKey = "member_birthday"
+        static let memberFrom: FieldKey = "member_from"
+        static let memberAddress: FieldKey = "member_address"
+        static let memberEmail: FieldKey = "member_email"
+        static let memberNote: FieldKey = "member_note"
+        static let memberAmount: FieldKey = "member_amount"
+        static let memberVip: FieldKey = "member_vip"
+        static let memberCreateTime: FieldKey = "member_created_time"
+        static let memberLastUpdate: FieldKey = "member_last_update"
     }
 }
 
@@ -229,17 +243,18 @@ extension Member {
             database
                 .schema(Member.schema)
                 .field(.id, .uuid, .identifier(auto: true))
-                .field(.memberName, .string, .required)
-                .field(.memberPhone, .string, .required)
-                .field(.memberBirthday, .datetime, .required)
-                .field(.memberFrom, .int, .required)
-                .field(.memberAddress, .string)
-                .field(.memberEmail, .string)
-                .field(.memberNote, .string)
-                .field(.memberAmount, .int, .required)
-                .field(.memberVip, .bool, .required)
-                .field(.memberCreateTime, .datetime, .required)
-                .field(.memberLastUpdate, .datetime, .required)
+                .field(FieldKeys.memberName, .string, .required)
+                .field(FieldKeys.memberPhone, .string, .required)
+                .field(FieldKeys.memberBirthday, .datetime, .required)
+                .field(FieldKeys.memberFrom, .int, .required)
+                .field(FieldKeys.memberAddress, .string)
+                .field(FieldKeys.memberEmail, .string)
+                .unique(on: FieldKeys.memberEmail)
+                .field(FieldKeys.memberNote, .string)
+                .field(FieldKeys.memberAmount, .int, .required)
+                .field(FieldKeys.memberVip, .bool, .required)
+                .field(FieldKeys.memberCreateTime, .datetime, .required)
+                .field(FieldKeys.memberLastUpdate, .datetime, .required)
                 .create()
         }
         

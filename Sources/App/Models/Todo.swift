@@ -12,16 +12,16 @@ import CRUDKit
 final class Todo: Model, Content {
     static let schema = "todos"
     
-    @ID(key: .id)
+    @ID()
     var id: UUID?
     
-    @Field(key: .title)
+    @Field(key: FieldKeys.title)
     var title: String
     
-    @Field(key: .description)
+    @Field(key: FieldKeys.description)
     var description: String?
     
-    @Parent(key: .listID)
+    @Parent(key: FieldKeys.listID)
     var list: TodoList
     
     init() {}
@@ -35,6 +35,14 @@ final class Todo: Model, Content {
         if let list = list_id {
             self.$list.id = list
         }
+    }
+    
+    struct FieldKeys {
+        static let name: FieldKey = "name"
+        static let imageUrl: FieldKey = "image_url"
+        static let title: FieldKey = "title"
+        static let description: FieldKey = "description"
+        static let listID: FieldKey = "list_id"
     }
 }
 

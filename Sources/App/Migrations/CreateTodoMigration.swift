@@ -12,9 +12,9 @@ struct CreateTodoMigration: Migration {
         return database
             .schema(Todo.schema)
             .id()
-            .field(.title, .string, .required)
-            .field(.description, .string)
-            .field(.listID, .uuid, .references(TodoList.schema, .id))
+            .field(Todo.FieldKeys.title, .string, .required)
+            .field(Todo.FieldKeys.description, .string)
+            .field(Todo.FieldKeys.listID, .uuid, .references(TodoList.schema, .id))
             .create()
     }
     
