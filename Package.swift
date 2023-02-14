@@ -1,4 +1,4 @@
-// swift-tools-version:5.6
+// swift-tools-version:5.7
 import PackageDescription
 
 let package = Package(
@@ -12,8 +12,10 @@ let package = Package(
         .package(url: "https://github.com/vapor/fluent.git", from: "4.0.0"),
         .package(url: "https://github.com/vapor/fluent-sqlite-driver.git", from: "4.0.0"),
 //        .package(url: "https://github.com/vapor/fluent-postgres-driver.git", from: "2.0.0"),
-        .package(url: "https://github.com/just3260/crud-kit", from: "1.1.1")
-//        .package(url: "https://github.com/simonedelmann/crud-kit.git", from: "1.1.0")
+        .package(url: "https://github.com/just3260/crud-kit", from: "1.1.1"),
+        
+        .package(path: "file:///Users/andrew/Dev/joja-core"),
+//        .package(url: "file:///Users/andrew/Dev/joja-core", .branch("main")),
     ],
     targets: [
         .target(
@@ -23,7 +25,8 @@ let package = Package(
                 .product(name: "Fluent", package: "fluent"),
                 .product(name: "FluentSQLiteDriver", package: "fluent-sqlite-driver"),
 //                .product(name: "FluentPostgresDriver", package: "fluent-postgres-driver"),
-                .product(name: "CRUDKit", package: "crud-kit")
+                .product(name: "CRUDKit", package: "crud-kit"),
+                .product(name: "JOJACore", package: "joja-core"),
             ],
             swiftSettings: [
                 // Enable better optimizations when building in Release configuration. Despite the use of

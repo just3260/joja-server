@@ -23,6 +23,14 @@ extension Date {
     var iso8601: String {
         return Formatter.iso8601.string(from: self)
     }
+    
+    func after(component: Calendar.Component, value: Int) -> Date {
+        let calendar = Calendar(identifier: .gregorian)
+        guard let expiryDate = calendar.date(byAdding: .month, value: 1, to: Date()) else {
+            return Date()
+        }
+        return expiryDate
+    }
 }
 
 extension String {

@@ -7,13 +7,9 @@
 
 import Vapor
 import Fluent
+import JOJACore
 
-enum SessionSource: Int, Content {
-    case signup
-    case login
-}
-
-final class Token: Model {
+final class Token: Model, Content {
     static let schema = "tokens"
     
     @ID(key: "id")
@@ -26,9 +22,9 @@ final class Token: Model {
     var value: String
     
     @Field(key: "source")
-    var source: SessionSource
+    var source: TokenAPIModel.SessionSource
     
-    @Field(key: "expires_at")
+    @Timestamp(key: "expires_at", on: .none)
     var expiresAt: Date?
     
     @Timestamp(key: "created_at", on: .create)
@@ -36,12 +32,13 @@ final class Token: Model {
     
     init() {}
     
-    init(id: UUID? = nil, userId: User.IDValue, token: String, source: SessionSource, expiresAt: Date?) {
+    init(id: UUID? = nil, userId: User.IDValue, token: String, source: TokenAPIModel.SessionSource, expiresAt: Date, createdAt: Date) {
         self.id = id
         self.$user.id = userId
         self.value = token
         self.source = source
         self.expiresAt = expiresAt
+        self.createdAt = createdAt
     }
 }
 

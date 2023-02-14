@@ -7,14 +7,9 @@
 
 import Fluent
 import Vapor
+import JOJACore
 
-final class User: Model {
-    struct Public: Content {
-        let username: String
-        let id: UUID
-        let createdAt: Date?
-        let updatedAt: Date?
-    }
+final class User: Model, Content {
     
     static let schema = "users"
     
@@ -39,28 +34,6 @@ final class User: Model {
         self.id = id
         self.username = username
         self.passwordHash = passwordHash
-    }
-}
-
-extension User {
-    static func create(from userSignup: UserSignup) throws -> User {
-        User(username: userSignup.username, passwordHash: try Bcrypt.hash(userSignup.password))
-    }
-    
-    func createToken(source: SessionSource) throws -> Token {
-        let calendar = Calendar(identifier: .gregorian)
-        let expiryDate = calendar.date(byAdding: .month, value: 1, to: Date())
-        
-        return try Token(userId: requireID(),
-                         token: [UInt8].random(count: 16).base64, source: source,
-                         expiresAt: expiryDate)
-    }
-    
-    func asPublic() throws -> Public {
-        Public(username: username,
-               id: try requireID(),
-               createdAt: createdAt,
-               updatedAt: updatedAt)
     }
 }
 
