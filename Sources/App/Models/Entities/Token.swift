@@ -24,11 +24,12 @@ final class Token: Model, Content {
     @Field(key: "source")
     var source: TokenAPIModel.SessionSource
     
-    @Timestamp(key: "expires_at", on: .none)
+    @Timestamp(key: "expires_at", on: .none, format: .iso8601)
     var expiresAt: Date?
     
-    @Timestamp(key: "created_at", on: .create)
+    @Timestamp(key: "created_at", on: .create, format: .iso8601)
     var createdAt: Date?
+    
     
     init() {}
     

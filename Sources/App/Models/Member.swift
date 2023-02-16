@@ -40,7 +40,7 @@ final class Member: Model, Content {
     var phone: String
     
 //    @Field(key: .memberBirthday)
-    @Timestamp(key: FieldKeys.memberBirthday, on: .none)
+    @Timestamp(key: FieldKeys.memberBirthday, on: .none, format: .iso8601)
     var birthday: Date?
     
     @Field(key: FieldKeys.memberFrom)
@@ -62,11 +62,11 @@ final class Member: Model, Content {
     var isVip: Bool
     
 //    @Timestamp(key: .memberCreateTime)
-    @Timestamp(key: FieldKeys.memberCreateTime, on: .create)
+    @Timestamp(key: FieldKeys.memberCreateTime, on: .create, format: .iso8601)
     var created: Date?
     
 //    @Timestamp(key: .memberLastUpdate)
-    @Timestamp(key: FieldKeys.memberLastUpdate, on: .update)
+    @Timestamp(key: FieldKeys.memberLastUpdate, on: .update, format: .iso8601)
     var lastUpdate: Date?
     
     init(id: UUID? = nil, name: String, phone: String, birthday: Date, from: MemberFromType, address: String?, email: String?, note: String?) {

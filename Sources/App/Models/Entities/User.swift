@@ -11,21 +11,21 @@ import JOJACore
 
 final class User: Model, Content {
     
-    static let schema = "users"
+    static let schema = Create.schema
     
-    @ID(key: "id")
+    @ID(key: .id)
     var id: UUID?
     
-    @Field(key: "username")
+    @Field(key: Create.name)
     var username: String
     
-    @Field(key: "password_hash")
+    @Field(key: Create.password)
     var passwordHash: String
     
-    @Timestamp(key: "created_at", on: .create)
+    @Timestamp(key: Create.createdAt, on: .create, format: .iso8601)
     var createdAt: Date?
     
-    @Timestamp(key: "updated_at", on: .update)
+    @Timestamp(key: Create.updatedAt, on: .update, format: .iso8601)
     var updatedAt: Date?
     
     init() {}
@@ -34,6 +34,17 @@ final class User: Model, Content {
         self.id = id
         self.username = username
         self.passwordHash = passwordHash
+    }
+}
+
+extension User {
+    enum Create {
+        static let schema = "users"
+        
+        static let name: FieldKey = .username
+        static let password: FieldKey = .passwordHash
+        static let createdAt: FieldKey = .createdAt
+        static let updatedAt: FieldKey = .updatedAt
     }
 }
 

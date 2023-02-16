@@ -25,9 +25,7 @@ public func configure(_ app: Application) throws {
     
     
     // MARK: - Database
-//    app.databases.use(.sqlite(), as: .sqlite)
     app.databases.use(.sqlite(.file("JOJA.sqlite")), as: .sqlite)
-    
     
 //    app.databases.use(.postgres(
 //      hostname: Environment.get("DATABASE_HOST") ?? "localhost",
@@ -36,6 +34,17 @@ public func configure(_ app: Application) throws {
 //      password: Environment.get("POSTGRES_PASSWORD") ?? "joja_password",
 //      database: Environment.get("POSTGRES_DB") ?? "joja-postgres"
 //    ), as: .psql)
+    
+    
+//    app.databases.use(.postgres(
+//        hostname: Environment.get("DATABASE_HOST") ?? "localhost",
+//        port: Environment.get("DATABASE_PORT").flatMap(Int.init(_:)) ?? PostgresConfiguration.ianaPortNumber,
+//        username: Environment.get("DATABASE_USERNAME") ?? "vapor_username",
+//        password: Environment.get("DATABASE_PASSWORD") ?? "vapor_password",
+//        database: Environment.get("DATABASE_NAME") ?? "vapor_database",
+//    ), as: .psql)
+    
+//    app.databases.use(<#T##configuration: DatabaseConfigurationFactory##DatabaseConfigurationFactory#>, as: <#T##DatabaseID#>)
     
     
     
@@ -49,6 +58,7 @@ public func configure(_ app: Application) throws {
     app.migrations.add(CreateTodoListMigration())
     app.migrations.add(CreateTodoMigration())
     app.migrations.add(AddTodoListImageUrlMigration())
+//    app.migrations.add(CreateUsersMigration2())
     
     try app.autoMigrate().wait()
     

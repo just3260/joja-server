@@ -11,15 +11,18 @@ struct CreateUsersMigration: Migration {
     func prepare(on database: Database) -> EventLoopFuture<Void> {
         database.schema(User.schema)
             .id()
-            .field("username", .string, .required)
-            .unique(on: "username")
-            .field("password_hash", .string, .required)
-            .field("created_at", .datetime, .required)
-            .field("updated_at", .datetime, .required)
+            .field(User.Create.name, .string, .required)
+            .field(User.Create.password, .string, .required)
+            .field(User.Create.createdAt, .datetime, .required)
+            .field(User.Create.updatedAt, .datetime, .required)
             .create()
+        
+//            .unique(on: User.Create.name, name: "unique_username")
+//            .update()
     }
     
     func revert(on database: Database) -> EventLoopFuture<Void> {
         database.schema(User.schema).delete()
+//        database.schema(User.schema).deleteUnique(on: User.Create.name).update()
     }
 }

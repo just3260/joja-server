@@ -7,6 +7,14 @@
 
 import Fluent
 
+// User
+extension FieldKey {
+    static let username: FieldKey = "username"
+    static let passwordHash: FieldKey = "password_hash"
+    static let createdAt: FieldKey = "created_at"
+    static let updatedAt: FieldKey = "updated_at"
+}
+
 // Member
 //extension FieldKey {
 //    static let memberName: FieldKey = "member_name"
