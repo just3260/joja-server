@@ -242,7 +242,7 @@ extension Member {
         func prepare(on database: Database) -> EventLoopFuture<Void> {
             database
                 .schema(Member.schema)
-                .field(.id, .uuid, .identifier(auto: true))
+                .id()
                 .field(FieldKeys.memberName, .string, .required)
                 .field(FieldKeys.memberPhone, .string, .required)
                 .field(FieldKeys.memberBirthday, .datetime, .required)

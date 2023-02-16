@@ -22,10 +22,10 @@ final class User: Model, Content {
     @Field(key: Create.password)
     var passwordHash: String
     
-    @Timestamp(key: Create.createdAt, on: .create, format: .iso8601)
+    @Timestamp(key: Create.createdAt, on: .create)
     var createdAt: Date?
     
-    @Timestamp(key: Create.updatedAt, on: .update, format: .iso8601)
+    @Timestamp(key: Create.updatedAt, on: .update)
     var updatedAt: Date?
     
     init() {}

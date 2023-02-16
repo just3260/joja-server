@@ -15,7 +15,7 @@ struct CreateTokensMigration: Migration {
             .field("value", .string, .required)
             .unique(on: "value")
             .field("source", .int, .required)
-            .field("created_at", .datetime, .required)
+            .field("created_at", .datetime)
             .field("expires_at", .datetime)
             .create()
     }
