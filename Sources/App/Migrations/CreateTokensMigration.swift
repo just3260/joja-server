@@ -11,12 +11,12 @@ struct CreateTokensMigration: Migration {
     func prepare(on database: Database) -> EventLoopFuture<Void> {
         database.schema(Token.schema)
             .id()
-            .field("user_id", .uuid, .references(User.schema, .id))
-            .field("value", .string, .required)
-            .unique(on: "value")
-            .field("source", .int, .required)
-            .field("created_at", .datetime)
-            .field("expires_at", .datetime)
+            .field(Token.Create.userId, .uuid, .references(User.schema, .id))
+            .field(Token.Create.value, .string, .required)
+            .field(Token.Create.source, .int, .required)
+            .field(Token.Create.createdAt, .datetime)
+            .field(Token.Create.expiresAt, .datetime)
+            .unique(on: Token.Create.value, name: "unique_value")
             .create()
     }
     

@@ -10,24 +10,24 @@ import Fluent
 import JOJACore
 
 final class Token: Model, Content {
-    static let schema = "tokens"
+    static let schema = Create.schema
     
-    @ID(key: "id")
+    @ID(key: .id)
     var id: UUID?
     
-    @Parent(key: "user_id")
+    @Parent(key: Create.userId)
     var user: User
     
-    @Field(key: "value")
+    @Field(key: Create.value)
     var value: String
     
-    @Field(key: "source")
+    @Field(key: Create.source)
     var source: TokenAPIModel.SessionSource
     
-    @Timestamp(key: "expires_at", on: .none)
+    @Timestamp(key: Create.expiresAt, on: .none)
     var expiresAt: Date?
     
-    @Timestamp(key: "created_at", on: .create)
+    @Timestamp(key: Create.createdAt, on: .create)
     var createdAt: Date?
     
     
@@ -40,6 +40,18 @@ final class Token: Model, Content {
         self.source = source
         self.expiresAt = expiresAt
         self.createdAt = createdAt
+    }
+}
+
+extension Token {
+    enum Create {
+        static let schema = "tokens"
+        
+        static let userId: FieldKey = .userId
+        static let value: FieldKey = .value
+        static let source: FieldKey = .source
+        static let expiresAt: FieldKey = .expiresAt
+        static let createdAt: FieldKey = .createdAt
     }
 }
 

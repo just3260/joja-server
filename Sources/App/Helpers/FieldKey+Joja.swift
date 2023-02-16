@@ -7,12 +7,22 @@
 
 import Fluent
 
-// User
+
 extension FieldKey {
+    // User
     static let username: FieldKey = "username"
     static let passwordHash: FieldKey = "password_hash"
+    
+    // Token
+    static let userId: FieldKey = "user_id"
+    static let value: FieldKey = "value"
+    static let source: FieldKey = "source"
+    
+    // Time
     static let createdAt: FieldKey = "created_at"
     static let updatedAt: FieldKey = "updated_at"
+    static let expiresAt: FieldKey = "expires_at"
+    
 }
 
 // Member
