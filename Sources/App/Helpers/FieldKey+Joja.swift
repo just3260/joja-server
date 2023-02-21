@@ -11,7 +11,9 @@ import Fluent
 extension FieldKey {
     // User
     static let username: FieldKey = "username"
+    static let email: FieldKey = "email"
     static let passwordHash: FieldKey = "password_hash"
+    static let isAdmin: FieldKey = "is_admin"
     
     // Token
     static let userId: FieldKey = "user_id"

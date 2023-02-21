@@ -22,7 +22,7 @@ public func configure(_ app: Application) throws {
     app.middleware.use(Logging())
 //    app.middleware.use(APIKeyCheck())
     app.middleware.use(app.sessions.middleware)
-    
+    app.middleware.use(ErrorMiddleware.default(environment: app.environment))
     
     // MARK: - Database
 //    app.databases.use(.sqlite(.file("JOJA.sqlite")), as: .sqlite)
@@ -36,21 +36,11 @@ public func configure(_ app: Application) throws {
     ), as: .psql)
     
     
-    // MARK: - Migrations
-    app.middleware.use(ErrorMiddleware.default(environment: app.environment))
-    
-    app.migrations.add(Member.migration())
-    app.migrations.add(CreateUsersMigration())
-    app.migrations.add(CreateTokensMigration())
-    
-    app.migrations.add(CreateTodoListMigration())
-    app.migrations.add(CreateTodoMigration())
-    app.migrations.add(AddTodoListImageUrlMigration())
+    try routes(app)
+    try migrations(app)
+    try services(app)
     
     try app.autoMigrate().wait()
-    
-    // register routes
-    try routes(app)
 }
 
 

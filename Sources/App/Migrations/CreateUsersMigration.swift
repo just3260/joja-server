@@ -12,10 +12,12 @@ struct CreateUsersMigration: Migration {
         database.schema(User.schema)
             .id()
             .field(User.Create.name, .string, .required)
+            .field(User.Create.email, .string, .required)
             .field(User.Create.password, .string, .required)
+            .field(User.Create.isAdmin, .bool, .required, .custom("DEFAULT FALSE"))
             .field(User.Create.createdAt, .datetime)
             .field(User.Create.updatedAt, .datetime)
-            .unique(on: User.Create.name, name: "unique_username")
+            .unique(on: User.Create.name, User.Create.email, name: "unique_setting")
             .create()
     }
     
