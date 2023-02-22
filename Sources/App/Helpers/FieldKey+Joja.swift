@@ -9,21 +9,32 @@ import Fluent
 
 
 extension FieldKey {
-    // User
+    // MARK: - User
     static let username: FieldKey = "username"
     static let email: FieldKey = "email"
     static let passwordHash: FieldKey = "password_hash"
     static let isAdmin: FieldKey = "is_admin"
     
-    // Token
+    // MARK: - Token
     static let userId: FieldKey = "user_id"
     static let value: FieldKey = "value"
     static let source: FieldKey = "source"
     
-    // Time
+    // MARK: - Time
     static let createdAt: FieldKey = "created_at"
     static let updatedAt: FieldKey = "updated_at"
     static let expiresAt: FieldKey = "expires_at"
+    
+    // MARK: - Member
+    static let name: FieldKey = "name"
+    static let phone: FieldKey = "phone"
+    static let birthday: FieldKey = "birthday"
+    static let memberFrom: FieldKey = "member_from"
+    static let address: FieldKey = "address"
+    static let note: FieldKey = "note"
+    static let amount: FieldKey = "amount"
+    static let isVip: FieldKey = "is_vip"
+    
     
 }
 

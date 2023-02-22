@@ -4,12 +4,12 @@ import Fluent
 
 protocol UserRepository: Repository {
     func create(_ user: User) async throws
-    func delete(id: UUID) async throws
-    func all() async throws -> [User]
-    func find(id: UUID?) async throws -> User?
+//    func delete(id: UUID) async throws
+//    func all() async throws -> [User]
+//    func find(id: UUID?) async throws -> User?
     func find(email: String) async throws -> User?
-    func set<Field>(_ field: KeyPath<User, Field>, to value: Field.Value, for userID: UUID) async throws where Field: QueryableProperty, Field.Model == User
-    func count() async throws -> Int
+//    func set<Field>(_ field: KeyPath<User, Field>, to value: Field.Value, for userID: UUID) async throws where Field: QueryableProperty, Field.Model == User
+//    func count() async throws -> Int
 }
 
 struct DatabaseUserRepository: UserRepository, DatabaseRepository {
@@ -19,19 +19,19 @@ struct DatabaseUserRepository: UserRepository, DatabaseRepository {
         try await user.create(on: database)
     }
     
-    func delete(id: UUID) async throws {
-        try await User.query(on: database)
-            .filter(\.$id == id)
-            .delete()
-    }
+//    func delete(id: UUID) async throws {
+//        try await User.query(on: database)
+//            .filter(\.$id == id)
+//            .delete()
+//    }
     
-    func all() async throws -> [User] {
-        try await User.query(on: database).all()
-    }
+//    func all() async throws -> [User] {
+//        try await User.query(on: database).all()
+//    }
     
-    func find(id: UUID?) async throws -> User? {
-        try await User.find(id, on: database)
-    }
+//    func find(id: UUID?) async throws -> User? {
+//        try await User.find(id, on: database)
+//    }
     
     func find(email: String) async throws -> User? {
         try await User.query(on: database)
@@ -39,16 +39,16 @@ struct DatabaseUserRepository: UserRepository, DatabaseRepository {
             .first()
     }
     
-    func set<Field>(_ field: KeyPath<User, Field>, to value: Field.Value, for userID: UUID) async throws where Field: QueryableProperty, Field.Model == User {
-        try await User.query(on: database)
-            .filter(\.$id == userID)
-            .set(field, to: value)
-            .update()
-    }
+//    func set<Field>(_ field: KeyPath<User, Field>, to value: Field.Value, for userID: UUID) async throws where Field: QueryableProperty, Field.Model == User {
+//        try await User.query(on: database)
+//            .filter(\.$id == userID)
+//            .set(field, to: value)
+//            .update()
+//    }
     
-    func count() async throws -> Int {
-        try await User.query(on: database).count()
-    }
+//    func count() async throws -> Int {
+//        try await User.query(on: database).count()
+//    }
 }
 
 extension Application.Repositories {

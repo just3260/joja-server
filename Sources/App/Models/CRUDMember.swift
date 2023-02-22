@@ -1,10 +1,4 @@
-//
-//  Member.swift
-//  
-//
-//  Created by Andrew on 2023/1/2.
-//
-
+/*
 import Vapor
 import Fluent
 import CRUDKit
@@ -25,7 +19,7 @@ enum MemberFromType: Int, Codable {
     case consignmentShop // 寄賣店
 }
 
-final class Member: Model, Content {
+final class CRUDMember: Model, Content {
     static var schema = "member"
     
     init() { }
@@ -99,7 +93,7 @@ final class Member: Model, Content {
     }
 }
 
-extension Member: CRUDModel {
+extension CRUDMember: CRUDModel {
     
     // MARK: - Custom response data
     
@@ -179,7 +173,7 @@ extension Member: CRUDModel {
 
 // MARK: - Customize patch data
 
-extension Member: Patchable {
+extension CRUDMember: Patchable {
     struct Patch: Content {
         var name: String?
         var phone: String?
@@ -217,7 +211,7 @@ extension Todo.Create: Validatable {
     }
 }
 
-extension Member.Replace: Validatable {
+extension CRUDMember.Replace: Validatable {
     static func validations(_ validations: inout Validations) {
         validations.add("title", as: String.self, is: .count(3...))
     }
@@ -225,7 +219,7 @@ extension Member.Replace: Validatable {
 
 
 
-extension Member.Patch: Validatable {
+extension CRUDMember.Patch: Validatable {
     static func validations(_ validations: inout Validations) {
         validations.add("title", as: String.self, is: .count(3...))
     }
@@ -235,13 +229,13 @@ extension Member.Patch: Validatable {
 
 // MARK: - Migration
 
-extension Member {
+extension CRUDMember {
     struct migration: Migration {
         var name = "MemberMigration"
         
         func prepare(on database: Database) -> EventLoopFuture<Void> {
             database
-                .schema(Member.schema)
+                .schema(CRUDMember.schema)
                 .id()
                 .field(FieldKeys.memberName, .string, .required)
                 .field(FieldKeys.memberPhone, .string, .required)
@@ -260,8 +254,9 @@ extension Member {
         
         func revert(on database: Database) -> EventLoopFuture<Void> {
             database
-                .schema(Member.schema)
+                .schema(CRUDMember.schema)
                 .delete()
         }
     }
 }
+*/

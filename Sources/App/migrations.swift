@@ -2,11 +2,13 @@ import Vapor
 
 func migrations(_ app: Application) throws {
     // Initial Migrations
-    app.migrations.add(Member.migration())
-    app.migrations.add(CreateUsersMigration())
-    app.migrations.add(CreateTokensMigration())
+    app.migrations.add(User.Create())
+    app.migrations.add(Token.Create())
+    app.migrations.add(Member.Create())
     
-    app.migrations.add(CreateTodoListMigration())
-    app.migrations.add(CreateTodoMigration())
-    app.migrations.add(AddTodoListImageUrlMigration())
+    app.migrations.add(User.Seed())
+    
+//    app.migrations.add(CreateTodoListMigration())
+//    app.migrations.add(CreateTodoMigration())
+//    app.migrations.add(AddTodoListImageUrlMigration())
 }

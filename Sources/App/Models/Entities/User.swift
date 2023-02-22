@@ -1,9 +1,3 @@
-//
-//  User.swift
-//  
-//
-//  Created by Andrew on 2023/2/3.
-//
 
 import Fluent
 import Vapor
@@ -11,27 +5,27 @@ import JOJACore
 
 final class User: Model, Content {
     
-    static let schema = Create.schema
+    static let schema = Keys.schema
     
     @ID(key: .id)
     var id: UUID?
     
-    @Field(key: Create.name)
+    @Field(key: Keys.name)
     var username: String
     
-    @Field(key: Create.email)
+    @Field(key: Keys.email)
     var email: String
     
-    @Field(key: Create.password)
+    @Field(key: Keys.password)
     var passwordHash: String
     
-    @Field(key: Create.isAdmin)
+    @Field(key: Keys.isAdmin)
     var isAdmin: Bool
     
-    @Timestamp(key: Create.createdAt, on: .create)
+    @Timestamp(key: Keys.createdAt, on: .create)
     var createdAt: Date?
     
-    @Timestamp(key: Create.updatedAt, on: .update)
+    @Timestamp(key: Keys.updatedAt, on: .update)
     var updatedAt: Date?
     
     init() {}
@@ -46,7 +40,7 @@ final class User: Model, Content {
 }
 
 extension User {
-    enum Create {
+    enum Keys {
         static let schema = "users"
         
         static let name: FieldKey = .username

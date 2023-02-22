@@ -11,8 +11,8 @@ import Fluent
 final class MemberController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
         let protected = routes.grouped(APIKeyCheck())
-        protected.crud(Member.schema, model: Member.self) { routes, parentController in
-            routes.get("hello") { _ in "Hello World" }
-        }
+//        protected.crud(CRUDMember.schema, model: CRUDMember.self) { routes, parentController in
+//            routes.get("hello") { _ in "Hello World" }
+//        }
     }
 }

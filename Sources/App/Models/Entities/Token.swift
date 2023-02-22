@@ -1,33 +1,27 @@
-//
-//  Token.swift
-//  
-//
-//  Created by Andrew on 2023/2/3.
-//
 
 import Vapor
 import Fluent
 import JOJACore
 
 final class Token: Model, Content {
-    static let schema = Create.schema
+    static let schema = Keys.schema
     
     @ID(key: .id)
     var id: UUID?
     
-    @Parent(key: Create.userId)
+    @Parent(key: Keys.userId)
     var user: User
     
-    @Field(key: Create.value)
+    @Field(key: Keys.value)
     var value: String
     
-    @Field(key: Create.source)
+    @Field(key: Keys.source)
     var source: TokenAPIModel.SessionSource
     
-    @Timestamp(key: Create.expiresAt, on: .none)
+    @Timestamp(key: Keys.expiresAt, on: .none)
     var expiresAt: Date?
     
-    @Timestamp(key: Create.createdAt, on: .create)
+    @Timestamp(key: Keys.createdAt, on: .create)
     var createdAt: Date?
     
     
@@ -44,7 +38,7 @@ final class Token: Model, Content {
 }
 
 extension Token {
-    enum Create {
+    enum Keys {
         static let schema = "tokens"
         
         static let userId: FieldKey = .userId
