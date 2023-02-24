@@ -43,9 +43,12 @@ final class Member: Model, Content {
     @Timestamp(key: Keys.updatedAt, on: .update)
     var updatedAt: Date?
     
+    @Children(for: \.$buyer)
+    var trades: [Trade]
+    
     init() {}
     
-    init(id: UUID? = nil, name: String, phone: String, birthday: Date?, from: MemberAPIModel.FromType, address: String?, email: String?, note: String?, amount: Int = 0) {
+    init(id: UUID? = nil, name: String, phone: String, birthday: Date?, from: MemberAPIModel.FromType, address: String?, email: String?, note: String?, amount: Int = 0, isVip: Bool = false, createdAt: Date?, updatedAt: Date?) {
         self.id = id
         self.name = name
         self.phone = phone
@@ -55,6 +58,9 @@ final class Member: Model, Content {
         self.email = email
         self.note = note
         self.amount = amount
+        self.isVip = isVip
+        self.createdAt = createdAt
+        self.updatedAt = updatedAt
     }
 }
 

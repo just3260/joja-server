@@ -35,6 +35,12 @@ extension FieldKey {
     static let amount: FieldKey = "amount"
     static let isVip: FieldKey = "is_vip"
     
+    // MARK: - Trade
+    static let goods: FieldKey = "goods"
+    static let types: FieldKey = "types"
+    static let buyerID: FieldKey = "buyer_id"
+
+    
     
 }
 

@@ -22,6 +22,8 @@ extension Application {
                 .init {
                     $0.repositories.use { DatabaseUserRepository(database: $0.db) }
                     $0.repositories.use { DatabaseTokenRepository(database: $0.db) }
+                    $0.repositories.use { DatabaseMemberRepository(database: $0.db) }
+                    $0.repositories.use { DatabaseTradeRepository(database: $0.db) }
                 }
             }
             
@@ -31,6 +33,8 @@ extension Application {
         final class Storage {
             var makeUserRepository: ((Application) -> UserRepository)?
             var makeTokenRepository: ((Application) -> TokenRepository)?
+            var makeMemberRepository: ((Application) -> MemberRepository)?
+            var makeTradeRepository: ((Application) -> TradeRepository)?
             init() { }
         }
         

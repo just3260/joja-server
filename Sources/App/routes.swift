@@ -18,12 +18,16 @@ func routes(_ app: Application) throws {
     try v1Routes.register(collection: MemberController())
     
     
+    // MARK: - Trade
+    try v1Routes.register(collection: TradeController())
+    
+    
     // MARK: - Todo Lists
-    v1Routes.crud("todo-lists", model: TodoList.self) { routes, parentController in
-        routes.crud("todos", children: Todo.self, on: parentController, via: \.$todos)
-
-        routes.get("hello") { _ in "Hello World" }
-    }
+//    v1Routes.crud("todo-lists", model: TodoList.self) { routes, parentController in
+//        routes.crud("todos", children: Todo.self, on: parentController, via: \.$todos)
+//
+//        routes.get("hello") { _ in "Hello World" }
+//    }
     
     
     app.get { req async in

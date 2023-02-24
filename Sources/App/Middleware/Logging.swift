@@ -8,22 +8,17 @@
 import Foundation
 import Vapor
 
-final class Logging: Middleware {
-    func respond(to request: Request, chainingTo next: Responder) -> EventLoopFuture<Response> {
-        return next.respond(to: request).map { res in
-            
-            switch res.status {
-//            case .ok:
-//                request.logger.info("[200] \(request.url.path)")
-
-            case .movedPermanently:
-                request.logger.info("[REDIRECT] \(request.url.path) -> \(res.headers[.location])")
-            
-            default:
-                break
-            }
-            
-            return res
+final class Logging: AsyncMiddleware {
+    func respond(to request: Vapor.Request, chainingTo next: Vapor.AsyncResponder) async throws -> Vapor.Response {
+        let res = try await next.respond(to: request)
+        
+        switch res.status {
+        case .movedPermanently:
+            request.logger.info("[REDIRECT] \(request.url.path) -> \(res.headers[.location])")
+        default:
+            break
         }
+        
+        return res
     }
 }
