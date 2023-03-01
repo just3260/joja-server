@@ -21,7 +21,7 @@ services:
     
     db:
 #        image: 'postgres:latest'
-        image: 'joja-postgres:latest'
+        image: 'joja-db:latest'
     
         ports:
             - '5432:5432'

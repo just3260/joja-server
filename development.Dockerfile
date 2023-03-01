@@ -1,10 +1,10 @@
 # 1
-FROM swift:5.6
+FROM swift:5.7
 WORKDIR /app
 COPY . .
 
-# 2
-RUN apt-get update && apt-get install libsqlite3-dev
+# 2 - Remove when using PostgreSQL
+# RUN apt-get update && apt-get install libsqlite3-dev
 
 # 3
 RUN swift package clean
