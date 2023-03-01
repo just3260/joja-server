@@ -11,7 +11,7 @@ extension TradeAPIModel: Content {
             types: types,
             amount: amount,
             note: note,
-            buyer: buyer,
+            buyerID: buyerID,
             createdAt: createdAt
         )
     }
@@ -25,7 +25,7 @@ extension TradeAPIModel {
             types: trade.types,
             amount: trade.amount,
             note: trade.note,
-            buyer: MemberAPIModel(member: trade.buyer),
+            buyerID: trade.$buyer.id,
             createdAt: trade.createdAt ?? Date()
         )
     }

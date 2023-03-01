@@ -8,7 +8,7 @@ extension Trade {
                 .schema(Trade.schema)
                 .id()
                 .field(Trade.Keys.goods, .string, .required)
-                .field(Trade.Keys.types, .int, .required)
+                .field(Trade.Keys.types, .array(of: .int), .required)
                 .field(Trade.Keys.amount, .int, .required)
                 .field(Trade.Keys.note, .string)
                 .field(Trade.Keys.buyerID, .uuid, .required, .references(Member.schema, .id, onDelete: .cascade))

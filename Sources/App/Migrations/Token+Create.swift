@@ -7,7 +7,7 @@ extension Token {
             try await database
                 .schema(Token.schema)
                 .id()
-                .field(Token.Keys.userId, .uuid, .references(User.schema, .id))
+                .field(Token.Keys.userID, .uuid, .references(User.schema, .id))
                 .field(Token.Keys.value, .string, .required)
                 .field(Token.Keys.source, .int, .required)
                 .field(Token.Keys.createdAt, .datetime)

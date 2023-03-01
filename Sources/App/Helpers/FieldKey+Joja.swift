@@ -16,7 +16,7 @@ extension FieldKey {
     static let isAdmin: FieldKey = "is_admin"
     
     // MARK: - Token
-    static let userId: FieldKey = "user_id"
+    static let userID: FieldKey = "user_id"
     static let value: FieldKey = "value"
     static let source: FieldKey = "source"
     

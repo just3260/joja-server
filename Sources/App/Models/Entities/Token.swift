@@ -9,7 +9,7 @@ final class Token: Model, Content {
     @ID(key: .id)
     var id: UUID?
     
-    @Parent(key: Keys.userId)
+    @Parent(key: Keys.userID)
     var user: User
     
     @Field(key: Keys.value)
@@ -27,9 +27,9 @@ final class Token: Model, Content {
     
     init() {}
     
-    init(id: UUID? = nil, userId: User.IDValue, token: String, source: TokenAPIModel.SessionSource, expiresAt: Date, createdAt: Date) {
+    init(id: UUID? = nil, userID: User.IDValue, token: String, source: TokenAPIModel.SessionSource, expiresAt: Date, createdAt: Date) {
         self.id = id
-        self.$user.id = userId
+        self.$user.id = userID
         self.value = token
         self.source = source
         self.expiresAt = expiresAt
@@ -41,7 +41,7 @@ extension Token {
     enum Keys {
         static let schema = "tokens"
         
-        static let userId: FieldKey = .userId
+        static let userID: FieldKey = .userID
         static let value: FieldKey = .value
         static let source: FieldKey = .source
         static let expiresAt: FieldKey = .expiresAt
