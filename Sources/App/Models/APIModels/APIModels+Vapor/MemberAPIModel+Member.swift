@@ -6,23 +6,25 @@ import Fluent
 extension MemberAPIModel: Content {
     func asPublic() throws -> MemberAPIModel.Response {
         MemberAPIModel.Response(id: id,
-                              name: name,
-                              phone: phone,
-                              birthday: birthday,
-                              from: from,
-                              address: address,
-                              email: email,
-                              note: note,
-                              amount: amount,
-                              isVip: isVip,
-                              createdAt: createdAt,
-                              updatedAt: updatedAt
+                                name: name,
+                                phone: phone,
+                                birthday: birthday,
+                                from: from,
+                                address: address,
+                                email: email,
+                                note: note,
+                                amount: amount,
+                                isVip: isVip,
+                                createdAt: createdAt,
+                                updatedAt: updatedAt,
+                                trades: trades
         )
     }
 }
 
 extension MemberAPIModel {
     init(member: Member) throws {
+//        let tradesss = try member.trades.map({ try TradeAPIModel(trade: $0) })
         try self.init(
             id: member.requireID(),
             name: member.name,
@@ -35,7 +37,8 @@ extension MemberAPIModel {
             amount: member.amount,
             isVip: member.isVip,
             createdAt: member.createdAt,
-            updatedAt: member.updatedAt
+            updatedAt: member.updatedAt,
+            trades: try member.trades.map({ try TradeAPIModel(trade: $0) })
         )
     }
 }

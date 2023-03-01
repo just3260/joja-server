@@ -12,6 +12,7 @@ final class MemberController: RouteCollection {
         memberRoute.on(Endpoints.Members.create, use: create)
         memberRoute.on(Endpoints.Members.delete, use: delete)
         
+        memberRoute.on(Endpoints.Members.getTrades, use: getTrades)
         
         /** CRUD MEMBER
         protected.crud(CRUDMember.schema, model: CRUDMember.self) { routes, parentController in
@@ -31,5 +32,13 @@ final class MemberController: RouteCollection {
         let memberId = try req.requireUUID(parameterName: "memberID")
         try await req.members.delete(id: memberId)
         return .noContent
+    }
+    
+    fileprivate func getTrades(req: Request) async throws -> MemberAPIModel.Response {
+        let memberId = try req.requireUUID(parameterName: "memberID")
+        guard let member = try await req.members.allTrades(id: memberId) else {
+            throw JojaError.modelNotFound(type: "Member", id: memberId.uuidString)
+        }
+        return try MemberAPIModel(member: member).asPublic()
     }
 }
