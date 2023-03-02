@@ -3,6 +3,19 @@ import Vapor
 import JOJACore
 import Fluent
 
+extension Trade {
+    func makePublic() throws -> TradeAPIModel.Response {
+        TradeAPIModel.Response(id: try self.requireID(),
+                               goods: self.goods,
+                               types: self.types,
+                               amount: self.amount,
+                               note: self.note,
+                               buyerID: self.$buyer.id,
+                               createdAt: self.createdAt
+        )
+    }
+}
+
 extension TradeAPIModel: Content {
     func asPublic() throws -> TradeAPIModel.Response {
         TradeAPIModel.Response(

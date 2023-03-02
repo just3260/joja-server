@@ -64,15 +64,6 @@
       }
     },
     {
-      "identity" : "joja-core",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/just3260/joja-core",
-      "state" : {
-        "revision" : "3765ccc3500a9c20f7c924b7c88762d44b844e74",
-        "version" : "1.0.0"
-      }
-    },
-    {
       "identity" : "multipart-kit",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/vapor/multipart-kit.git",

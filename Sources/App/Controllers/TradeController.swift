@@ -17,7 +17,8 @@ final class TradeController: RouteCollection {
         let model = try req.content.decode(TradeAPIModel.Request.self)
         let trade = try model.createTrade()
         try await req.trades.create(trade)
-        return try TradeAPIModel.init(trade: trade).asPublic()
+        return try trade.makePublic()
+//        return try TradeAPIModel.init(trade: trade).asPublic()
     }
     
     fileprivate func delete(req: Request) async throws -> HTTPStatus {

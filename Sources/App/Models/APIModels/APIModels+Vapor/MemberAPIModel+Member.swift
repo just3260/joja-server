@@ -3,6 +3,25 @@ import Vapor
 import JOJACore
 import Fluent
 
+extension Member {
+    func makeNewPublic() throws -> MemberAPIModel.Response {
+        return MemberAPIModel.Response(id: try self.requireID(),
+                                       name: self.name,
+                                       phone: self.phone,
+                                       birthday: self.birthday,
+                                       from: self.from,
+                                       address: self.address,
+                                       email: self.email,
+                                       note: self.note,
+                                       amount: self.amount,
+                                       isVip: self.isVip,
+                                       createdAt: self.createdAt,
+                                       updatedAt: self.updatedAt,
+                                       trades: []
+        )
+    }
+}
+
 extension MemberAPIModel: Content {
     func asPublic() throws -> MemberAPIModel.Response {
         MemberAPIModel.Response(id: id,
@@ -24,7 +43,6 @@ extension MemberAPIModel: Content {
 
 extension MemberAPIModel {
     init(member: Member) throws {
-//        let tradesss = try member.trades.map({ try TradeAPIModel(trade: $0) })
         try self.init(
             id: member.requireID(),
             name: member.name,

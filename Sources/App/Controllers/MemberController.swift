@@ -11,8 +11,8 @@ final class MemberController: RouteCollection {
         
         memberRoute.on(Endpoints.Members.create, use: create)
         memberRoute.on(Endpoints.Members.delete, use: delete)
-        
-        memberRoute.on(Endpoints.Members.getTrades, use: getTrades)
+        memberRoute.on(Endpoints.Members.getSingle, use: getMember)
+        memberRoute.on(Endpoints.Members.getAll, use: getAll)
         
         /** CRUD MEMBER
         protected.crud(CRUDMember.schema, model: CRUDMember.self) { routes, parentController in
@@ -25,7 +25,8 @@ final class MemberController: RouteCollection {
         let model = try req.content.decode(MemberAPIModel.Request.self)
         let member = try model.createMember()
         try await req.members.create(member)
-        return try MemberAPIModel.init(member: member).asPublic()
+        return try member.makeNewPublic()
+//        return try MemberAPIModel(member: member).asPublic()
     }
     
     fileprivate func delete(req: Request) async throws -> HTTPStatus {
@@ -34,11 +35,17 @@ final class MemberController: RouteCollection {
         return .noContent
     }
     
-    fileprivate func getTrades(req: Request) async throws -> MemberAPIModel.Response {
+    fileprivate func getMember(req: Request) async throws -> MemberAPIModel.Response {
         let memberId = try req.requireUUID(parameterName: "memberID")
-        guard let member = try await req.members.allTrades(id: memberId) else {
+        guard let member = try await req.members.find(id: memberId) else {
             throw JojaError.modelNotFound(type: "Member", id: memberId.uuidString)
         }
         return try MemberAPIModel(member: member).asPublic()
+    }
+    
+    fileprivate func getAll(req: Request) async throws -> [MemberAPIModel.Response] {
+        try await req.members.all().map({ member in
+            try MemberAPIModel(member: member).asPublic()
+        })
     }
 }

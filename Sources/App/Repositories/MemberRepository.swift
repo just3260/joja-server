@@ -6,10 +6,9 @@ protocol MemberRepository: Repository {
     func create(_ member: Member) async throws
     func delete(id: UUID) async throws
     func all() async throws -> [Member]
-    func find(id: UUID?) async throws -> Member?
+    func find(id: UUID) async throws -> Member?
     func find(email: String) async throws -> Member?
     func count() async throws -> Int
-    func allTrades(id: UUID) async throws -> Member?
 }
 
 struct DatabaseMemberRepository: MemberRepository, DatabaseRepository {
@@ -26,11 +25,18 @@ struct DatabaseMemberRepository: MemberRepository, DatabaseRepository {
     }
     
     func all() async throws -> [Member] {
-        try await Member.query(on: database).all()
+        try await Member.query(on: database)
+            .with(\.$trades)
+            .all()
     }
     
-    func find(id: UUID?) async throws -> Member? {
-        try await Member.find(id, on: database)
+    func find(id: UUID) async throws -> Member? {
+//        try await Member.find(id, on: database)
+        
+        try await Member.query(on: database)
+            .with(\.$trades)
+            .filter(\.$id == id)
+            .first()
     }
     
     func find(email: String) async throws -> Member? {
@@ -41,13 +47,6 @@ struct DatabaseMemberRepository: MemberRepository, DatabaseRepository {
     
     func count() async throws -> Int {
         try await Member.query(on: database).count()
-    }
-    
-    func allTrades(id: UUID) async throws -> Member? {
-        try await Member.query(on: database)
-            .with(\.$trades)
-            .filter(\.$id == id)
-            .first()
     }
 }
 
