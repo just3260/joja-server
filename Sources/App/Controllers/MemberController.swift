@@ -43,9 +43,9 @@ final class MemberController: RouteCollection {
         return try MemberAPIModel(member: member).asPublic()
     }
     
-    fileprivate func getAll(req: Request) async throws -> [MemberAPIModel.Response] {
+    fileprivate func getAll(req: Request) async throws -> [MemberAPIModel.ListData] {
         try await req.members.all().map({ member in
-            try MemberAPIModel(member: member).asPublic()
+            try member.makeList()
         })
     }
 }

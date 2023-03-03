@@ -20,6 +20,16 @@ extension Member {
                                        trades: []
         )
     }
+    
+    func makeList() throws -> MemberAPIModel.ListData {
+        return MemberAPIModel.ListData(id: try self.requireID(),
+                                       name: self.name,
+                                       phone: self.phone,
+                                       amount: self.amount,
+                                       isVip: self.isVip,
+                                       createdAt: self.createdAt
+        )
+    }
 }
 
 extension MemberAPIModel: Content {
@@ -80,3 +90,4 @@ extension MemberAPIModel.Request {
 }
 
 extension MemberAPIModel.Response: Content {}
+extension MemberAPIModel.ListData: Content {}

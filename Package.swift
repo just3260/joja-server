@@ -13,9 +13,9 @@ let package = Package(
         .package(url: "https://github.com/vapor/fluent-postgres-driver.git", from: "2.0.0"),
         .package(url: "https://github.com/just3260/crud-kit", from: "1.1.1"),
         
-        .package(path: "file:///Users/andrew/Dev/joja-core"),
+        .package(path: "file:///Users/andrew/Dev/joja-core"), // run in local
 //        .package(url: "file:///Users/andrew/Dev/joja-core", .branch("main")),
-//        .package(url: "https://github.com/just3260/joja-core", from: "1.0.0"),
+//        .package(url: "https://github.com/just3260/joja-core", from: "1.0.1"), // run in docker
     ],
     targets: [
         .target(
