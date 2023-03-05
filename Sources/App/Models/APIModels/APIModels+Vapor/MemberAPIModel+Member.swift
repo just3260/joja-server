@@ -46,7 +46,7 @@ extension MemberAPIModel: Content {
                                 isVip: isVip,
                                 createdAt: createdAt,
                                 updatedAt: updatedAt,
-                                trades: trades
+                                trades: try trades?.compactMap({try $0.asPublic()})
         )
     }
 }
