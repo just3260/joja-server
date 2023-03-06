@@ -1,5 +1,5 @@
 //
-//  AddTodoListImageUrlMigration.swift
+//  ImageUrlMigration.swift
 //  
 //
 //  Created by Andrew on 2022/12/28.
@@ -7,7 +7,7 @@
 
 import Fluent
 
-struct AddTodoListImageUrlMigration: Migration {
+struct ImageUrlMigration: Migration {
     func prepare(on database: Database) -> EventLoopFuture<Void> {
         database
             .schema(TodoList.schema)

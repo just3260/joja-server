@@ -1,16 +1,20 @@
 
 import Fluent
+import JOJACore
 
 extension Member {
     struct Create: AsyncMigration {
         func prepare(on database: Database) async throws {
+            
+            let whereType = try await database.enum(TypeAPIModel.WhereToKnow.getKey()).read()
+            
             try await database
                 .schema(Member.schema)
                 .id()
                 .field(Member.Keys.name, .string, .required)
                 .field(Member.Keys.phone, .string, .required)
                 .field(Member.Keys.birthday, .datetime, .required)
-                .field(Member.Keys.memberFrom, .int, .required)
+                .field(Member.Keys.memberFrom, whereType, .required)
                 .field(Member.Keys.address, .string)
                 .field(Member.Keys.email, .string)
                 .field(Member.Keys.note, .string)

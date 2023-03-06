@@ -13,11 +13,8 @@ final class Trade: Model, Content {
     @Field(key: Keys.goods)
     var goods: String
     
-//    @Field(key: Keys.types)
-//    var types: [TradeAPIModel.GoodsType]
     @Enum(key: Keys.types)
-    var types: TradeAPIModel.GoodsType
-    
+    var types: TypeAPIModel.Goods
     
     @Field(key: Keys.amount)
     var amount: Int
@@ -33,7 +30,7 @@ final class Trade: Model, Content {
     
     init() {}
     
-    init(id: UUID? = nil, goods: String, types: TradeAPIModel.GoodsType, amount: Int, note: String?, buyerID: Member.IDValue, createdAt: Date?) {
+    init(id: UUID? = nil, goods: String, types: TypeAPIModel.Goods, amount: Int, note: String?, buyerID: Member.IDValue, createdAt: Date?) {
         self.id = id
         self.goods = goods
         self.types = types

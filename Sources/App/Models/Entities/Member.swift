@@ -19,8 +19,8 @@ final class Member: Model, Content {
     @Timestamp(key: Keys.birthday, on: .none)
     var birthday: Date?
     
-    @Field(key: Keys.memberFrom)
-    var from: MemberAPIModel.FromType
+    @Enum(key: Keys.memberFrom)
+    var from: TypeAPIModel.WhereToKnow
     
     @Field(key: Keys.address)
     var address: String?
@@ -48,7 +48,7 @@ final class Member: Model, Content {
     
     init() {}
     
-    init(id: UUID? = nil, name: String, phone: String, birthday: Date?, from: MemberAPIModel.FromType, address: String?, email: String?, note: String?, amount: Int = 0, isVip: Bool = false, createdAt: Date?, updatedAt: Date?) {
+    init(id: UUID? = nil, name: String, phone: String, birthday: Date?, from: TypeAPIModel.WhereToKnow, address: String?, email: String?, note: String?, amount: Int = 0, isVip: Bool = false, createdAt: Date?, updatedAt: Date?) {
         self.id = id
         self.name = name
         self.phone = phone
