@@ -21,6 +21,9 @@ final class MemberController: RouteCollection {
          */
     }
     
+    
+    // MARK: - Private Function
+    
     fileprivate func create(req: Request) async throws -> MemberAPIModel.Response {
         let model = try req.content.decode(MemberAPIModel.Request.self)
         let member = try model.createMember()

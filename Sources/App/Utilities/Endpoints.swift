@@ -56,6 +56,13 @@ extension Endpoints {
         public static let delete = RouteDefinition(root: root, method: .DELETE, path: getSingle.path)
     }
     
+    public struct Products {
+        public static let root = ["products"]
+        public static let create = RouteDefinition(root: root, method: .POST, path: [])
+        public static let getSingle = RouteDefinition(root: root, method: .GET, path: [":productID"])
+        public static let delete = RouteDefinition(root: root, method: .DELETE, path: getSingle.path)
+    }
+    
 //    public struct Users {
 //        public static let root = ["users"]
 //        public static let getAll = RouteDefinition(root: root, method: .GET, path: [])

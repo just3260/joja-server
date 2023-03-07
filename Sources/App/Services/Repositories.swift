@@ -24,6 +24,7 @@ extension Application {
                     $0.repositories.use { DatabaseTokenRepository(database: $0.db) }
                     $0.repositories.use { DatabaseMemberRepository(database: $0.db) }
                     $0.repositories.use { DatabaseTradeRepository(database: $0.db) }
+                    $0.repositories.use { DatabaseProductRepository(database: $0.db) }
                 }
             }
             
@@ -35,6 +36,7 @@ extension Application {
             var makeTokenRepository: ((Application) -> TokenRepository)?
             var makeMemberRepository: ((Application) -> MemberRepository)?
             var makeTradeRepository: ((Application) -> TradeRepository)?
+            var makeProductRepository: ((Application) -> ProductRepository)?
             init() { }
         }
         

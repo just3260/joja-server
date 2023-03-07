@@ -27,7 +27,7 @@ final class Types: Content {
         
         func revert(on database: Database) async throws {
             try await database
-                .schema(TypeAPIModel.WhereToKnow.getKey())
+                .enum(TypeAPIModel.WhereToKnow.getKey())
                 .delete()
         }
     }
@@ -53,7 +53,7 @@ final class Types: Content {
         
         func revert(on database: Database) async throws {
             try await database
-                .schema(TypeAPIModel.Brand.getKey())
+                .enum(TypeAPIModel.Brand.getKey())
                 .delete()
         }
     }
@@ -74,7 +74,7 @@ final class Types: Content {
         
         func revert(on database: Database) async throws {
             try await database
-                .schema(TypeAPIModel.Employee.getKey())
+                .enum(TypeAPIModel.Employee.getKey())
                 .delete()
         }
     }
@@ -112,7 +112,7 @@ final class Types: Content {
         
         func revert(on database: Database) async throws {
             try await database
-                .schema(TypeAPIModel.Goods.getKey())
+                .enum(TypeAPIModel.Goods.getKey())
                 .delete()
         }
     }
@@ -135,7 +135,7 @@ final class Types: Content {
         
         func revert(on database: Database) async throws {
             try await database
-                .schema(TypeAPIModel.OtherGoods.getKey())
+                .enum(TypeAPIModel.OtherGoods.getKey())
                 .delete()
         }
     }
@@ -167,7 +167,7 @@ final class Types: Content {
         
         func revert(on database: Database) async throws {
             try await database
-                .schema(TypeAPIModel.Material.getKey())
+                .enum(TypeAPIModel.Material.getKey())
                 .delete()
         }
     }
@@ -196,7 +196,7 @@ final class Types: Content {
         
         func revert(on database: Database) async throws {
             try await database
-                .schema(TypeAPIModel.Transaction.getKey())
+                .enum(TypeAPIModel.Transaction.getKey())
                 .delete()
         }
     }
@@ -226,7 +226,7 @@ final class Types: Content {
         
         func revert(on database: Database) async throws {
             try await database
-                .schema(TypeAPIModel.Color.getKey())
+                .enum(TypeAPIModel.Color.getKey())
                 .delete()
         }
     }

@@ -22,7 +22,9 @@ extension Member {
                 .field(Member.Keys.isVip, .bool, .required, .custom("DEFAULT FALSE"))
                 .field(Member.Keys.createdAt, .datetime)
                 .field(Member.Keys.updatedAt, .datetime)
-                .unique(on: Member.Keys.email, Member.Keys.phone, name: "member_unique_setting")
+//                .unique(on: Member.Keys.email, Member.Keys.phone, name: "member_unique_setting")
+                .unique(on: Member.Keys.phone)
+                .unique(on: Member.Keys.email)
                 .create()
         }
         

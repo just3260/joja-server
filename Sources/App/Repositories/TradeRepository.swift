@@ -6,7 +6,7 @@ protocol TradeRepository: Repository {
     func create(_ trade: Trade) async throws
     func delete(id: UUID) async throws
     func all() async throws -> [Trade]
-    func find(id: UUID?) async throws -> Trade?
+    func find(id: UUID) async throws -> Trade?
 //    func find(email: String) async throws -> Trade?
     func count() async throws -> Int
 }
@@ -28,7 +28,7 @@ struct DatabaseTradeRepository: TradeRepository, DatabaseRepository {
         try await Trade.query(on: database).all()
     }
     
-    func find(id: UUID?) async throws -> Trade? {
+    func find(id: UUID) async throws -> Trade? {
         try await Trade.find(id, on: database)
     }
     

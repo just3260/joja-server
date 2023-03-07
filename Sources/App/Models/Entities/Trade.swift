@@ -10,12 +10,6 @@ final class Trade: Model, Content {
     @ID(key: .id)
     var id: UUID?
     
-    @Field(key: Keys.goods)
-    var goods: String
-    
-    @Enum(key: Keys.types)
-    var types: TypeAPIModel.Goods
-    
     @Field(key: Keys.amount)
     var amount: Int
     
@@ -28,12 +22,13 @@ final class Trade: Model, Content {
     @Timestamp(key: Keys.createdAt, on: .create)
     var createdAt: Date?
     
+    @Children(for: \.$trade)
+    var products: [Product]
+    
     init() {}
     
-    init(id: UUID? = nil, goods: String, types: TypeAPIModel.Goods, amount: Int, note: String?, buyerID: Member.IDValue, createdAt: Date?) {
+    init(id: UUID? = nil, amount: Int, note: String?, buyerID: Member.IDValue, createdAt: Date?) {
         self.id = id
-        self.goods = goods
-        self.types = types
         self.amount = amount
         self.note = note
         self.$buyer.id = buyerID
@@ -45,8 +40,6 @@ extension Trade {
     enum Keys {
         static let schema = "trades"
         
-        static let goods: FieldKey = .goods
-        static let types: FieldKey = .types
         static let amount: FieldKey = .amount
         static let note: FieldKey = .note
         static let buyerID: FieldKey = .buyerID

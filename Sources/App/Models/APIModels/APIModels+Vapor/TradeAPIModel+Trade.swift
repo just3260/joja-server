@@ -4,10 +4,9 @@ import JOJACore
 import Fluent
 
 extension Trade {
-    func makePublic() throws -> TradeAPIModel.Response {
+    func makePublic(with products: [ProductAPIModel.Response]) throws -> TradeAPIModel.Response {
         TradeAPIModel.Response(id: try self.requireID(),
-                               goods: self.goods,
-                               types: self.types,
+                               products: products,
                                amount: self.amount,
                                note: self.note,
                                buyerID: self.$buyer.id,
@@ -20,8 +19,7 @@ extension TradeAPIModel: Content {
     func asPublic() throws -> TradeAPIModel.Response {
         TradeAPIModel.Response(
             id: id,
-            goods: goods,
-            types: types,
+            products: try products.map({try $0.asPublic()}),
             amount: amount,
             note: note,
             buyerID: buyerID,
@@ -34,8 +32,7 @@ extension TradeAPIModel {
     init(trade: Trade) throws {
         try self.init(
             id: trade.requireID(),
-            goods: trade.goods,
-            types: trade.types,
+            products: trade.products.map({try $0.makePublic()}),
             amount: trade.amount,
             note: trade.note,
             buyerID: trade.$buyer.id,
@@ -45,14 +42,11 @@ extension TradeAPIModel {
 }
 
 extension TradeAPIModel.Request {
-    func createTrade() throws -> Trade {
-        Trade(
-            goods: goods,
-            types: types,
-            amount: amount,
-            note: note,
-            buyerID: buyerID,
-            createdAt: Date()
+    func createTrade(with amount: Int) throws -> Trade {
+        Trade(amount: amount,
+              note: note,
+              buyerID: buyerID,
+              createdAt: Date()
         )
     }
 }

@@ -17,6 +17,7 @@ func migrations(_ app: Application) throws {
     app.migrations.add(Token.Create())
     app.migrations.add(Member.Create())
     app.migrations.add(Trade.Create())
+    app.migrations.add(Product.Create())
     
     // seed
     app.migrations.add(User.Seed())

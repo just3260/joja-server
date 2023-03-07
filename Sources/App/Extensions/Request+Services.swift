@@ -7,4 +7,5 @@ extension Request {
     var tokens: TokenRepository { application.repositories.tokens.for(self) }
     var members: MemberRepository { application.repositories.members.for(self) }
     var trades: TradeRepository { application.repositories.trades.for(self) }
+    var products: ProductRepository { application.repositories.products.for(self) }
 }
