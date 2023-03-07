@@ -22,21 +22,26 @@ final class TradeController: RouteCollection {
         guard let trade = try await req.trades.find(id: tradeId) else {
             throw JojaError.modelNotFound(type: "Trade", id: tradeId.uuidString)
         }
-        return try TradeAPIModel(trade: trade).asPublic()
+        
+        guard let products = try await req.products.findTrade(with: tradeId) else {
+            throw JojaError.modelNotFound(type: "Product", id: tradeId.uuidString)
+        }
+        
+        return try trade.makePublic(with: try products.map({try $0.makePublic()}))
     }
     
     fileprivate func create(req: Request) async throws -> TradeAPIModel.Response {
         let tradeModel = try req.content.decode(TradeAPIModel.Request.self)
-        let productsModel = tradeModel.products
-        let totalAmount = productsModel.map({$0.amount}).reduce(0, +)
+        // totol amount from products
+        let totalAmount = tradeModel.products.map({$0.amount}).reduce(0, +)
         
         let trade = try tradeModel.createTrade(with: totalAmount)
         try await req.trades.create(trade)
         var products: [Product] = []
         
-        if let tradeID = trade.id {
+        if let tradeID = trade.id { // get correct tradeID
             try await withThrowingTaskGroup(of: Void.self, body: { taskGroup in
-                for prod in productsModel {
+                for prod in tradeModel.products {
                     let product = try prod.createProduct(with: tradeID)
                     taskGroup.addTask {
                         try await req.products.create(product)
@@ -47,9 +52,13 @@ final class TradeController: RouteCollection {
             })
         }
         
+        // add amount to member
+        try await req.members.gainAmount(with: totalAmount, in: tradeModel.buyerID)
+        
         return try trade.makePublic(with: products.map({try $0.makePublic()}))
     }
     
+    // TODO: - finish it
     fileprivate func delete(req: Request) async throws -> HTTPStatus {
         let tradeId = try req.requireUUID(parameterName: "tradeID")
         try await req.trades.delete(id: tradeId)

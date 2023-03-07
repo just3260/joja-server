@@ -4,20 +4,6 @@ import JOJACore
 import Fluent
 
 extension Product {
-    func makePublic() throws -> ProductAPIModel {
-        ProductAPIModel(id: try self.requireID(),
-                      brand: self.brand,
-                      goods: self.goods,
-                      material: self.material,
-                      color: self.color,
-                      amount: self.amount,
-                      count: self.count,
-                      note: self.note,
-                      tradeID: self.$trade.id,
-                      createdAt: self.createdAt
-        )
-    }
-    
     func makePublic() throws -> ProductAPIModel.Response {
         ProductAPIModel.Response(id: try self.requireID(),
                                brand: self.brand,

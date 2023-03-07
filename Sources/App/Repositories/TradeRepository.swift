@@ -5,10 +5,8 @@ import Fluent
 protocol TradeRepository: Repository {
     func create(_ trade: Trade) async throws
     func delete(id: UUID) async throws
-    func all() async throws -> [Trade]
+//    func all() async throws -> [Trade]
     func find(id: UUID) async throws -> Trade?
-//    func find(email: String) async throws -> Trade?
-    func count() async throws -> Int
 }
 
 struct DatabaseTradeRepository: TradeRepository, DatabaseRepository {
@@ -24,22 +22,12 @@ struct DatabaseTradeRepository: TradeRepository, DatabaseRepository {
             .delete()
     }
     
-    func all() async throws -> [Trade] {
-        try await Trade.query(on: database).all()
-    }
+//    func all() async throws -> [Trade] {
+//        try await Trade.query(on: database).all()
+//    }
     
     func find(id: UUID) async throws -> Trade? {
         try await Trade.find(id, on: database)
-    }
-    
-//    func find(email: String) async throws -> Trade? {
-//        try await Trade.query(on: database)
-//            .filter(\.$email == email)
-//            .first()
-//    }
-    
-    func count() async throws -> Int {
-        try await Trade.query(on: database).count()
     }
 }
 

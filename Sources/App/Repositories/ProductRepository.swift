@@ -6,6 +6,7 @@ protocol ProductRepository: Repository {
     func create(_ product: Product) async throws
     func delete(id: UUID) async throws
     func find(id: UUID) async throws -> Product?
+    func findTrade(with id: UUID) async throws -> [Product]?
 }
 
 struct DatabaseProductRepository: ProductRepository, DatabaseRepository {
@@ -23,6 +24,12 @@ struct DatabaseProductRepository: ProductRepository, DatabaseRepository {
     
     func find(id: UUID) async throws -> Product? {
         try await Product.find(id, on: database)
+    }
+    
+    func findTrade(with tradeID: UUID) async throws -> [Product]? {
+        try await Product.query(on: database)
+            .filter(\.$trade.$id == tradeID)
+            .all()
     }
 }
 

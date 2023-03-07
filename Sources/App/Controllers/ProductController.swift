@@ -9,9 +9,9 @@ final class ProductController: RouteCollection {
         let protectRoute = routes.grouped([APIKeyCheck(), Token.authenticator(), AuthCheck()])
         let productRoute = protectRoute.grouped(Endpoints.Products.root.toPathComponents)
         
-        productRoute.on(Endpoints.Products.getSingle, use: getProduct)
+        productRoute.on(Endpoints.Products.getProduct, use: getProduct)
 //        productRoute.on(Endpoints.Products.create, use: create)
-        productRoute.on(Endpoints.Products.delete, use: delete)
+//        productRoute.on(Endpoints.Products.delete, use: delete)
     }
     
     
@@ -32,9 +32,9 @@ final class ProductController: RouteCollection {
 //        return try product.makePublic()
 //    }
     
-    fileprivate func delete(req: Request) async throws -> HTTPStatus {
-        let productId = try req.requireUUID(parameterName: "productIdID")
-        try await req.products.delete(id: productId)
-        return .noContent
-    }
+//    fileprivate func delete(req: Request) async throws -> HTTPStatus {
+//        let productId = try req.requireUUID(parameterName: "productIdID")
+//        try await req.products.delete(id: productId)
+//        return .noContent
+//    }
 }

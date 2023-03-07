@@ -32,7 +32,7 @@ extension TradeAPIModel {
     init(trade: Trade) throws {
         try self.init(
             id: trade.requireID(),
-            products: trade.products.map({try $0.makePublic()}),
+            products: trade.products.map({try ProductAPIModel(product: $0)}),
             amount: trade.amount,
             note: trade.note,
             buyerID: trade.$buyer.id,

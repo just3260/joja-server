@@ -9,6 +9,7 @@ protocol MemberRepository: Repository {
     func find(id: UUID) async throws -> Member?
     func find(email: String) async throws -> Member?
     func count() async throws -> Int
+    func gainAmount(with: Int, in memberID: UUID) async throws
 }
 
 struct DatabaseMemberRepository: MemberRepository, DatabaseRepository {
@@ -47,6 +48,21 @@ struct DatabaseMemberRepository: MemberRepository, DatabaseRepository {
     
     func count() async throws -> Int {
         try await Member.query(on: database).count()
+    }
+    
+    func gainAmount(with amount: Int, in memberID: UUID) async throws {
+        guard let member = try await Member.query(on: database)
+            .filter(\.$id == memberID)
+            .first() else {
+            throw JojaError.modelNotFound(type: "Member", id: memberID.uuidString)
+        }
+        
+        let total = member.amount + amount
+        try await Member.query(on: database)
+            .set(\.$amount, to: total)
+            .set(\.$isVip, to: total >= Rule.vipThreshold)
+            .filter(\.$id == memberID)
+            .update()
     }
 }
 
