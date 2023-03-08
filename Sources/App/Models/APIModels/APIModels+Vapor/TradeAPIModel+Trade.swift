@@ -34,7 +34,7 @@ extension TradeAPIModel {
             id: trade.requireID(),
             products: trade.products.map({try ProductAPIModel(product: $0)}),
             amount: trade.amount,
-            note: trade.note,
+            note: trade.note.nilIfEmpty,
             buyerID: trade.$buyer.id,
             createdAt: trade.createdAt ?? Date()
         )

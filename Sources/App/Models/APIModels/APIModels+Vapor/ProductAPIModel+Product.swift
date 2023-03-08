@@ -48,7 +48,7 @@ extension ProductAPIModel {
             design: product.design,
             amount: product.amount,
             count: product.count,
-            note: product.note,
+            note: product.note.nilIfEmpty,
             tradeID: product.$trade.id,
             createdAt: product.createdAt
         )
