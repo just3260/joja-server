@@ -213,7 +213,7 @@ final class Types: Content {
                 .case(TypeAPIModel.Color.blue.rawValue)
                 .case(TypeAPIModel.Color.purple.rawValue)
                 .case(TypeAPIModel.Color.pink.rawValue)
-                .case(TypeAPIModel.Color.peach.rawValue)
+//                .case(TypeAPIModel.Color.peach.rawValue)
                 .case(TypeAPIModel.Color.brown.rawValue)
                 .case(TypeAPIModel.Color.black.rawValue)
                 .case(TypeAPIModel.Color.white.rawValue)
