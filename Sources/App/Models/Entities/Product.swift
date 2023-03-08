@@ -21,6 +21,9 @@ final class Product: Model, Content {
     @Enum(key: Keys.color)
     var color: TypeAPIModel.Color
     
+    @Enum(key: Keys.design)
+    var design: TypeAPIModel.Design
+    
     @Field(key: Keys.amount)
     var amount: Int
     
@@ -38,12 +41,13 @@ final class Product: Model, Content {
     
     init() {}
     
-    init(id: UUID? = nil, brand: TypeAPIModel.Brand, goods: TypeAPIModel.Goods, material: TypeAPIModel.Material, color: TypeAPIModel.Color, amount: Int, count: Int, note: String?, tradeID: Trade.IDValue, createdAt: Date?) {
+    init(id: UUID? = nil, brand: TypeAPIModel.Brand, goods: TypeAPIModel.Goods, material: TypeAPIModel.Material, color: TypeAPIModel.Color, design: TypeAPIModel.Design, amount: Int, count: Int, note: String?, tradeID: Trade.IDValue, createdAt: Date?) {
         self.id = id
         self.brand = brand
         self.goods = goods
         self.material = material
         self.color = color
+        self.design = design
         self.amount = amount
         self.count = count
         self.note = note
@@ -60,6 +64,7 @@ extension Product {
         static let goods: FieldKey = .goods
         static let material: FieldKey = .material
         static let color: FieldKey = .color
+        static let design: FieldKey = .design
         static let amount: FieldKey = .amount
         static let count: FieldKey = .count
         static let note: FieldKey = .note

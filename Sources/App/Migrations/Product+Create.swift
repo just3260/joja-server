@@ -11,6 +11,7 @@ extension Product {
             let goodsType = try await database.enum(TypeAPIModel.Goods.getKey()).read()
             let materialType = try await database.enum(TypeAPIModel.Material.getKey()).read()
             let colorType = try await database.enum(TypeAPIModel.Color.getKey()).read()
+            let designType = try await database.enum(TypeAPIModel.Design.getKey()).read()
             
             try await database
                 .schema(Product.schema)
@@ -19,6 +20,7 @@ extension Product {
                 .field(Product.Keys.goods, goodsType, .required)
                 .field(Product.Keys.material, materialType, .required)
                 .field(Product.Keys.color, colorType, .required)
+                .field(Product.Keys.design, designType, .required)
                 .field(Product.Keys.amount, .int, .required)
                 .field(Product.Keys.count, .int, .required)
                 .field(Product.Keys.note, .string)

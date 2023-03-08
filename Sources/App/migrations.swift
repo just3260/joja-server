@@ -7,6 +7,7 @@ func migrations(_ app: Application) throws {
     app.migrations.add(Types.CreateBrandType())
     app.migrations.add(Types.CreateEmployeeType())
     app.migrations.add(Types.CreateGoodsType())
+    app.migrations.add(Types.CreateDesignType())
     app.migrations.add(Types.CreateOtherGoodsType())
     app.migrations.add(Types.CreateMaterialType())
     app.migrations.add(Types.CreateTransactionType())

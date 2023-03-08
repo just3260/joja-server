@@ -6,15 +6,16 @@ import Fluent
 extension Product {
     func makePublic() throws -> ProductAPIModel.Response {
         ProductAPIModel.Response(id: try self.requireID(),
-                               brand: self.brand,
-                               goods: self.goods,
-                               material: self.material,
-                               color: self.color,
-                               amount: self.amount,
-                               count: self.count,
-                               note: self.note,
-                               tradeID: self.$trade.id,
-                               createdAt: self.createdAt
+                                 brand: self.brand,
+                                 goods: self.goods,
+                                 material: self.material,
+                                 color: self.color,
+                                 design: self.design,
+                                 amount: self.amount,
+                                 count: self.count,
+                                 note: self.note,
+                                 tradeID: self.$trade.id,
+                                 createdAt: self.createdAt
         )
     }
 }
@@ -22,15 +23,16 @@ extension Product {
 extension ProductAPIModel: Content {
     func asPublic() throws -> ProductAPIModel.Response {
         ProductAPIModel.Response(id: id,
-                               brand: brand,
-                               goods: goods,
-                               material: material,
-                               color: color,
-                               amount: amount,
-                               count: count,
-                               note: note,
-                               tradeID: tradeID,
-                               createdAt: createdAt
+                                 brand: brand,
+                                 goods: goods,
+                                 material: material,
+                                 color: color,
+                                 design: self.design,
+                                 amount: amount,
+                                 count: count,
+                                 note: note,
+                                 tradeID: tradeID,
+                                 createdAt: createdAt
         )
     }
 }
@@ -43,6 +45,7 @@ extension ProductAPIModel {
             goods: product.goods,
             material: product.material,
             color: product.color,
+            design: product.design,
             amount: product.amount,
             count: product.count,
             note: product.note,
@@ -58,6 +61,7 @@ extension ProductAPIModel.Request {
                 goods: goods,
                 material: material,
                 color: color,
+                design: design,
                 amount: amount,
                 count: count,
                 note: note,

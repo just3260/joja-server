@@ -230,4 +230,34 @@ final class Types: Content {
                 .delete()
         }
     }
+    
+    
+    // Design Type
+    struct CreateDesignType: AsyncMigration {
+        func prepare(on database: Database) async throws {
+            _ = try await database.enum(TypeAPIModel.Design.getKey())
+                .case(TypeAPIModel.Design.plain.rawValue)
+                .case(TypeAPIModel.Design.gradation.rawValue)
+                .case(TypeAPIModel.Design.block.rawValue)
+                .case(TypeAPIModel.Design.geometry.rawValue)
+                .case(TypeAPIModel.Design.stripe.rawValue)
+                .case(TypeAPIModel.Design.dot.rawValue)
+                .case(TypeAPIModel.Design.plaid.rawValue)
+                .case(TypeAPIModel.Design.paisley.rawValue)
+                .case(TypeAPIModel.Design.totem.rawValue)
+                .case(TypeAPIModel.Design.graffiti.rawValue)
+                .case(TypeAPIModel.Design.painting.rawValue)
+                .case(TypeAPIModel.Design.watercolor.rawValue)
+                .case(TypeAPIModel.Design.plant.rawValue)
+                .case(TypeAPIModel.Design.animal.rawValue)
+                .case(TypeAPIModel.Design.festival.rawValue)
+                .create()
+        }
+        
+        func revert(on database: Database) async throws {
+            try await database
+                .enum(TypeAPIModel.Design.getKey())
+                .delete()
+        }
+    }
 }
