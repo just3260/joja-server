@@ -16,6 +16,9 @@ final class Trade: Model, Content {
     @Field(key: Keys.note)
     var note: String?
     
+    @Field(key: Keys.description)
+    var description: String?
+    
     @Parent(key: Keys.buyerID)
     var buyer: Member
     
@@ -27,10 +30,11 @@ final class Trade: Model, Content {
     
     init() {}
     
-    init(id: UUID? = nil, amount: Int, note: String?, buyerID: Member.IDValue, createdAt: Date?) {
+    init(id: UUID? = nil, amount: Int, note: String?, description: String?, buyerID: Member.IDValue, createdAt: Date?) {
         self.id = id
         self.amount = amount
         self.note = note
+        self.description = description
         self.$buyer.id = buyerID
         self.createdAt = createdAt
     }
@@ -42,6 +46,7 @@ extension Trade {
         
         static let amount: FieldKey = .amount
         static let note: FieldKey = .note
+        static let description: FieldKey = .description
         static let buyerID: FieldKey = .buyerID
         static let createdAt: FieldKey = .createdAt
     }

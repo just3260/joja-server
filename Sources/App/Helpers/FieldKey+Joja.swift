@@ -47,6 +47,7 @@ extension FieldKey {
     static let design: FieldKey = "design_type"
     static let count: FieldKey = "count"
     static let tradeID: FieldKey = "trade_id"
+    static let description: FieldKey = "description"
     
     
 }

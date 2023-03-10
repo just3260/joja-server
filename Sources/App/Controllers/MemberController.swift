@@ -43,7 +43,13 @@ final class MemberController: RouteCollection {
         guard let member = try await req.members.find(id: memberId) else {
             throw JojaError.modelNotFound(type: "Member", id: memberId.uuidString)
         }
-        return try MemberAPIModel(member: member).asPublic()
+        
+//        let tradeIDs = member.trades.compactMap({$0.id})
+//        var trades: [Trade] = []
+        
+        return try member.makeResponse()
+        
+//        return try MemberAPIModel(member: member).asPublic()
     }
     
     fileprivate func getAll(req: Request) async throws -> [MemberAPIModel.ListData] {

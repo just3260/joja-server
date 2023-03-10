@@ -9,8 +9,19 @@ extension Trade {
                                products: products,
                                amount: self.amount,
                                note: self.note,
+                               description: self.description,
                                buyerID: self.$buyer.id,
                                createdAt: self.createdAt
+        )
+    }
+    
+    func makeSimple() throws -> TradeAPIModel.SimpleTrade {
+        TradeAPIModel.SimpleTrade(id: try self.requireID(),
+                                  amount: self.amount,
+                                  note: self.note,
+                                  description: self.description,
+                                  buyerID: self.$buyer.id,
+                                  createdAt: self.createdAt
         )
     }
 }
@@ -22,8 +33,19 @@ extension TradeAPIModel: Content {
             products: try products.map({try $0.asPublic()}),
             amount: amount,
             note: note,
+            description: description,
             buyerID: buyerID,
             createdAt: createdAt
+        )
+    }
+    
+    func asSimple() throws -> TradeAPIModel.SimpleTrade {
+        TradeAPIModel.SimpleTrade(id: id,
+                                  amount: amount,
+                                  note: note,
+                                  description: description,
+                                  buyerID: buyerID,
+                                  createdAt: createdAt
         )
     }
 }
@@ -35,6 +57,7 @@ extension TradeAPIModel {
             products: trade.products.map({try ProductAPIModel(product: $0)}),
             amount: trade.amount,
             note: trade.note.nilIfEmpty,
+            description: trade.description,
             buyerID: trade.$buyer.id,
             createdAt: trade.createdAt ?? Date()
         )
@@ -43,10 +66,20 @@ extension TradeAPIModel {
 
 extension TradeAPIModel.Request {
     func createTrade(with amount: Int) throws -> Trade {
-        Trade(amount: amount,
-              note: note,
-              buyerID: buyerID,
-              createdAt: Date()
+        
+        // get product description
+        let products = self.products.prefix(3)
+        var desc = ""
+        products.forEach { prod in
+            desc += prod.brand.getName() + " " + prod.goods.getName() + "\n"
+        }
+        desc.removeLast(1)
+        
+        return Trade(amount: amount,
+                     note: note,
+                     description: desc,
+                     buyerID: buyerID,
+                     createdAt: Date()
         )
     }
 }

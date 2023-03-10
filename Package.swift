@@ -15,7 +15,7 @@ let package = Package(
         
         .package(path: "file:///Users/andrew/Dev/joja-core"), // run in local
 //        .package(url: "file:///Users/andrew/Dev/joja-core", .branch("main")),
-//        .package(url: "https://github.com/just3260/joja-core", from: "1.0.1"), // run in docker
+//        .package(url: "https://github.com/just3260/joja-core", from: "1.0.2"), // run in docker
     ],
     targets: [
         .target(

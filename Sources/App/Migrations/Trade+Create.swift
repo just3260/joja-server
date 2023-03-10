@@ -12,6 +12,7 @@ extension Trade {
                 .id()
                 .field(Trade.Keys.amount, .int, .required)
                 .field(Trade.Keys.note, .string)
+                .field(Trade.Keys.description, .string)
                 .field(Trade.Keys.buyerID, .uuid, .required, .references(Member.schema, .id, onDelete: .cascade))
                 .field(Trade.Keys.createdAt, .datetime)
                 .create()

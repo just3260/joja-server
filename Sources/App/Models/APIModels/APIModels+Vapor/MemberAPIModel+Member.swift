@@ -21,6 +21,23 @@ extension Member {
         )
     }
     
+    func makeResponse() throws -> MemberAPIModel.Response {
+        return MemberAPIModel.Response(id: try self.requireID(),
+                                       name: self.name,
+                                       phone: self.phone,
+                                       birthday: self.birthday,
+                                       from: self.from,
+                                       address: self.address,
+                                       email: self.email,
+                                       note: self.note,
+                                       amount: self.amount,
+                                       isVip: self.isVip,
+                                       createdAt: self.createdAt,
+                                       updatedAt: self.updatedAt,
+                                       trades: try self.trades.map({try $0.makeSimple()})
+        )
+    }
+    
     func makeList() throws -> MemberAPIModel.ListData {
         return MemberAPIModel.ListData(id: try self.requireID(),
                                        name: self.name,
@@ -46,7 +63,7 @@ extension MemberAPIModel: Content {
                                 isVip: isVip,
                                 createdAt: createdAt,
                                 updatedAt: updatedAt,
-                                trades: try trades?.compactMap({try $0.asPublic()})
+                                trades: try trades?.compactMap({try $0.asSimple()})
         )
     }
 }
