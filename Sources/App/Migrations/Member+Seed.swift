@@ -2,20 +2,19 @@
 import FluentKit
 import Vapor
 
-extension User {
+extension Member {
     struct Seed: AsyncMigration {
         func prepare(on database: Database) async throws {
             
             // 帶入預設帳號，建立 User，不會建立 Token
-            let users: [User] = [
-                .init(username: "andrewang", email: "just3260@gmail.com", passwordHash: try Bcrypt.hash("a12345678")),
-                .init(username: "andrew", email: "andrew@ins.to", passwordHash: try Bcrypt.hash("a12345678"))
+            let members: [Member] = [
+                .init(name: "王小花", phone: "0987654321", birthday: Date.init(timeIntervalSince1970: 1604966400), from: .passBy, address: "蜂蜜花園", email: "bear@joja.com", note: "是一隻彩色的熊熊", createdAt: Date(), updatedAt: Date())
             ]
             
             try await withThrowingTaskGroup(of: Void.self, body: { taskGroup in
-                for user in users {
+                for member in members {
                     taskGroup.addTask {
-                        try await user.save(on: database)
+                        try await member.save(on: database)
                     }
                 }
                 try await taskGroup.waitForAll()
@@ -23,7 +22,7 @@ extension User {
         }
         
         func revert(on database: Database) async throws {
-            try await User.query(on: database).delete()
+            try await Member.query(on: database).delete()
         }
     }
 }

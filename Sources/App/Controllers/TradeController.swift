@@ -12,6 +12,7 @@ final class TradeController: RouteCollection {
         tradeRoute.on(Endpoints.Trades.getSingle, use: getTrade)
         tradeRoute.on(Endpoints.Trades.create, use: create)
         tradeRoute.on(Endpoints.Trades.delete, use: delete)
+        tradeRoute.on(Endpoints.Trades.getList, use: getTradeList)
     }
     
     
@@ -64,4 +65,32 @@ final class TradeController: RouteCollection {
         try await req.trades.delete(id: tradeId)
         return .noContent
     }
+    
+    fileprivate func getTradeList(req: Request) async throws -> [TradeAPIModel.Response] {
+        let tradeIDs = try req.content.decode([UUID].self)
+        
+        return try await withThrowingTaskGroup(of: TradeAPIModel.Response.self,
+                                               returning: [TradeAPIModel.Response].self,
+                                               body: { taskGroup in
+            for tradeID in tradeIDs {
+                taskGroup.addTask {
+                    guard let trade = try await req.trades.find(id: tradeID) else {
+                        throw JojaError.modelNotFound(type: "Trade", id: tradeID.uuidString)
+                    }
+                    guard let products = try await req.products.findTrade(with: tradeID) else {
+                        throw JojaError.modelNotFound(type: "Product", id: tradeID.uuidString)
+                    }
+                    return try trade.makePublic(with: try products.map({try $0.makePublic()}))
+                }
+            }
+            
+            var tradeModels: [TradeAPIModel.Response] = []
+            for try await model in taskGroup {
+                tradeModels.append(model)
+            }
+            try await taskGroup.waitForAll()
+            return tradeModels.sorted(by: {$0.createdAt!.compare($1.createdAt!) == .orderedDescending})
+        })
+    }
+    
 }

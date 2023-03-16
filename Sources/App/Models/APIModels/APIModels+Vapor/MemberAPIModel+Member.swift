@@ -22,6 +22,8 @@ extension Member {
     }
     
     func makeResponse() throws -> MemberAPIModel.Response {
+        let trades = try self.trades.map({try $0.makeSimple()}).sorted(by: {$0.createdAt!.compare($1.createdAt!) == .orderedDescending})
+        
         return MemberAPIModel.Response(id: try self.requireID(),
                                        name: self.name,
                                        phone: self.phone,
@@ -34,7 +36,7 @@ extension Member {
                                        isVip: self.isVip,
                                        createdAt: self.createdAt,
                                        updatedAt: self.updatedAt,
-                                       trades: try self.trades.map({try $0.makeSimple()})
+                                       trades: trades
         )
     }
     

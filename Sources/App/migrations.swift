@@ -22,7 +22,7 @@ func migrations(_ app: Application) throws {
     
     // seed
     app.migrations.add(User.Seed())
-    
+//    app.migrations.add(Member.Seed())
     
     
     // unused
