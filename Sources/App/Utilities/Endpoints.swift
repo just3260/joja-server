@@ -49,6 +49,17 @@ extension Endpoints {
 //        public static let addCategory = RouteDefinition(root: root, method: .POST, path: getSingle.path + ["categories", ":categoryID"])
     }
     
+    public struct Candidates {
+        public static let root = ["candidates"]
+        public static let create = RouteDefinition(root: root, method: .POST, path: [])
+        public static let getSingle = RouteDefinition(root: root, method: .GET, path: [":candidateID"])
+        public static let delete = RouteDefinition(root: root, method: .DELETE, path: getSingle.path)
+        public static let getTrades = RouteDefinition(root: root, method: .GET, path: ["trades", ":candidateID"])
+        public static let getAll = RouteDefinition(root: root, method: .GET, path: [])
+        
+//        public static let addCategory = RouteDefinition(root: root, method: .POST, path: getSingle.path + ["categories", ":categoryID"])
+    }
+    
     public struct Trades {
         public static let root = ["trades"]
         public static let create = RouteDefinition(root: root, method: .POST, path: [])
