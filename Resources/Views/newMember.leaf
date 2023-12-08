@@ -1,0 +1,17 @@
+
+
+<!DOCTYPE html>
+<!-- 1 -->
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>#(title) | JOJA</title>
+    </head>
+    <body>
+        <h1>JOJA New Member Form</h1>
+<!--        <h2>#(acronym.long)</h2>-->
+        
+        <p>Created by #(user)</p>
+    </body>
+</html>
+

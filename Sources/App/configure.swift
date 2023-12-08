@@ -1,7 +1,7 @@
 import Vapor
 import Fluent
-//import FluentSQLiteDriver
 import FluentPostgresDriver
+import Leaf
 
 // configures your application
 public func configure(_ app: Application) throws {
@@ -24,6 +24,12 @@ public func configure(_ app: Application) throws {
     app.middleware.use(app.sessions.middleware)
     app.middleware.use(ErrorMiddleware.default(environment: app.environment))
     
+    
+    // MARK: - Leaf
+    app.views.use(.leaf)
+//    app.leaf.cache.isEnabled = app.environment.isRelease
+    
+    
     // MARK: - Database
 //    app.databases.use(.sqlite(.file("JOJA.sqlite")), as: .sqlite)
     
@@ -41,6 +47,7 @@ public func configure(_ app: Application) throws {
     try services(app)
     
     try app.autoMigrate().wait()
+    
 }
 
 

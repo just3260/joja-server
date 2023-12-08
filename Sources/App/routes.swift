@@ -1,5 +1,8 @@
 import Vapor
 import Fluent
+import Leaf
+import JOJACore
+import Foundation
 
 func routes(_ app: Application) throws {
     
@@ -18,6 +21,10 @@ func routes(_ app: Application) throws {
     try v1Routes.register(collection: MemberController())
     
     
+    // MARK: - Candidate
+    try v1Routes.register(collection: CandidateController())
+    
+    
     // MARK: - Trade
     try v1Routes.register(collection: TradeController())
     
@@ -34,7 +41,15 @@ func routes(_ app: Application) throws {
 //    }
     
     
+    // MARK: - Website
+    try app.register(collection: WebsiteController())
+    
+    
     app.get { req async in
         "It works!"
+//        "Test OK!"
     }
+
+    
+
 }

@@ -6,19 +6,14 @@ import JOJACore
 final class CandidateController: RouteCollection {
     
     func boot(routes: RoutesBuilder) throws {
-        let protectRoute = routes.grouped([APIKeyCheck(), Token.authenticator(), AuthCheck()])
-        let candidateRoute = protectRoute.grouped(Endpoints.Candidates.root.toPathComponents)
+        let protectRoute = routes.grouped([APIKeyCheck()])
+        let createRoute = protectRoute.grouped(Endpoints.Candidates.root.toPathComponents)
+        createRoute.on(Endpoints.Candidates.create, use: create)
         
-        candidateRoute.on(Endpoints.Candidates.create, use: create)
+        let candidateRoute = createRoute.grouped([Token.authenticator(), AuthCheck()])
         candidateRoute.on(Endpoints.Candidates.delete, use: delete)
         candidateRoute.on(Endpoints.Candidates.getSingle, use: getCandidate)
         candidateRoute.on(Endpoints.Candidates.getAll, use: getAll)
-        
-        /** CRUD MEMBER
-        protected.crud(CRUDMember.schema, model: CRUDMember.self) { routes, parentController in
-            routes.get("hello") { _ in "Hello World" }
-        }
-         */
     }
     
     

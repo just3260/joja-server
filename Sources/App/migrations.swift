@@ -20,6 +20,7 @@ func migrations(_ app: Application) throws {
         User.Create(),
         Token.Create(),
         Member.Create(),
+        Candidate.Create(),
         Trade.Create(),
         Product.Create()
     ])

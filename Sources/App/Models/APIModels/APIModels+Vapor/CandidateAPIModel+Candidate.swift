@@ -75,7 +75,7 @@ extension CandidateAPIModel.Request {
         Candidate(
             name: name,
             phone: phone,
-            birthday: birthday,
+            birthday: DateConverter.shared.dashDateFormat(birthday ?? ""),
             from: from,
             address: address,
             email: email,

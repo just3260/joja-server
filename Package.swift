@@ -11,6 +11,7 @@ let package = Package(
         .package(url: "https://github.com/vapor/vapor.git", from: "4.0.0"),
         .package(url: "https://github.com/vapor/fluent.git", from: "4.0.0"),
         .package(url: "https://github.com/vapor/fluent-postgres-driver.git", from: "2.0.0"),
+        .package(url: "https://github.com/vapor/leaf.git", from: "4.0.0"),
         .package(url: "https://github.com/just3260/crud-kit", from: "1.1.1"),
         
         .package(path: "file:///Users/andrew/Dev/joja-core"), // run in local
@@ -24,6 +25,7 @@ let package = Package(
                 .product(name: "Vapor", package: "vapor"),
                 .product(name: "Fluent", package: "fluent"),
                 .product(name: "FluentPostgresDriver", package: "fluent-postgres-driver"),
+                .product(name: "Leaf", package: "leaf"),
                 .product(name: "CRUDKit", package: "crud-kit"),
                 .product(name: "JOJACore", package: "joja-core"),
             ],

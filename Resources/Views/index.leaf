@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新增會員 | JOJA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        form {
+            max-width: 400px;
+            margin: auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 30px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+        
+    </style>
+</head>
+<body>
+    
+    <form action="#" method="post">
+        <h1>JOJA 會員表單</h1>
+        
+        <label for="name">姓名:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="phone">電話:</label>
+        <input type="tel" id="phone" name="phone" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+            
+        <label for="birthday">生日:</label>
+        <input type="date" id="birthday" name="birthday" value="2000/01/01" required>
+        
+        <label for="from">從哪裡知道 JOJA 的:</label>
+        <select id="from" name="from" required>
+            <option value="passBy">路過</option>
+            <option value="fb">Facebook</option>
+            <option value="ig">Instagram</option>
+            <option value="market">市集</option>
+            <option value="search">網路搜尋</option>
+            <option value="friend">親友介紹</option>
+            <option value="pinkoi">Pinkoi</option>
+            <option value="eslite">誠品</option>
+            <option value="qsquare">京站</option>
+            <option value="jccac">JCCAC - 香港賽馬協會</option>
+            <option value="goyound">古漾</option>
+            <option value="treasureHill">寶藏巖國際藝術村</option>
+            <option value="consignmentShop">寄賣店</option>
+        </select>
+        
+        </p>
+        
+        <label for="address">地址:</label>
+        <input type="text" id="address" name="address">
+                
+        <label for="note">備註:</label>
+        <input type="text" id="note" name="note">
+
+        <button type="submit">提交</button>
+    </form>
+
+</body>
+</html>
