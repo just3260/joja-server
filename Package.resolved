@@ -64,6 +64,15 @@
       }
     },
     {
+      "identity" : "joja-core",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/just3260/joja-core",
+      "state" : {
+        "revision" : "011c0b3ca9a516926edc098ed214bb905e3e5045",
+        "version" : "1.0.2"
+      }
+    },
+    {
       "identity" : "leaf",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/vapor/leaf.git",
