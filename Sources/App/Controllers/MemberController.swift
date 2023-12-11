@@ -28,8 +28,13 @@ final class MemberController: RouteCollection {
         let model = try req.content.decode(MemberAPIModel.Request.self)
         let member = try model.createMember()
         try await req.members.create(member)
+        
+        // 刪除 candidate list 內的資料
+        if let candidateId = model.id {
+            try await req.candidates.delete(id: candidateId)
+        }
+        
         return try member.makeNewPublic()
-//        return try MemberAPIModel(member: member).asPublic()
     }
     
     fileprivate func delete(req: Request) async throws -> HTTPStatus {
