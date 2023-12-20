@@ -45,6 +45,7 @@ extension Endpoints {
         public static let delete = RouteDefinition(root: root, method: .DELETE, path: getSingle.path)
         public static let getTrades = RouteDefinition(root: root, method: .GET, path: ["trades", ":memberID"])
         public static let getAll = RouteDefinition(root: root, method: .GET, path: [])
+        public static let update = RouteDefinition(root: root, method: .PUT, path: [":memberID"])
         
 //        public static let addCategory = RouteDefinition(root: root, method: .POST, path: getSingle.path + ["categories", ":categoryID"])
     }

@@ -10,6 +10,7 @@ protocol MemberRepository: Repository {
     func find(email: String) async throws -> Member?
     func count() async throws -> Int
     func gainAmount(with: Int, in memberID: UUID) async throws
+    func update(_ member: Member, in memberID: UUID) async throws
 }
 
 struct DatabaseMemberRepository: MemberRepository, DatabaseRepository {
@@ -64,6 +65,32 @@ struct DatabaseMemberRepository: MemberRepository, DatabaseRepository {
             .filter(\.$id == memberID)
             .update()
     }
+    
+    func update(_ member: Member, in memberID: UUID) async throws {
+        
+        try await Member.query(on: database)
+            .set(\.$name, to: member.name)
+            .set(\.$phone, to: member.phone)
+            .set(\.$birthday, to: member.birthday)
+            .set(\.$from, to: member.from)
+            .set(\.$address, to: member.address)
+            .set(\.$email, to: member.email)
+            .set(\.$note, to: member.note)
+            .filter(\.$id == memberID)
+            .update()
+        
+        
+        /*
+        guard var existMember = try await Member.query(on: database)
+            .filter(\.$id == memberID)
+            .first() else {
+            throw JojaError.modelNotFound(type: "Member", id: memberID.uuidString)
+        }
+        existMember = member
+        try await existMember.save(on: database)
+         */
+    }
+    
 }
 
 extension Application.Repositories {

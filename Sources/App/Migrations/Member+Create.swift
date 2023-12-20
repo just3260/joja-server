@@ -13,7 +13,7 @@ extension Member {
                 .id()
                 .field(Member.Keys.name, .string, .required)
                 .field(Member.Keys.phone, .string, .required)
-                .field(Member.Keys.birthday, .datetime, .required)
+                .field(Member.Keys.birthday, .datetime)
                 .field(Member.Keys.memberFrom, whereType, .required)
                 .field(Member.Keys.address, .string)
                 .field(Member.Keys.email, .string)

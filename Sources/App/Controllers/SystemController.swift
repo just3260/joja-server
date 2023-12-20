@@ -7,12 +7,13 @@
 
 import Vapor
 import Fluent
+import JOJACore
 
 final class SystemController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
         let protected = routes.grouped(APIKeyCheck())
         protected.get("sys", "info") { req in
-            return InfoData(version: "1.0.0")
+            return InfoAPIModel(version: "1.0.0")
         }
     }
 }

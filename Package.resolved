@@ -64,6 +64,15 @@
       }
     },
     {
+      "identity" : "joja-core",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/just3260/joja-core",
+      "state" : {
+        "revision" : "ec7573eaa7cec8b955c58235b16ba912c855f155",
+        "version" : "1.0.4"
+      }
+    },
+    {
       "identity" : "leaf",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/vapor/leaf.git",
@@ -86,8 +95,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/vapor/multipart-kit.git",
       "state" : {
-        "revision" : "1adfd69df2da08f7931d4281b257475e32c96734",
-        "version" : "4.5.4"
+        "revision" : "12ee56f25bd3fc4c2d09c2aa16e69de61dc786e8",
+        "version" : "4.6.0"
       }
     },
     {
@@ -104,8 +113,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/vapor/postgres-nio.git",
       "state" : {
-        "revision" : "036931d968aab819f5e380a932237118ac4e87ba",
-        "version" : "1.19.1"
+        "revision" : "fa3137d39bca84843739db1c5a3db2d7f4ae65e6",
+        "version" : "1.20.0"
       }
     },
     {
@@ -248,8 +257,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/vapor/vapor.git",
       "state" : {
-        "revision" : "00c902ce53f8b00703e2edcd457400fef422c7fd",
-        "version" : "4.89.1"
+        "revision" : "67fe736c37b0ad958b9d248f010cff6c1baa5c3a",
+        "version" : "4.89.3"
       }
     },
     {

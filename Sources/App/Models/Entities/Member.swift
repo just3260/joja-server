@@ -37,7 +37,9 @@ final class Member: Model, Content {
     @Field(key: Keys.isVip)
     var isVip: Bool
     
-    @Timestamp(key: Keys.createdAt, on: .create)
+    // TODO: - 匯入用，之後要改回來！
+//    @Timestamp(key: Keys.createdAt, on: .create)
+    @Timestamp(key: Keys.createdAt, on: .none)
     var createdAt: Date?
     
     @Timestamp(key: Keys.updatedAt, on: .update)
