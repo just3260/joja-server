@@ -13,6 +13,7 @@ enum AuthenticationError: AppError {
     case emailIsNotVerified
     case invalidPasswordToken
     case passwordTokenHasExpired
+    case xAccessTokenIsNotVerified
 }
 
 extension AuthenticationError: AbortError {
@@ -39,6 +40,8 @@ extension AuthenticationError: AbortError {
         case .invalidPasswordToken:
             return .notFound
         case .passwordTokenHasExpired:
+            return .unauthorized
+        case .xAccessTokenIsNotVerified:
             return .unauthorized
         }
     }
@@ -67,6 +70,8 @@ extension AuthenticationError: AbortError {
             return "Invalid reset password token"
         case .passwordTokenHasExpired:
             return "Reset password token has expired"
+        case .xAccessTokenIsNotVerified:
+            return "x-api-key is not verified"
         }
     }
     
@@ -94,6 +99,8 @@ extension AuthenticationError: AbortError {
             return "invalid_password_token"
         case .passwordTokenHasExpired:
             return "password_token_has_expired"
+        case .xAccessTokenIsNotVerified:
+            return "xAccessToken_is_not_verified"
         }
     }
     

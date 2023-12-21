@@ -7,15 +7,11 @@
 
 import Vapor
 
-enum UserError {
+enum UserError: AppError {
     case usernameTaken
 }
 
-extension UserError: AbortError {
-    var description: String {
-        reason
-    }
-    
+extension UserError {
     var status: HTTPResponseStatus {
         switch self {
         case .usernameTaken: return .conflict
@@ -27,4 +23,16 @@ extension UserError: AbortError {
         case .usernameTaken: return "Username already taken"
         }
     }
+    
+    var identifier: String {
+        switch self {
+        case .usernameTaken:
+            return "username_taken"
+        }
+    }
+    
+    var description: String {
+        reason
+    }
+    
 }

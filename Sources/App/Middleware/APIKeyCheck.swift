@@ -16,7 +16,7 @@ struct APIKeyCheck: AsyncMiddleware {
               let storedKey = Environment.get("API_KEY"),
               apiKey == storedKey
         else {
-            throw Abort(.unauthorized)
+            throw AuthenticationError.xAccessTokenIsNotVerified
         }
         return try await next.respond(to: request)
     }
