@@ -46,6 +46,8 @@ extension Endpoints {
         public static let getTrades = RouteDefinition(root: root, method: .GET, path: ["trades", ":memberID"])
         public static let getAll = RouteDefinition(root: root, method: .GET, path: [])
         public static let update = RouteDefinition(root: root, method: .PUT, path: [":memberID"])
+//        public static let search = RouteDefinition(root: root, method: .GET, path: ["search", ":key"])
+        public static let search = RouteDefinition(root: root, method: .GET, path: ["search"])
         
 //        public static let addCategory = RouteDefinition(root: root, method: .POST, path: getSingle.path + ["categories", ":categoryID"])
     }

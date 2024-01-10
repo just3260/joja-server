@@ -12,8 +12,9 @@ final class MemberController: RouteCollection {
         memberRoute.on(Endpoints.Members.create, use: create)
         memberRoute.on(Endpoints.Members.delete, use: delete)
         memberRoute.on(Endpoints.Members.getSingle, use: getMember)
-        memberRoute.on(Endpoints.Members.getAll, use: getAll)
+        memberRoute.on(Endpoints.Members.getAll, use: getPage)
         memberRoute.on(Endpoints.Members.update, use: updateMember)
+        memberRoute.on(Endpoints.Members.search, use: search)
         
         /** CRUD MEMBER
         protected.crud(CRUDMember.schema, model: CRUDMember.self) { routes, parentController in
@@ -58,6 +59,15 @@ final class MemberController: RouteCollection {
         })
     }
     
+    fileprivate func getPage(req: Request) async throws -> Page<MemberAPIModel.ListData> {
+        let pageData = try await req.members.page(with: req)
+        var items: [MemberAPIModel.ListData] = []
+        for item in pageData.items {
+            items.append( try item.makeList())
+        }
+        return Page(items: items, metadata: pageData.metadata)
+    }
+    
     fileprivate func updateMember(req: Request) async throws -> MemberAPIModel.Response {
         let model = try req.content.decode(MemberAPIModel.Request.self)
         let newMember = try model.createMember()
@@ -72,23 +82,12 @@ final class MemberController: RouteCollection {
         return try member.makeResponse()
     }
     
-//    func updateExampleObject(req: Request) async throws -> HTTPStatus {
-//        let exampleObject = try req.content.decode(ExampleObject.self)
-//        
-//        guard let existingExampleObject = try await ExampleObject.find(exampleObject.id, on: req.db) else {
-//            // throw a "not found" error if we try to update something that isn't there
-//            throw Abort(.notFound)
-//        }
-//        
-//        // update the existing object with the one being passed in from the API
-//        existingExampleObject.id = exampleObject.id
-//        existingExampleObject.name = exampleObject.name
-//        existingExampleObject.imageLink = exampleObject.imageLink
-//        
-//        // store the newly updated object to the database
-//        try await existingExampleObject.save(on: req.db)
-//        
-//        return .ok
-//    }
+    fileprivate func search(req: Request) async throws -> [MemberAPIModel.ListData] {
+        let search = try req.query.decode(SearchAPIModel.self)
+        
+        return try await req.members.search(with: search.key).map { member in
+            try member.makeList()
+        }
+    }
     
 }

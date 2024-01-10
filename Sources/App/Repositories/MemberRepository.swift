@@ -6,11 +6,13 @@ protocol MemberRepository: Repository {
     func create(_ member: Member) async throws
     func delete(id: UUID) async throws
     func all() async throws -> [Member]
+    func page(with request: Request) async throws -> Page<Member>
     func find(id: UUID) async throws -> Member?
     func find(email: String) async throws -> Member?
     func count() async throws -> Int
     func gainAmount(with: Int, in memberID: UUID) async throws
     func update(_ member: Member, in memberID: UUID) async throws
+    func search(with key: String) async throws -> [Member]
 }
 
 struct DatabaseMemberRepository: MemberRepository, DatabaseRepository {
@@ -30,6 +32,10 @@ struct DatabaseMemberRepository: MemberRepository, DatabaseRepository {
         try await Member.query(on: database)
             .with(\.$trades)
             .all()
+    }
+    
+    func page(with request: Request) async throws -> Page<Member> {
+        try await Member.query(on: database).paginate(for: request)
     }
     
     func find(id: UUID) async throws -> Member? {
@@ -89,6 +95,13 @@ struct DatabaseMemberRepository: MemberRepository, DatabaseRepository {
         existMember = member
         try await existMember.save(on: database)
          */
+    }
+    
+    func search(with key: String) async throws -> [Member] {
+        try await Member.query(on: database)
+            .filter(\.$phone == key)
+            .sort(\.$createdAt)
+            .all()
     }
     
 }

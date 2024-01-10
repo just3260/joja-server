@@ -13,7 +13,7 @@ final class CandidateController: RouteCollection {
         let candidateRoute = createRoute.grouped([Token.authenticator(), AuthCheck()])
         candidateRoute.on(Endpoints.Candidates.delete, use: delete)
         candidateRoute.on(Endpoints.Candidates.getSingle, use: getCandidate)
-        candidateRoute.on(Endpoints.Candidates.getAll, use: getAll)
+        candidateRoute.on(Endpoints.Candidates.getAll, use: getPage)
     }
     
     
@@ -41,9 +41,20 @@ final class CandidateController: RouteCollection {
         return try candidate.makeResponse()
     }
     
+    fileprivate func getPage(req: Request) async throws -> Page<CandidateAPIModel.ListData> {
+        let pageData = try await req.candidates.page(with: req)
+        var items: [CandidateAPIModel.ListData] = []
+        for item in pageData.items {
+            items.append( try item.makeList())
+        }
+        return Page(items: items, metadata: pageData.metadata)
+    }
+    
+    /** 直接取得所有列表
     fileprivate func getAll(req: Request) async throws -> [CandidateAPIModel.ListData] {
         try await req.candidates.all().map({ candidate in
             try candidate.makeList()
         })
     }
+     */
 }

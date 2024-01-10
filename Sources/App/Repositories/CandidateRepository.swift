@@ -6,6 +6,7 @@ protocol CandidateRepository: Repository {
     func create(_ candidate: Candidate) async throws
     func delete(id: UUID) async throws
     func all() async throws -> [Candidate]
+    func page(with request: Request) async throws -> Page<Candidate>
     func find(id: UUID) async throws -> Candidate?
     func find(email: String) async throws -> Candidate?
     func count() async throws -> Int
@@ -29,6 +30,14 @@ struct DatabaseCandidateRepository: CandidateRepository, DatabaseRepository {
         try await Candidate.query(on: database)
 //            .with(\.$trades)
             .all()
+    }
+    
+//    func page(withIndex page: Int, size: Int) async throws -> Page<Candidate> {
+//        try await Candidate.query(on: database).page(withIndex: page, size: size)
+//    }
+    
+    func page(with request: Request) async throws -> Page<Candidate> {
+        try await Candidate.query(on: database).paginate(for: request)
     }
     
     func find(id: UUID) async throws -> Candidate? {
