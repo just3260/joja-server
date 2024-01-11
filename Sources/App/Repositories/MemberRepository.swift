@@ -1,18 +1,19 @@
 
 import Vapor
 import Fluent
+import JOJACore
 
 protocol MemberRepository: Repository {
     func create(_ member: Member) async throws
     func delete(id: UUID) async throws
     func all() async throws -> [Member]
-    func page(with request: Request) async throws -> Page<Member>
+    func page(with page: PageRequest) async throws -> Page<Member>
     func find(id: UUID) async throws -> Member?
     func find(email: String) async throws -> Member?
     func count() async throws -> Int
     func gainAmount(with: Int, in memberID: UUID) async throws
     func update(_ member: Member, in memberID: UUID) async throws
-    func search(with key: String) async throws -> [Member]
+    func search(with page: PageRequest, and model: SearchAPIModel) async throws -> Page<Member>
 }
 
 struct DatabaseMemberRepository: MemberRepository, DatabaseRepository {
@@ -34,8 +35,9 @@ struct DatabaseMemberRepository: MemberRepository, DatabaseRepository {
             .all()
     }
     
-    func page(with request: Request) async throws -> Page<Member> {
-        try await Member.query(on: database).paginate(for: request)
+    func page(with page: PageRequest) async throws -> Page<Member> {
+        try await Member.query(on: database)
+            .page(withIndex: page.page, size: page.per)
     }
     
     func find(id: UUID) async throws -> Member? {
@@ -97,13 +99,35 @@ struct DatabaseMemberRepository: MemberRepository, DatabaseRepository {
          */
     }
     
-    func search(with key: String) async throws -> [Member] {
-        try await Member.query(on: database)
-            .filter(\.$phone == key)
-            .sort(\.$createdAt)
-            .all()
+    func search(with page: PageRequest, and model: SearchAPIModel) async throws -> Page<Member> {
+        let type = model.type.first ?? .phone
+        
+        switch type {
+        case .name:
+            return try await Member.query(on: database)
+                .filter(model.matchAll ? \.$name == model.key : \.$name ~~ model.key)
+                .sort(\.$createdAt)
+                .page(withIndex: page.page, size: page.per)
+            
+        case .email:
+            return try await Member.query(on: database)
+                .filter(model.matchAll ? \.$email == model.key : \.$email ~~ model.key)
+                .sort(\.$createdAt)
+                .page(withIndex: page.page, size: page.per)
+            
+        case .note:
+            return try await Member.query(on: database)
+                .filter(model.matchAll ? \.$note == model.key : \.$note ~~ model.key)
+                .sort(\.$createdAt)
+                .page(withIndex: page.page, size: page.per)
+            
+        default: // .phone type
+            return try await Member.query(on: database)
+                .filter(model.matchAll ? \.$phone == model.key : \.$phone ~~ model.key)
+                .sort(\.$createdAt)
+                .page(withIndex: page.page, size: page.per)
+        }
     }
-    
 }
 
 extension Application.Repositories {

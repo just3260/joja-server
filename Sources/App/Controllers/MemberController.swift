@@ -60,7 +60,9 @@ final class MemberController: RouteCollection {
     }
     
     fileprivate func getPage(req: Request) async throws -> Page<MemberAPIModel.ListData> {
-        let pageData = try await req.members.page(with: req)
+        let page = try req.query.decode(PageRequest.self)
+        
+        let pageData = try await req.members.page(with: page)
         var items: [MemberAPIModel.ListData] = []
         for item in pageData.items {
             items.append( try item.makeList())
@@ -82,12 +84,16 @@ final class MemberController: RouteCollection {
         return try member.makeResponse()
     }
     
-    fileprivate func search(req: Request) async throws -> [MemberAPIModel.ListData] {
-        let search = try req.query.decode(SearchAPIModel.self)
+    fileprivate func search(req: Request) async throws -> Page<MemberAPIModel.ListData> {
+        let model = try req.query.decode(SearchAPIModel.self)
+        let page = try req.query.decode(PageRequest.self)
         
-        return try await req.members.search(with: search.key).map { member in
-            try member.makeList()
+        let pageData = try await req.members.search(with: page, and: model)
+        var items: [MemberAPIModel.ListData] = []
+        for item in pageData.items {
+            items.append( try item.makeList())
         }
+        return Page(items: items, metadata: pageData.metadata)
     }
     
 }
