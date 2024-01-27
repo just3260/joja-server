@@ -1,6 +1,5 @@
 # 1
 FROM swift:5.9
-FROM --platform=linux/x86-64 swift
 WORKDIR /app
 COPY . .
 
