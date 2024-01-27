@@ -35,7 +35,7 @@ public func configure(_ app: Application) throws {
     
     app.databases.use(.postgres(
         hostname: Environment.get("DATABASE_HOST") ?? "localhost",
-        port: Environment.get("DATABASE_PORT").flatMap(Int.init(_:)) ?? PostgresConfiguration.ianaPortNumber,
+        port: Environment.get("DATABASE_PORT").flatMap(Int.init(_:)) ?? SQLPostgresConfiguration.ianaPortNumber,
         username: Environment.get("POSTGRES_USER") ?? "joja",
         password: Environment.get("POSTGRES_PASSWORD") ?? "joja_design",
         database: Environment.get("POSTGRES_DB") ?? "joja_postgres"
