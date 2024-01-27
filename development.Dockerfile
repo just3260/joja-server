@@ -1,5 +1,6 @@
 # 1
-FROM swift:5.7
+FROM swift:5.9
+FROM --platform=linux/x86-64 swift
 WORKDIR /app
 COPY . .
 
@@ -15,5 +16,5 @@ RUN mkdir /app/bin
 RUN mv `swift build --show-bin-path` /app/bin
 
 # 5
-EXPOSE 3000
+EXPOSE 8080
 ENTRYPOINT ./bin/debug/Run serve --env local --hostname 0.0.0.0

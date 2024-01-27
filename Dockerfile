@@ -1,4 +1,4 @@
-FROM docker.io/swift:5.7 as build
+FROM docker.io/swift:5.9 as build
 
 WORKDIR /usr/src/app
 
@@ -9,7 +9,7 @@ RUN swift build --configuration release
 RUN swift test --configuration release
 
 
-FROM docker.io/swift:5.7-slim
+FROM docker.io/swift:5.9-slim
 
 # Copy the build executable target (named in Package.swift)
 COPY --from=build /usr/src/app/.build/release/server .
