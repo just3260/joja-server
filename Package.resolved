@@ -28,15 +28,6 @@
       }
     },
     {
-      "identity" : "crud-kit",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/just3260/crud-kit",
-      "state" : {
-        "revision" : "9f78dbeefdf2cd2d72e3f027363ebc0cb014d7e5",
-        "version" : "1.1.1"
-      }
-    },
-    {
       "identity" : "fluent",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/vapor/fluent.git",

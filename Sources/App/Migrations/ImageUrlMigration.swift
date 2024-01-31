@@ -5,6 +5,7 @@
 //  Created by Andrew on 2022/12/28.
 //
 
+/*
 import Fluent
 
 struct ImageUrlMigration: Migration {
@@ -21,3 +22,4 @@ struct ImageUrlMigration: Migration {
             .update()
     }
 }
+*/

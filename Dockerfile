@@ -1,16 +1,23 @@
-FROM docker.io/swift:5.9 as build
+# 1
+FROM swift:focal
+# FROM --platform=linux/arm64 swift:5.9
+ARG TARGETPLATFORM
+RUN echo "I'm building for $TARGETPLATFORM"
 
-WORKDIR /usr/src/app
+WORKDIR /app
+COPY . .
 
-COPY Package.swift Package.resolved ./
-COPY Sources Sources
-COPY Tests Tests
-RUN swift build --configuration release
-RUN swift test --configuration release
+# 2 - Remove when using PostgreSQL
+# RUN apt-get update && apt-get install libsqlite3-dev
 
+# 3
+RUN swift package clean
+RUN swift build
 
-FROM docker.io/swift:5.9-slim
+# 4
+RUN mkdir /app/bin
+RUN mv `swift build --show-bin-path` /app/bin
 
-# Copy the build executable target (named in Package.swift)
-COPY --from=build /usr/src/app/.build/release/server .
-CMD ./server $PORT
+# 5
+EXPOSE 3000
+ENTRYPOINT ./bin/debug/Run serve --env local --hostname 0.0.0.0

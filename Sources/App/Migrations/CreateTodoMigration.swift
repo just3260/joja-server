@@ -5,6 +5,7 @@
 //  Created by Andrew on 2022/12/23.
 //
 
+/*
 import Fluent
 
 struct CreateTodoMigration: Migration {
@@ -24,3 +25,4 @@ struct CreateTodoMigration: Migration {
             .delete()
     }
 }
+*/

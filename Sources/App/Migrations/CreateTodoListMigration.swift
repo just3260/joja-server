@@ -5,6 +5,7 @@
 //  Created by Andrew on 2022/12/20.
 //
 
+/*
 import Fluent
 
 struct CreateTodoListMigration: Migration {
@@ -40,3 +41,4 @@ extension Todo {
         }
     }
 }
+*/
