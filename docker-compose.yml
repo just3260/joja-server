@@ -19,7 +19,7 @@ x-shared_environment: &shared_environment
 
 services:
     
-    joja-server:
+    app:
         build:
             context: .
             dockerfile: development.Dockerfile
@@ -27,7 +27,7 @@ services:
             - "3000:3000"
         environment:
             - DATABASE_HOST=postgres
-            - DATABASE_PORT=5432
+            - DATABASE_PORT=12345
         depends_on:
             - postgres
     
@@ -40,12 +40,12 @@ services:
             - POSTGRES_USER=joja
             - POSTGRES_PASSWORD=joja_design
         ports:
-            - "5432:5432"
-        
+            - "12345:12345"
+        command: -p 12345
         
     start_dependencies:
         image: dadarek/wait-for-dependencies
         depends_on:
         - postgres
-        command: postgres:5432
+        command: postgres:12345
 

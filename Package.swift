@@ -4,16 +4,21 @@ import PackageDescription
 let package = Package(
     name: "joja-server",
     platforms: [
-        .macOS(.v12)
+        .macOS(.v13)
     ],
     dependencies: [
         // 💧 A server-side Swift web framework.
-        .package(url: "https://github.com/vapor/vapor.git", from: "4.0.0"),
-        .package(url: "https://github.com/vapor/fluent.git", from: "4.0.0"),
-        .package(url: "https://github.com/vapor/fluent-postgres-driver.git", from: "2.0.0"),
-        .package(url: "https://github.com/vapor/leaf.git", from: "4.0.0"),
+        .package(url: "https://github.com/vapor/vapor.git", from: "4.89.0"),
+        // 🗄 An ORM for SQL and NoSQL databases.
+        .package(url: "https://github.com/vapor/fluent.git", from: "4.8.0"),
+        // 🐘 Fluent driver for Postgres.
+        .package(url: "https://github.com/vapor/fluent-postgres-driver.git", from: "2.7.2"),
+        // 🍃 An expressive, performant, and extensible templating language built for Swift.
+        .package(url: "https://github.com/vapor/leaf.git", from: "4.2.4"),
+        
 //        .package(url: "https://github.com/just3260/crud-kit", from: "1.1.1"),
         
+        // joja core
 //        .package(path: "file:///Users/andrew/Dev/joja-core"), // run in local
         .package(url: "https://github.com/just3260/joja-core", from: "0.1.5"), // run in docker
     ],

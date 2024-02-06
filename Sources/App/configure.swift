@@ -1,3 +1,4 @@
+import NIOSSL
 import Vapor
 import Fluent
 import FluentPostgresDriver
@@ -34,6 +35,7 @@ public func configure(_ app: Application) throws {
 //    app.databases.use(.sqlite(.file("JOJA.sqlite")), as: .sqlite)
     
     
+    /*
     let configuration = SQLPostgresConfiguration(
         hostname: Environment.get("DATABASE_HOST") ?? "localhost",
         port: Environment.get("DATABASE_PORT").flatMap(Int.init(_:)) ?? SQLPostgresConfiguration.ianaPortNumber,
@@ -53,6 +55,7 @@ public func configure(_ app: Application) throws {
         encodingContext: .init(jsonEncoder: encoder),
         sqlLogLevel: .debug
     ), as: .psql)
+     */
     
     
 //    app.databases.use(.postgres(
@@ -62,6 +65,17 @@ public func configure(_ app: Application) throws {
 //        password: Environment.get("POSTGRES_PASSWORD") ?? "joja_design",
 //        database: Environment.get("POSTGRES_DB") ?? "joja_postgres"
 //    ), as: .psql)
+    
+    
+    app.databases.use(DatabaseConfigurationFactory.postgres(configuration: .init(
+        hostname: Environment.get("DATABASE_HOST") ?? "localhost",
+//        port: Environment.get("DATABASE_PORT").flatMap(Int.init(_:)) ?? SQLPostgresConfiguration.ianaPortNumber,
+        port: SQLPostgresConfiguration.ianaPortNumber,
+        username: Environment.get("POSTGRES_USER") ?? "joja",
+        password: Environment.get("POSTGRES_PASSWORD") ?? "joja_design",
+        database: Environment.get("POSTGRES_DB") ?? "joja_postgres",
+        tls: .prefer(try .init(configuration: .clientDefault)))
+    ), as: .psql)
     
     
     try routes(app)
