@@ -71,7 +71,7 @@ extension TradeAPIModel.Request {
         let products = self.products.prefix(3)
         var desc = ""
         products.forEach { prod in
-            desc += prod.brand.getName() + " " + prod.goods.getName() + "\n"
+            desc += prod.brand.getName() + " " + (prod.note ?? "") + "$\(prod.amount) * 1\n"
         }
         desc.removeLast(1)
         

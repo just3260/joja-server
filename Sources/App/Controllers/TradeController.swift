@@ -40,18 +40,18 @@ final class TradeController: RouteCollection {
         try await req.trades.create(trade)
         var products: [Product] = []
         
-        if let tradeID = trade.id { // get correct tradeID
-            try await withThrowingTaskGroup(of: Void.self, body: { taskGroup in
-                for prod in tradeModel.products {
-                    let product = try prod.createProduct(with: tradeID)
-                    taskGroup.addTask {
-                        try await req.products.create(product)
-                    }
-                    products.append(product)
-                }
-                try await taskGroup.waitForAll()
-            })
-        }
+//        if let tradeID = trade.id { // get correct tradeID
+//            try await withThrowingTaskGroup(of: Void.self, body: { taskGroup in
+//                for prod in tradeModel.products {
+//                    let product = try prod.createProduct(with: tradeID)
+//                    taskGroup.addTask {
+//                        try await req.products.create(product)
+//                    }
+//                    products.append(product)
+//                }
+//                try await taskGroup.waitForAll()
+//            })
+//        }
         
         // add amount to member
         try await req.members.gainAmount(with: totalAmount, in: tradeModel.buyerID)
