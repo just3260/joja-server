@@ -7,6 +7,8 @@ public struct JojaError: Error {
         case invalidParameterFormat
         case modelNotFound
         case unableToRetreiveID
+        case phoneAlreadyExists
+        case valueEmpty
         case other
     }
     
@@ -41,6 +43,20 @@ public struct JojaError: Error {
         )
     }
     
+    public static func phoneAlreadyExists(phone: String) -> JojaError {
+        JojaError(
+            errorIdentifier: .phoneAlreadyExists,
+            reason: "New member with that phone(\(phone)) already exists"
+        )
+    }
+    
+    public static func valueEmpty(field: String) -> JojaError {
+        JojaError(
+            errorIdentifier: .valueEmpty,
+            reason: "\(field) can't be empty"
+        )
+    }
+    
     public static func other(description: String) -> JojaError {
         JojaError(
             errorIdentifier: .missingParameter,
@@ -65,6 +81,10 @@ extension JojaError: AbortError {
             return .notFound
         case .unableToRetreiveID:
             return .internalServerError
+        case .phoneAlreadyExists:
+            return .badRequest
+        case .valueEmpty:
+            return .badRequest
         case .other:
             return .internalServerError
         }

@@ -58,24 +58,25 @@ public func configure(_ app: Application) throws {
      */
     
     
-//    app.databases.use(.postgres(
-//        hostname: Environment.get("DATABASE_HOST") ?? "localhost",
-//        port: Environment.get("DATABASE_PORT").flatMap(Int.init(_:)) ?? SQLPostgresConfiguration.ianaPortNumber,
-//        username: Environment.get("POSTGRES_USER") ?? "joja",
-//        password: Environment.get("POSTGRES_PASSWORD") ?? "joja_design",
-//        database: Environment.get("POSTGRES_DB") ?? "joja_postgres"
-//    ), as: .psql)
-    
-    
+#if os(Linux) // for NAS
     app.databases.use(DatabaseConfigurationFactory.postgres(configuration: .init(
         hostname: Environment.get("DATABASE_HOST") ?? "localhost",
-//        port: Environment.get("DATABASE_PORT").flatMap(Int.init(_:)) ?? SQLPostgresConfiguration.ianaPortNumber,
+        port: Environment.get("DATABASE_PORT").flatMap(Int.init(_:)) ?? SQLPostgresConfiguration.ianaPortNumber, // for NAS
+        username: Environment.get("POSTGRES_USER") ?? "joja",
+        password: Environment.get("POSTGRES_PASSWORD") ?? "joja_design",
+        database: Environment.get("POSTGRES_DB") ?? "joja_postgres",
+        tls: .prefer(try .init(configuration: .clientDefault)))
+    ), as: .psql)
+#else // Mac
+    app.databases.use(DatabaseConfigurationFactory.postgres(configuration: .init(
+        hostname: Environment.get("DATABASE_HOST") ?? "localhost",
         port: SQLPostgresConfiguration.ianaPortNumber,
         username: Environment.get("POSTGRES_USER") ?? "joja",
         password: Environment.get("POSTGRES_PASSWORD") ?? "joja_design",
         database: Environment.get("POSTGRES_DB") ?? "joja_postgres",
         tls: .prefer(try .init(configuration: .clientDefault)))
     ), as: .psql)
+#endif
     
     
     try routes(app)

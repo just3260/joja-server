@@ -68,10 +68,13 @@ extension TradeAPIModel.Request {
     func createTrade(with amount: Int) throws -> Trade {
         
         // get product description
-        let products = self.products.prefix(3)
+//        let products = self.products.prefix(3)
         var desc = ""
-        products.forEach { prod in
-            desc += prod.brand.getName() + " " + (prod.note ?? "") + "$\(prod.amount) * 1\n"
+        try self.products.forEach { prod in
+            if prod.amount < 0 || (prod.note ?? "").isEmpty {
+                throw JojaError.valueEmpty(field: "note")
+            }
+            desc += prod.brand.getName() + " " + (prod.note ?? "") + " $\(prod.amount)\n"
         }
         desc.removeLast(1)
         

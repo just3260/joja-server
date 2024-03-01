@@ -9,6 +9,7 @@ protocol MemberRepository: Repository {
     func all() async throws -> [Member]
     func page(with page: PageRequest) async throws -> Page<Member>
     func find(id: UUID) async throws -> Member?
+    func find(phone: String) async throws -> Member?
     func find(email: String) async throws -> Member?
     func count() async throws -> Int
     func gainAmount(with: Int, in memberID: UUID) async throws
@@ -46,6 +47,12 @@ struct DatabaseMemberRepository: MemberRepository, DatabaseRepository {
         try await Member.query(on: database)
             .with(\.$trades)
             .filter(\.$id == id)
+            .first()
+    }
+    
+    func find(phone: String) async throws -> Member? {
+        try await Member.query(on: database)
+            .filter(\.$phone == phone)
             .first()
     }
     

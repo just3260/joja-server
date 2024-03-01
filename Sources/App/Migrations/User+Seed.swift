@@ -9,7 +9,8 @@ extension User {
             // 帶入預設帳號，建立 User，不會建立 Token
             let users: [User] = [
                 .init(username: "andrewang", email: "just3260@gmail.com", passwordHash: try Bcrypt.hash("a12345678")),
-                .init(username: "andrew", email: "andrew@ins.to", passwordHash: try Bcrypt.hash("a12345678"))
+                .init(username: "andrew", email: "andrew@ins.to", passwordHash: try Bcrypt.hash("a12345678")),
+                .init(username: "josie", email: "joja.design@hatmail.com", passwordHash: try Bcrypt.hash("Aa0909"))
             ]
             
             try await withThrowingTaskGroup(of: Void.self, body: { taskGroup in

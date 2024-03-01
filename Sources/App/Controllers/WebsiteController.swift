@@ -11,8 +11,12 @@ struct WebsiteController: RouteCollection {
         
         routes.get("hello", use: getHello)
         routes.get("newMember", use: createNewMember)
+        routes.post("newMember", use: sendForm)
+        
         routes.get("index", use: getIndex)
         routes.post("index", use: sendForm)
+        
+        routes.get("sample", use: getSample)
     }
     
     
@@ -29,16 +33,20 @@ struct WebsiteController: RouteCollection {
     
     
     fileprivate func createNewMember(req: Request) async throws -> View {
-        
         let context = MemberContext(title: "Member", user: "JOJA")
         return try await req.view.render("newMember", context)
     }
     
     
     fileprivate func getIndex(req: Request) async throws -> View {
-        
         let context = MemberContext(title: "Member", user: "JOJA")
         return try await req.view.render("index", context)
+    }
+    
+    fileprivate func getSample(req: Request) async throws -> View {
+        
+        let context = MemberContext(title: "Member", user: "JOJA")
+        return try await req.view.render("sample", context)
     }
     
     
@@ -46,6 +54,15 @@ struct WebsiteController: RouteCollection {
         do {
             let formData = try req.content.decode(CandidateAPIModel.Request.self)
             let candidate = try formData.createCandidate()
+            candidate.phone.replace(" ", with: "")
+            
+            guard try await req.members.find(phone: candidate.phone) == nil else {
+                throw JojaError.phoneAlreadyExists(phone: candidate.phone)
+            }
+            guard try await req.candidates.find(phone: candidate.phone) == nil else {
+                throw JojaError.phoneAlreadyExists(phone: candidate.phone)
+            }
+            
             try await req.candidates.create(candidate)
             return "收到了來自「\(formData.name)」的表單提交！"
         } catch {
