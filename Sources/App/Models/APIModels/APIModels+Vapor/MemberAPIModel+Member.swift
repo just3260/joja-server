@@ -59,7 +59,7 @@ extension MemberAPIModel: Content {
                                 birthday: birthday,
                                 from: from,
                                 address: address,
-                                email: email,
+                                email: email?.lowercased(),
                                 note: note,
                                 amount: amount,
                                 isVip: isVip,
@@ -98,10 +98,10 @@ extension MemberAPIModel.Request {
             birthday: birthday,
             from: from,
             address: address,
-            email: email,
+            email: email?.lowercased(),
             note: note,
             amount: 0,
-            isVip: false,
+            isVip: isVip,
             createdAt: Date(),
             updatedAt: Date()
         )

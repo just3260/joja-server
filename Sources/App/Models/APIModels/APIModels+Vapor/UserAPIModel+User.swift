@@ -13,7 +13,7 @@ extension UserAPIModel: Content {
     func asPublic() throws -> UserAPIModel.Public {
         UserAPIModel.Public(id: id,
                             username: username,
-                            email: email,
+                            email: email.lowercased(),
                             isAdmin: isAdmin,
                             createdAt: createdAt,
                             updatedAt: updatedAt
@@ -44,7 +44,7 @@ extension UserAPIModel {
 
 extension UserAPIModel.Create {
     func createUser() throws -> User {
-        User(username: username, email: email, passwordHash: try Bcrypt.hash(password))
+        User(username: username, email: email.lowercased(), passwordHash: try Bcrypt.hash(password))
     }
 }
 

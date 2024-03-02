@@ -59,8 +59,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/just3260/joja-core",
       "state" : {
-        "revision" : "8ff4462f1254fa25602ee71e435dd5ce41fbe9f5",
-        "version" : "0.1.6"
+        "revision" : "3f6bf0527e43bc0b528a23a93ef23c98827e6cab",
+        "version" : "0.1.7"
       }
     },
     {

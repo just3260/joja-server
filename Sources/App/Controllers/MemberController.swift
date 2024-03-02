@@ -29,6 +29,12 @@ final class MemberController: RouteCollection {
     fileprivate func create(req: Request) async throws -> MemberAPIModel.Response {
         let model = try req.content.decode(MemberAPIModel.Request.self)
         let member = try model.createMember()
+        
+        // 判斷 member 是否有重複
+        guard try await req.members.find(phone: member.phone) == nil else {
+            throw JojaError.phoneAlreadyExists(phone: member.phone)
+        }
+        
         try await req.members.create(member)
         
         // 刪除 candidate list 內的資料

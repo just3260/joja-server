@@ -58,7 +58,7 @@ struct UserController: RouteCollection {
     }
     
     private func checkIfUserExists(_ email: String, req: Request) async throws -> Bool {
-        let user = try await req.users.find(email: email)
+        let user = try await req.users.find(email: email.lowercased())
         return user != nil
     }
 }

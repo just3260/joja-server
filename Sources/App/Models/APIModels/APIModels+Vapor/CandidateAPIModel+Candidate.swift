@@ -47,7 +47,7 @@ extension CandidateAPIModel: Content {
                                    birthday: birthday,
                                    from: from,
                                    address: address,
-                                   email: email,
+                                   email: email?.lowercased(),
                                    note: note,
                                    createdAt: createdAt
         )
@@ -78,7 +78,7 @@ extension CandidateAPIModel.Request {
             birthday: DateConverter.shared.dashDateFormat(birthday ?? ""),
             from: from,
             address: address,
-            email: email,
+            email: email?.lowercased(),
             note: note,
             createdAt: Date()
         )
