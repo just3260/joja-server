@@ -62,7 +62,12 @@ final class TradeController: RouteCollection {
     // TODO: - finish it
     fileprivate func delete(req: Request) async throws -> HTTPStatus {
         let tradeId = try req.requireUUID(parameterName: "tradeID")
+        
+        guard let trade = try await req.trades.find(id: tradeId) else {
+            throw JojaError.modelNotFound(type: "Trade", id: tradeId.uuidString)
+        }
         try await req.trades.delete(id: tradeId)
+        try await req.members.reduceAmount(with: trade.amount, in: trade.$buyer.id)
         return .noContent
     }
     
