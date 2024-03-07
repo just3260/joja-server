@@ -7,6 +7,7 @@ protocol TradeRepository: Repository {
     func delete(id: UUID) async throws
 //    func all() async throws -> [Trade]
     func find(id: UUID) async throws -> Trade?
+    func findAll(by userId: UUID) async throws -> [Trade]
 }
 
 struct DatabaseTradeRepository: TradeRepository, DatabaseRepository {
@@ -28,6 +29,12 @@ struct DatabaseTradeRepository: TradeRepository, DatabaseRepository {
     
     func find(id: UUID) async throws -> Trade? {
         try await Trade.find(id, on: database)
+    }
+    
+    func findAll(by userId: UUID) async throws -> [Trade] {
+        try await Trade.query(on: database)
+            .filter(\.$buyer.$id == userId)
+            .all()
     }
 }
 

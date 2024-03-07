@@ -10,8 +10,9 @@ final class MemberController: RouteCollection {
         let memberRoute = protectRoute.grouped(Endpoints.Members.root.toPathComponents)
         
         memberRoute.on(Endpoints.Members.create, use: create)
-        memberRoute.on(Endpoints.Members.delete, use: delete)
         memberRoute.on(Endpoints.Members.getSingle, use: getMember)
+        memberRoute.on(Endpoints.Members.delete, use: delete)
+        memberRoute.on(Endpoints.Members.memberTrades, use: getMemberTrades)
         memberRoute.on(Endpoints.Members.getAll, use: getPage)
         memberRoute.on(Endpoints.Members.update, use: updateMember)
         memberRoute.on(Endpoints.Members.search, use: search)
@@ -49,6 +50,32 @@ final class MemberController: RouteCollection {
         let memberId = try req.requireUUID(parameterName: "memberID")
         try await req.members.delete(id: memberId)
         return .noContent
+    }
+    
+    fileprivate func getMemberTrades(req: Request) async throws -> [TradeAPIModel.Response] {
+        let memberId = try req.requireUUID(parameterName: "memberID")
+        let trades = try await req.trades.findAll(by: memberId)
+        
+        return try await withThrowingTaskGroup(of: TradeAPIModel.Response.self,
+                                               returning: [TradeAPIModel.Response].self,
+                                               body: { taskGroup in
+            for trade in trades {
+                taskGroup.addTask {
+//                    guard let products = try await req.products.findTrade(with: tradeId) else {
+//                        throw JojaError.modelNotFound(type: "Product", id: tradeId.uuidString)
+//                    }
+//                    return try trade.makePublic(with: try products.map({try $0.makePublic()}))
+                    return try trade.makePublic(with: [])
+                }
+            }
+            
+            var tradeModels: [TradeAPIModel.Response] = []
+            for try await model in taskGroup {
+                tradeModels.append(model)
+            }
+            try await taskGroup.waitForAll()
+            return tradeModels.sorted(by: {$0.createdAt!.compare($1.createdAt!) == .orderedDescending})
+        })
     }
     
     fileprivate func getMember(req: Request) async throws -> MemberAPIModel.Response {

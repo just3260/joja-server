@@ -21,7 +21,6 @@ public func configure(_ app: Application) throws {
 //    app.middleware.use(FileMiddleware(publicDirectory: app.directory.workingDirectory))
     
     app.middleware.use(Logging())
-//    app.middleware.use(APIKeyCheck())
     app.middleware.use(app.sessions.middleware)
     app.middleware.use(ErrorMiddleware.default(environment: app.environment))
     

@@ -3,10 +3,12 @@
 # 1
 # FROM swift:latest
 # FROM swift:5.9
-FROM --platform=linux/amd64 swift:5.9
-
+# FROM --platform=linux/amd64 swift:5.9
+ 
+FROM --platform=$BUILDPLATFORM swift:5.9
 ARG TARGETPLATFORM
-RUN echo "I'm building for $TARGETPLATFORM"
+ARG BUILDPLATFORM
+RUN echo "I am running on $BUILDPLATFORM, building for $TARGETPLATFORM" > /log
 
 WORKDIR /app
 COPY . .

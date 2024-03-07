@@ -5,7 +5,7 @@ import Vapor
 extension Trade {
     struct Seed: AsyncMigration {
         func prepare(on database: Database) async throws {
-            
+            /*
             let tradeDatas: [[String: Any]] = [
                 ["phone": "0921135155", "data": Trade.init(amount: 3830, note: "舊資料匯入", description: "粉毛呢貝,領巾*2,戒指", buyerID: UUID(), createdAt: Date.init(timeIntervalSince1970: 1604332800))],
                 ["phone": "0921135155", "data": Trade.init(amount: 5840, note: "舊資料匯入", description: "紫咖格毛貝、白棉貝、粉米綠橘棉貝", buyerID: UUID(), createdAt: Date.init(timeIntervalSince1970: 1611158400))],
@@ -1507,6 +1507,8 @@ extension Trade {
                     }
                 }
             }
+             */
+             
         }
         
         func revert(on database: Database) async throws {
