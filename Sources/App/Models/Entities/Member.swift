@@ -38,8 +38,8 @@ final class Member: Model, Content {
     var isVip: Bool
     
     // TODO: - 匯入用，之後要改回來！
-//    @Timestamp(key: Keys.createdAt, on: .create)
-    @Timestamp(key: Keys.createdAt, on: .none)
+    @Timestamp(key: Keys.createdAt, on: .create)
+//    @Timestamp(key: Keys.createdAt, on: .none)
     var createdAt: Date?
     
     @Timestamp(key: Keys.updatedAt, on: .update)
