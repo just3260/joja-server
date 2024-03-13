@@ -10,7 +10,8 @@ extension User {
             let users: [User] = [
                 .init(username: "andrewang", email: "just3260@gmail.com", passwordHash: try Bcrypt.hash("a12345678")),
                 .init(username: "andrew", email: "andrew@ins.to", passwordHash: try Bcrypt.hash("a12345678")),
-                .init(username: "josie", email: "joja.design@hatmail.com", passwordHash: try Bcrypt.hash("Aa0909"))
+                .init(username: "josie", email: "joja.design@hatmail.com", passwordHash: try Bcrypt.hash("Aa0909")),
+                .init(username: "jn", email: "jnhuang870910@gmail.com", passwordHash: try Bcrypt.hash("0935870936")),
             ]
             
             try await withThrowingTaskGroup(of: Void.self, body: { taskGroup in

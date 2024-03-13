@@ -28,8 +28,13 @@ func migrations(_ app: Application) throws {
     // seed
     app.migrations.add([
         User.Seed(),
-//        Member.Seed(),
-//        Trade.Seed(),
+        Member.Seed_Test(),
+        Member.Seed_2021(),
+        Member.Seed_2022(),
+        Member.Seed_2023(),
+        Trade.Seed_2021(),
+        Trade.Seed_2022(),
+        Trade.Seed_2023(),
     ])
     
     

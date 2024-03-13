@@ -21,6 +21,9 @@ struct UserController: RouteCollection {
         
         let passwordProtected = usersRoute.grouped(User.authenticator())
         passwordProtected.post("login", use: login)
+        
+        let adminProtected = tokenProtected.grouped(AdminCheck())
+        adminProtected.delete(":userID", use: deleteUser)
     }
     
     fileprivate func register(req: Request) async throws -> SessionAPIModel {
@@ -50,6 +53,14 @@ struct UserController: RouteCollection {
         
         try await req.tokens.save(token)
         return SessionAPIModel(token: token.value, user: try UserAPIModel(user: user).asPublic())
+    }
+    
+    func deleteUser(_ req: Request) async throws -> HTTPStatus {
+      guard let user: User = try await User.find(req.parameters.get("userID"), on: req.db) else {
+        throw Abort(.notFound)
+      }
+      try await user.delete(on: req.db)
+      return .ok
     }
     
     func getMyOwnUser(req: Request) throws -> UserAPIModel.Public {
