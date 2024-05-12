@@ -8,8 +8,9 @@ extension Trade {
             
             let tradeDatas: [[String: Any]] = [
                 
+                ["phone": "852-97362021", "data": Trade.init(amount: 5560, note: "舊資料匯入", description: "B-174、B-175", buyerID: UUID(), createdAt: Date.init(timeIntervalSince1970: 1583337600))],
                 ["phone": "0918-807-702", "data": Trade.init(amount: 2680, note: "舊資料匯入", description: "紫藍格老絨", buyerID: UUID(), createdAt: Date.init(timeIntervalSince1970: 1633363200))],
-                ["phone": "Sun Dec 27 2020 00:00:00 GMT+0800 (台北標準時間)", "data": Trade.init(amount: 3760, note: "舊資料匯入", description: "藍絨漁夫，灰直條燈芯報", buyerID: UUID(), createdAt: Date.init(timeIntervalSince1970: 1608307200))],
+                ["phone": "0900000005", "data": Trade.init(amount: 3760, note: "舊資料匯入", description: "藍絨漁夫，灰直條燈芯報", buyerID: UUID(), createdAt: Date.init(timeIntervalSince1970: 1608307200))],
                 ["phone": "0900000002", "data": Trade.init(amount: 5740, note: "舊資料匯入", description: "紫黃格貝、白點貝、羊毛棉綠格貝", buyerID: UUID(), createdAt: Date.init(timeIntervalSince1970: 1577548800))],
                 ["phone": "0900000003", "data": Trade.init(amount: 1000, note: "舊資料匯入", description: "領巾+戒指", buyerID: UUID(), createdAt: Date.init(timeIntervalSince1970: 1633622400))],
                 ["phone": "0900000004", "data": Trade.init(amount: 1780, note: "舊資料匯入", description: "水泥灰棉報", buyerID: UUID(), createdAt: Date.init(timeIntervalSince1970: 1601136000))],

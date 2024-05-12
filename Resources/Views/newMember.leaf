@@ -62,7 +62,8 @@
                 
             <label for="from">從哪裡知道 JOJA 的:</label>
             <select id="from" name="from" required>
-                <option value="passBy">路過</option>
+                <option value="taipei">JOJA台北赤峰</option>
+                <option value="tainan">JOJA台南店</option>
                 <option value="fb">Facebook</option>
                 <option value="ig">Instagram</option>
                 <option value="market">市集</option>
@@ -72,7 +73,7 @@
                 <option value="eslite">誠品</option>
                 <option value="qsquare">京站</option>
                 <option value="jccac">JCCAC - 香港賽馬協會</option>
-                <option value="goyound">古漾</option>
+                <option value="goyoung">古漾</option>
                 <option value="treasureHill">寶藏巖國際藝術村</option>
                 <option value="consignmentShop">寄賣店</option>
             </select>

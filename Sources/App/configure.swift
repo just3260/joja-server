@@ -68,6 +68,9 @@ public func configure(_ app: Application) throws {
     ), as: .psql)
 #else // Mac
     app.databases.use(DatabaseConfigurationFactory.postgres(configuration: .init(
+        // 遠端連進 NAS
+//        hostname: "125.228.95.144",
+//        port: 12345,
         hostname: Environment.get("DATABASE_HOST") ?? "localhost",
         port: SQLPostgresConfiguration.ianaPortNumber,
         username: Environment.get("POSTGRES_USER") ?? "joja",

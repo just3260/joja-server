@@ -25,21 +25,29 @@ func migrations(_ app: Application) throws {
         Product.Create()
     ])
     
+    
     // seed
+    
+#if os(Linux) // for NAS
+    
+#else // Mac
     app.migrations.add([
         User.Seed(),
-        Member.Seed_Test(),
+//        Member.Seed_Test(),
         Member.Seed_2021(),
         Member.Seed_2022(),
         Member.Seed_2023(),
+//        Trade.Seed_Test(),
         Trade.Seed_2021(),
         Trade.Seed_2022(),
         Trade.Seed_2023(),
     ])
-    
+#endif
+
     
     // unused
 //    app.migrations.add(CreateTodoListMigration())
 //    app.migrations.add(CreateTodoMigration())
 //    app.migrations.add(ImageUrlMigration())
+    
 }

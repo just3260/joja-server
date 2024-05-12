@@ -20,7 +20,7 @@ let package = Package(
         
         // joja core
 //        .package(path: "file:///Users/andrew/Dev/joja-core"), // run in local
-        .package(url: "https://github.com/just3260/joja-core", from: "0.1.7"), // run in docker
+        .package(url: "https://github.com/just3260/joja-core", from: "0.1.8"), // run in docker
     ],
     targets: [
         .target(
