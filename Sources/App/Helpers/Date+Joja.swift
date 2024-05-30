@@ -26,7 +26,7 @@ extension Date {
     
     func after(component: Calendar.Component, value: Int) -> Date {
         let calendar = Calendar(identifier: .gregorian)
-        guard let expiryDate = calendar.date(byAdding: .month, value: 1, to: Date()) else {
+        guard let expiryDate = calendar.date(byAdding: component, value: value, to: Date()) else {
             return Date()
         }
         return expiryDate

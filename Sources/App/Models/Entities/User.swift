@@ -58,8 +58,6 @@ extension User: ModelAuthenticatable {
     
     func verify(password: String) throws -> Bool {
         do {
-            print(passwordHash)
-            print(password)
             return try Bcrypt.verify(password, created: self.passwordHash)
         } catch {
             throw Abort(.notAcceptable)

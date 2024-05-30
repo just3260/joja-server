@@ -16,8 +16,9 @@ struct UserController: RouteCollection {
         let usersRoute = protected.grouped("users")
         usersRoute.post("signup", use: register)
         
-        let tokenProtected = usersRoute.grouped(Token.authenticator())
+        let tokenProtected = usersRoute.grouped(Token.authenticator(), User.guardMiddleware())
         tokenProtected.get("me", use: getMyOwnUser)
+        tokenProtected.post("logout", use: logout)
         
         let passwordProtected = usersRoute.grouped(User.authenticator())
         passwordProtected.post("login", use: login)
@@ -53,6 +54,19 @@ struct UserController: RouteCollection {
         
         try await req.tokens.save(token)
         return SessionAPIModel(token: token.value, user: try UserAPIModel(user: user).asPublic())
+    }
+    
+    func logout(_ req: Request) async throws -> HTTPStatus {
+        guard let user = req.auth.get(User.self), let bearer = req.headers["Authorization"].first else {
+            throw Abort(.unauthorized)
+        }
+        guard let bearer = req.headers["Authorization"].first else {
+            throw JojaError.modelNotFound(type: "Token", id: user.username)
+        }
+        let token = bearer.replacingOccurrences(of: "Bearer ", with: "")
+        try await req.tokens.delete(token)
+        req.auth.logout(User.self)
+        return .ok
     }
     
     func deleteUser(_ req: Request) async throws -> HTTPStatus {

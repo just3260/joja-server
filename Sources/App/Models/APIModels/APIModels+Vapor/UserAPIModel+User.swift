@@ -35,7 +35,7 @@ extension UserAPIModel {
     }
     
     func createToken(source: TokenAPIModel.SessionSource) throws -> Token {
-        let expiryDate = Date().after(component: .month, value: 1)
+        let expiryDate = Date().after(component: .hour, value: 8)
         return Token(userID: self.id,
                      token: [UInt8].random(count: 16).base64, source: source,
                      expiresAt: expiryDate, createdAt: Date())

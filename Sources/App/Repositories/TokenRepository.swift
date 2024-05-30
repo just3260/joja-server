@@ -6,8 +6,8 @@ protocol TokenRepository: Repository {
 //    func create(_ token: Token) async throws
     func save(_ token: Token) async throws
 //    func find(id: UUID?) async throws -> Token?
-//    func find(token: String) async throws -> Token?
-//    func delete(_ token: Token) async throws
+    func find(value: String) async throws -> Token?
+    func delete(_ token: String) async throws
 //    func count() async throws -> Int
 //    func delete(for userID: UUID) async throws
 }
@@ -27,15 +27,18 @@ struct DatabaseTokenRepository: TokenRepository, DatabaseRepository {
 //        try await Token.find(id, on: database)
 //    }
     
-//    func find(token: String) async throws -> Token? {
-//        try await Token.query(on: database)
-//            .filter(\.$value == token)
-//            .first()
-//    }
+    func find(value: String) async throws -> Token? {
+        try await Token.query(on: database)
+            .filter(\.$value == value)
+            .first()
+    }
     
-//    func delete(_ token: Token) async throws {
-//        try await token.delete(on: database)
-//    }
+    func delete(_ token: String) async throws {
+        guard let token = try await find(value: token) else {
+            throw JojaError.modelNotFound(type: "Token", id: token)
+        }
+        try await token.delete(on: database)
+    }
     
 //    func count() async throws -> Int {
 //        try await  Token.query(on: database)

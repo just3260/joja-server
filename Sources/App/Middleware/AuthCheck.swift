@@ -7,7 +7,8 @@ struct AuthCheck: AsyncMiddleware {
         do {
             try request.auth.require(User.self)
         } catch {
-            throw AuthenticationError.refreshTokenOrUserNotFound
+            throw AuthenticationError.refreshTokenHasExpired
+//            throw AuthenticationError.refreshTokenOrUserNotFound
         }
         return try await next.respond(to: request)
     }
