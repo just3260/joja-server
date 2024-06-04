@@ -14,7 +14,7 @@ final class SystemController: RouteCollection {
         let protected = routes.grouped(APIKeyCheck())
         protected.get("sys", "info") { req in
             // TODO: - 上版本前更新版號
-            return InfoAPIModel(version: "1.0.2")
+            return InfoAPIModel(version: "1.0.3")
         }
     }
 }

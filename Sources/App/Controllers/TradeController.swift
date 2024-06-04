@@ -59,7 +59,6 @@ final class TradeController: RouteCollection {
         return try trade.makePublic(with: products.map({try $0.makePublic()}))
     }
     
-    // TODO: - finish it
     fileprivate func delete(req: Request) async throws -> HTTPStatus {
         let tradeId = try req.requireUUID(parameterName: "tradeID")
         

@@ -2,7 +2,7 @@ import Vapor
 
 func migrations(_ app: Application) throws {
     
-    // TODO: - 上版本前確認 Migrate 版本
+    // TODO: - 上版本前確認 Migrate 列表
     
     /*
     // create TypeAPIModel's enum
