@@ -45,8 +45,6 @@ func migrations(_ app: Application) throws {
         Trade.Seed_2021(),
         Trade.Seed_2022(),
         Trade.Seed_2023(),
-        
-        User.AddPermission(),
     ])
 #endif
      */
