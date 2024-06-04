@@ -85,8 +85,9 @@ public func configure(_ app: Application) throws {
     try migrations(app)
     try services(app)
     
+    // TODO: - 上版本前確認 Migrate 版本
     try app.autoMigrate().wait()
-    
+//    try app.autoRevert().wait()
 }
 
 

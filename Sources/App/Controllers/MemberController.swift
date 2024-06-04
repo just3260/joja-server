@@ -9,12 +9,12 @@ final class MemberController: RouteCollection {
         let protectRoute = routes.grouped([APIKeyCheck(), Token.authenticator(), AuthCheck()])
         let memberRoute = protectRoute.grouped(Endpoints.Members.root.toPathComponents)
         
-        memberRoute.on(Endpoints.Members.create, use: create)
+        memberRoute.grouped([PermissionCheck(permission: .createMember)]).on(Endpoints.Members.create, use: create)
         memberRoute.on(Endpoints.Members.getSingle, use: getMember)
-        memberRoute.on(Endpoints.Members.delete, use: delete)
+        memberRoute.grouped([PermissionCheck(permission: .deleteMember)]).on(Endpoints.Members.delete, use: delete)
         memberRoute.on(Endpoints.Members.memberTrades, use: getMemberTrades)
         memberRoute.on(Endpoints.Members.getAll, use: getPage)
-        memberRoute.on(Endpoints.Members.update, use: updateMember)
+        memberRoute.grouped([PermissionCheck(permission: .editMember)]).on(Endpoints.Members.update, use: updateMember)
         memberRoute.on(Endpoints.Members.search, use: search)
         
         /** CRUD MEMBER

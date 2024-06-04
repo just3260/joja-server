@@ -10,8 +10,8 @@ final class TradeController: RouteCollection {
         let tradeRoute = protectRoute.grouped(Endpoints.Trades.root.toPathComponents)
         
         tradeRoute.on(Endpoints.Trades.getSingle, use: getTrade)
-        tradeRoute.on(Endpoints.Trades.create, use: create)
-        tradeRoute.on(Endpoints.Trades.delete, use: delete)
+        tradeRoute.grouped([PermissionCheck(permission: .createTrade)]).on(Endpoints.Trades.create, use: create)
+        tradeRoute.grouped([PermissionCheck(permission: .deleteTrade)]).on(Endpoints.Trades.delete, use: delete)
         tradeRoute.on(Endpoints.Trades.getList, use: getTradeList)
     }
     

@@ -14,6 +14,7 @@ extension FieldKey {
     static let email: FieldKey = "email"
     static let passwordHash: FieldKey = "password_hash"
     static let isAdmin: FieldKey = "is_admin"
+    static let permissions: FieldKey = "permissions"
     
     // MARK: - Token
     static let userID: FieldKey = "user_id"

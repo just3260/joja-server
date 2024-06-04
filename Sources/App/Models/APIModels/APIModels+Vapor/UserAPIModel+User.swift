@@ -15,6 +15,7 @@ extension UserAPIModel: Content {
                             username: username,
                             email: email.lowercased(),
                             isAdmin: isAdmin,
+                            permissions: permissions,
                             createdAt: createdAt,
                             updatedAt: updatedAt
         )
@@ -28,7 +29,8 @@ extension UserAPIModel {
             username: user.username,
             email: user.email,
             password: user.passwordHash,
-            isAdmin: user.isAdmin,
+            isAdmin: user.isAdmin, 
+            permissions: PermissionOptions(rawValue: user.permissions),
             createdAt: user.createdAt ?? Date(),
             updatedAt: user.updatedAt ?? Date()
         )

@@ -2,6 +2,9 @@ import Vapor
 
 func migrations(_ app: Application) throws {
     
+    // TODO: - 上版本前確認 Migrate 版本
+    
+    /*
     // create TypeAPIModel's enum
     app.migrations.add([
         Types.CreateWhereFromType(),
@@ -24,10 +27,11 @@ func migrations(_ app: Application) throws {
         Trade.Create(),
         Product.Create()
     ])
+    */
     
     
+    /*
     // seed
-    
 #if os(Linux) // for NAS
     
 #else // Mac
@@ -41,8 +45,18 @@ func migrations(_ app: Application) throws {
         Trade.Seed_2021(),
         Trade.Seed_2022(),
         Trade.Seed_2023(),
+        
+        User.AddPermission(),
     ])
 #endif
+     */
+    
+    
+    
+    app.migrations.add([
+        User.AddPermission(),
+    ])
+    
 
     
     // unused

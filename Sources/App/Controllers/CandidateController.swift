@@ -11,7 +11,7 @@ final class CandidateController: RouteCollection {
         createRoute.on(Endpoints.Candidates.create, use: create)
         
         let candidateRoute = createRoute.grouped([Token.authenticator(), AuthCheck()])
-        candidateRoute.on(Endpoints.Candidates.delete, use: delete)
+        candidateRoute.grouped([PermissionCheck(permission: .deleteCandidate)]).on(Endpoints.Candidates.delete, use: delete)
         candidateRoute.on(Endpoints.Candidates.getSingle, use: getCandidate)
         candidateRoute.on(Endpoints.Candidates.getAll, use: getPage)
     }

@@ -22,6 +22,9 @@ final class User: Model, Content {
     @Field(key: Keys.isAdmin)
     var isAdmin: Bool
     
+    @Field(key: Keys.permissions)
+    var permissions: Int
+    
     @Timestamp(key: Keys.createdAt, on: .create)
     var createdAt: Date?
     
@@ -30,12 +33,13 @@ final class User: Model, Content {
     
     init() {}
     
-    init(id: UUID? = nil, username: String, email: String, passwordHash: String, isAdmin: Bool = false) {
+    init(id: UUID? = nil, username: String, email: String, passwordHash: String, isAdmin: Bool = false, permissions: Int = 0) {
         self.id = id
         self.username = username
         self.email = email
         self.passwordHash = passwordHash
         self.isAdmin = isAdmin
+        self.permissions = permissions
     }
 }
 
@@ -47,6 +51,7 @@ extension User {
         static let email: FieldKey = .email
         static let password: FieldKey = .passwordHash
         static let isAdmin: FieldKey = .isAdmin
+        static let permissions: FieldKey = .permissions
         static let createdAt: FieldKey = .createdAt
         static let updatedAt: FieldKey = .updatedAt
     }

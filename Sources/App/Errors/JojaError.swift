@@ -9,6 +9,7 @@ public struct JojaError: Error {
         case unableToRetreiveID
         case phoneAlreadyExists
         case valueEmpty
+        case insufficientPermission
         case other
     }
     
@@ -57,6 +58,13 @@ public struct JojaError: Error {
         )
     }
     
+    public static func insufficientPermission() -> JojaError {
+        JojaError(
+            errorIdentifier: .insufficientPermission,
+            reason: "insufficient permission"
+        )
+    }
+    
     public static func other(description: String) -> JojaError {
         JojaError(
             errorIdentifier: .missingParameter,
@@ -84,6 +92,8 @@ extension JojaError: AbortError {
         case .phoneAlreadyExists:
             return .badRequest
         case .valueEmpty:
+            return .badRequest
+        case .insufficientPermission:
             return .badRequest
         case .other:
             return .internalServerError
