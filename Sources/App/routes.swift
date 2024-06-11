@@ -32,6 +32,9 @@ func routes(_ app: Application) throws {
     // MARK: - Product
     try v1Routes.register(collection: ProductController())
     
+    // MARK: - Fabric
+    try v1Routes.register(collection: FabricController())
+    
     
     // MARK: - Todo Lists
 //    v1Routes.crud("todo-lists", model: TodoList.self) { routes, parentController in

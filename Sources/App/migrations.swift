@@ -51,11 +51,39 @@ func migrations(_ app: Application) throws {
     
     
     
+//    app.migrations.add([
+//        User.AddPermission(),
+//    ])
+    
+    
+    /*
     app.migrations.add([
-        User.AddPermission(),
+        Product.Create(),
+        
+        Types.CreateMaterialType(),
+        Types.CreateCottonMaterialType(),
+        Types.CreateAgeType(),
+        Types.CreateDesignType(),
+        Types.CreateColorType(),
+        Types.CreateLocationType()
+    ])
+     */
+    
+    
+    app.migrations.add([
+//        Types.CreateMaterialType(),
+//        Types.CreateCottonMaterialType(),
+//        Types.CreateAgeType(),
+//        Types.CreateDesignType(),
+//        Types.CreateColorType(),
+//        Types.CreateLocationType(),
+        
+        Tag.Create(),
+        FabricTag.Create(),
+        Fabric.Create(),
     ])
     
-
+    
     
     // unused
 //    app.migrations.add(CreateTodoListMigration())

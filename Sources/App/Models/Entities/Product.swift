@@ -12,17 +12,17 @@ final class Product: Model, Content {
     @Enum(key: Keys.brand)
     var brand: TypeAPIModel.Brand
     
-//    @Enum(key: Keys.goods)
-//    var goods: TypeAPIModel.Goods
-//    
-//    @Enum(key: Keys.material)
-//    var material: TypeAPIModel.Material
-//    
-//    @Enum(key: Keys.color)
-//    var color: TypeAPIModel.Color
-//    
-//    @Enum(key: Keys.design)
-//    var design: TypeAPIModel.Design
+    @Enum(key: Keys.goods)
+    var goods: TypeAPIModel.Goods
+    
+    @Enum(key: Keys.material)
+    var material: TypeAPIModel.Material
+    
+    @Enum(key: Keys.color)
+    var color: TypeAPIModel.Color
+    
+    @Enum(key: Keys.design)
+    var design: TypeAPIModel.Design
     
     @Field(key: Keys.amount)
     var amount: Int

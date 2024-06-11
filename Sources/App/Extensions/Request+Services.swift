@@ -9,4 +9,5 @@ extension Request {
     var candidates: CandidateRepository { application.repositories.candidates.for(self) }
     var trades: TradeRepository { application.repositories.trades.for(self) }
     var products: ProductRepository { application.repositories.products.for(self) }
+    var fabrics: FabricRepository { application.repositories.fabrics.for(self) }
 }

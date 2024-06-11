@@ -53,19 +53,20 @@ extension Member {
 
 extension MemberAPIModel: Content {
     func asPublic() throws -> MemberAPIModel.Response {
-        MemberAPIModel.Response(id: id,
-                                name: name,
-                                phone: phone,
-                                birthday: birthday,
-                                from: from,
-                                address: address,
-                                email: email?.lowercased(),
-                                note: note,
-                                amount: amount,
-                                isVip: isVip,
-                                createdAt: createdAt,
-                                updatedAt: updatedAt,
-                                trades: try trades?.compactMap({try $0.asSimple()})
+        MemberAPIModel.Response(
+            id: id,
+            name: name,
+            phone: phone,
+            birthday: birthday,
+            from: from,
+            address: address,
+            email: email?.lowercased(),
+            note: note,
+            amount: amount,
+            isVip: isVip,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            trades: try trades?.compactMap({try $0.asSimple()})
         )
     }
 }

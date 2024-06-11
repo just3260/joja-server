@@ -155,29 +155,61 @@ final class Types: Content {
     struct CreateMaterialType: AsyncMigration {
         func prepare(on database: Database) async throws {
             _ = try await database.enum(TypeAPIModel.Material.getKey())
-                .case(TypeAPIModel.Material.cotton_wash.rawValue)
-                .case(TypeAPIModel.Material.cotton_bubble.rawValue)
-                .case(TypeAPIModel.Material.calico_cotton.rawValue)
-                .case(TypeAPIModel.Material.calico_new.rawValue)
-                .case(TypeAPIModel.Material.calico_old.rawValue)
-                .case(TypeAPIModel.Material.wool_old.rawValue)
+                .case(TypeAPIModel.Material.cotton.rawValue)
+                .case(TypeAPIModel.Material.linen.rawValue)
+                .case(TypeAPIModel.Material.velvet.rawValue)
                 .case(TypeAPIModel.Material.wool.rawValue)
-                .case(TypeAPIModel.Material.flannel.rawValue)
-                .case(TypeAPIModel.Material.flannel_old.rawValue)
+                .case(TypeAPIModel.Material.synthetic_fiber.rawValue)
+                .case(TypeAPIModel.Material.denim.rawValue)
                 .case(TypeAPIModel.Material.suit.rawValue)
-                .case(TypeAPIModel.Material.linen_old.rawValue)
-                .case(TypeAPIModel.Material.linen_new.rawValue)
-                .case(TypeAPIModel.Material.synthetic_fiber_old.rawValue)
-                .case(TypeAPIModel.Material.synthetic_fiber_new.rawValue)
-                .case(TypeAPIModel.Material.headbands_opaque.rawValue)
-                .case(TypeAPIModel.Material.headbands_translucent.rawValue)
                 .case(TypeAPIModel.Material.silk.rawValue)
+                .case(TypeAPIModel.Material.chiffon.rawValue)
                 .create()
         }
         
         func revert(on database: Database) async throws {
             try await database
                 .enum(TypeAPIModel.Material.getKey())
+                .delete()
+        }
+    }
+    
+    // Cotton Material Type
+    struct CreateCottonMaterialType: AsyncMigration {
+        func prepare(on database: Database) async throws {
+            _ = try await database.enum(TypeAPIModel.CottonMaterial.getKey())
+                .case(TypeAPIModel.CottonMaterial.thin_bubble.rawValue)
+                .case(TypeAPIModel.CottonMaterial.thick_bubble.rawValue)
+                .case(TypeAPIModel.CottonMaterial.wash.rawValue)
+                .case(TypeAPIModel.CottonMaterial.wrinkle_wash.rawValue)
+                .case(TypeAPIModel.CottonMaterial.grey.rawValue)
+                .case(TypeAPIModel.CottonMaterial.thin_canvas.rawValue)
+                .case(TypeAPIModel.CottonMaterial.thick_canvas.rawValue)
+                .case(TypeAPIModel.CottonMaterial.japan_plain.rawValue)
+                .case(TypeAPIModel.CottonMaterial.japan_print.rawValue)
+                .case(TypeAPIModel.CottonMaterial.calico.rawValue)
+                .create()
+        }
+        
+        func revert(on database: Database) async throws {
+            try await database
+                .enum(TypeAPIModel.CottonMaterial.getKey())
+                .delete()
+        }
+    }
+    
+    // Age Type
+    struct CreateAgeType: AsyncMigration {
+        func prepare(on database: Database) async throws {
+            _ = try await database.enum(TypeAPIModel.Age.getKey())
+                .case(TypeAPIModel.Age.new.rawValue)
+                .case(TypeAPIModel.Age.old.rawValue)
+                .create()
+        }
+        
+        func revert(on database: Database) async throws {
+            try await database
+                .enum(TypeAPIModel.Age.getKey())
                 .delete()
         }
     }
@@ -223,10 +255,11 @@ final class Types: Content {
                 .case(TypeAPIModel.Color.blue.rawValue)
                 .case(TypeAPIModel.Color.purple.rawValue)
                 .case(TypeAPIModel.Color.pink.rawValue)
-//                .case(TypeAPIModel.Color.peach.rawValue)
+                .case(TypeAPIModel.Color.peach.rawValue)
                 .case(TypeAPIModel.Color.brown.rawValue)
                 .case(TypeAPIModel.Color.black.rawValue)
                 .case(TypeAPIModel.Color.white.rawValue)
+                .case(TypeAPIModel.Color.beige.rawValue)
                 .case(TypeAPIModel.Color.grey.rawValue)
                 .case(TypeAPIModel.Color.gold.rawValue)
                 .case(TypeAPIModel.Color.silvery.rawValue)
@@ -261,12 +294,33 @@ final class Types: Content {
                 .case(TypeAPIModel.Design.plant.rawValue)
                 .case(TypeAPIModel.Design.animal.rawValue)
                 .case(TypeAPIModel.Design.festival.rawValue)
+                .case(TypeAPIModel.Design.pop.rawValue)
                 .create()
         }
         
         func revert(on database: Database) async throws {
             try await database
                 .enum(TypeAPIModel.Design.getKey())
+                .delete()
+        }
+    }
+    
+    // Location Type
+    struct CreateLocationType: AsyncMigration {
+        func prepare(on database: Database) async throws {
+            _ = try await database.enum(TypeAPIModel.Location.getKey())
+                .case(TypeAPIModel.Location.chifeng.rawValue)
+                .case(TypeAPIModel.Location.chifengStore.rawValue)
+                .case(TypeAPIModel.Location.taipeiHome.rawValue)
+                .case(TypeAPIModel.Location.tainan.rawValue)
+                .case(TypeAPIModel.Location.daxi.rawValue)
+                .case(TypeAPIModel.Location.aunt.rawValue)
+                .create()
+        }
+        
+        func revert(on database: Database) async throws {
+            try await database
+                .enum(TypeAPIModel.Location.getKey())
                 .delete()
         }
     }

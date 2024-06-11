@@ -78,9 +78,9 @@ extension Endpoints {
     public struct Trades {
         public static let root = ["trades"]
         
-        /// 建立交易
-        public static let create = RouteDefinition(root: root, method: .POST, path: [])
         /// 建立單筆交易
+        public static let create = RouteDefinition(root: root, method: .POST, path: [])
+        /// 取得單筆交易資料
         public static let getSingle = RouteDefinition(root: root, method: .GET, path: [":tradeID"])
         /// 刪除交易
         public static let delete = RouteDefinition(root: root, method: .DELETE, path: getSingle.path)
@@ -97,6 +97,19 @@ extension Endpoints {
         public static let getProduct = RouteDefinition(root: root, method: .GET, path: [":productID"])
         /// 刪除單筆產品資料
         public static let delete = RouteDefinition(root: root, method: .DELETE, path: getProduct.path)
+    }
+    
+    public struct Fabrics {
+        public static let root = ["fabrics"]
+        
+        /// 建立布料
+        public static let create = RouteDefinition(root: root, method: .POST, path: [])
+        /// 取得布料資料
+        public static let getSingle = RouteDefinition(root: root, method: .GET, path: [":fabricID"])
+        /// 刪除布料
+        public static let delete = RouteDefinition(root: root, method: .DELETE, path: getSingle.path)
+        /// 取得布料列表
+        public static let getList = RouteDefinition(root: root, method: .POST, path: ["list"])
     }
     
 //    public struct Users {

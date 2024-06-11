@@ -26,6 +26,7 @@ extension Application {
                     $0.repositories.use { DatabaseCandidateRepository(database: $0.db) }
                     $0.repositories.use { DatabaseTradeRepository(database: $0.db) }
                     $0.repositories.use { DatabaseProductRepository(database: $0.db) }
+                    $0.repositories.use { DatabaseFabricRepository(database: $0.db) }
                 }
             }
             
@@ -39,6 +40,7 @@ extension Application {
             var makeCandidateRepository: ((Application) -> CandidateRepository)?
             var makeTradeRepository: ((Application) -> TradeRepository)?
             var makeProductRepository: ((Application) -> ProductRepository)?
+            var makeFabricRepository: ((Application) -> FabricRepository)?
             init() { }
         }
         

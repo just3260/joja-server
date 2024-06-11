@@ -50,6 +50,21 @@ extension FieldKey {
     static let tradeID: FieldKey = "trade_id"
     static let description: FieldKey = "description"
     
+    // MARK: - Fabric
+    static let cottonType: FieldKey = "cotton_type"
+    static let age: FieldKey = "age_type"
+    static let sn: FieldKey = "serial_number"
+    static let price: FieldKey = "price"
+    static let buy: FieldKey = "buy"
+    static let stock: FieldKey = "stock"
+    static let location: FieldKey = "location"
+    static let tags: FieldKey = "tags"
+    static let images: FieldKey = "images"
+    static let log: FieldKey = "log"
+    
+    // MARK: - FabricTag
+    static let fabricId: FieldKey = "fabric_id"
+    static let tagId: FieldKey = "tag_id"
     
 }
 
