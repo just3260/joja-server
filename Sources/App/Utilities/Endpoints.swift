@@ -110,6 +110,21 @@ extension Endpoints {
         public static let delete = RouteDefinition(root: root, method: .DELETE, path: getSingle.path)
         /// 取得布料列表
         public static let getList = RouteDefinition(root: root, method: .POST, path: ["list"])
+        /// 加上 tag
+        public static let addTag = RouteDefinition(root: root, method: .POST, path: [":fabricID", "addTag"])
+    }
+    
+    public struct Tags {
+        public static let root = ["tags"]
+        
+        /// 建立 tag
+        public static let create = RouteDefinition(root: root, method: .POST, path: [])
+        /// 取得 tag
+        public static let getSingle = RouteDefinition(root: root, method: .GET, path: [":tagID"])
+        /// 刪除 tag
+        public static let delete = RouteDefinition(root: root, method: .DELETE, path: getSingle.path)
+        /// 取得 tag 列表
+        public static let getList = RouteDefinition(root: root, method: .GET, path: ["list"])
     }
     
 //    public struct Users {

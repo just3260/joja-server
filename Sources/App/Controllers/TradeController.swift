@@ -24,11 +24,14 @@ final class TradeController: RouteCollection {
             throw JojaError.modelNotFound(type: "Trade", id: tradeId.uuidString)
         }
         
-        guard let products = try await req.products.findTrade(with: tradeId) else {
-            throw JojaError.modelNotFound(type: "Product", id: tradeId.uuidString)
-        }
+//        guard let products = try await req.products.findTrade(with: tradeId) else {
+//            throw JojaError.modelNotFound(type: "Product", id: tradeId.uuidString)
+//        }
         
-        return try trade.makePublic(with: try products.map({try $0.makePublic()}))
+//        return try trade.makePublic(with: try products.map({try $0.makePublic()}))
+        
+        try await trade.$products.load(on: req.db)
+        return try trade.makePublic(with: [])
     }
     
     fileprivate func create(req: Request) async throws -> TradeAPIModel.Response {

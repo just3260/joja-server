@@ -78,9 +78,11 @@ func migrations(_ app: Application) throws {
 //        Types.CreateColorType(),
 //        Types.CreateLocationType(),
         
+        Fabric.Create(),
         Tag.Create(),
         FabricTag.Create(),
-        Fabric.Create(),
+        
+        Product.Create()
     ])
     
     

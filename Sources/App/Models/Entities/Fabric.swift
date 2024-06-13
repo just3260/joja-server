@@ -3,7 +3,7 @@ import Fluent
 import Vapor
 import JOJACore
 
-final class Fabric: Model, Content {
+final class Fabric: Model, Content, @unchecked Sendable {
     
     static let schema = Keys.schema
     
@@ -43,6 +43,9 @@ final class Fabric: Model, Content {
     @Enum(key: Keys.location)
     var location: TypeAPIModel.Location
     
+//    @Group(key: Keys.stores)
+//    var stores: Store
+    
     @Siblings(through: FabricTag.self, from: \.$fabric, to: \.$tag)
     public var tags: [Tag]
     
@@ -66,7 +69,7 @@ final class Fabric: Model, Content {
     
     init() {}
     
-    init(id: UUID? = nil, name: String?, material: TypeAPIModel.Material, cottonType: TypeAPIModel.CottonMaterial?, age: TypeAPIModel.Age, design: TypeAPIModel.Design, color: TypeAPIModel.Color, sn: String, price: Int, buy: Int, stock: Int, location: TypeAPIModel.Location/*, tags: [String]*/, description: String?, note: String?, images: [String], createdAt: Date?, updatedAt: Date?, log: String?) {
+    init(id: UUID? = nil, name: String?, material: TypeAPIModel.Material, cottonType: TypeAPIModel.CottonMaterial?, age: TypeAPIModel.Age, design: TypeAPIModel.Design, color: TypeAPIModel.Color, sn: String, price: Int, buy: Int, stock: Int, location: TypeAPIModel.Location, description: String?, note: String?, images: [String], log: String?) {
         self.id = id
         self.name = name
         self.material = material
@@ -79,13 +82,24 @@ final class Fabric: Model, Content {
         self.buy = buy
         self.stock = stock
         self.location = location
-//        self.tags = tags
         self.description = description
         self.note = note
         self.images = images
-        self.createdAt = createdAt
-        self.updatedAt = updatedAt
         self.log = log
+    }
+}
+
+extension Fabric {
+    final class Component: Fields {
+        
+    }
+    
+    final class Store: Fields {
+        @Field(key: Keys.count)
+        var count: Int
+        
+        @Enum(key: Keys.location)
+        var location: TypeAPIModel.Location
     }
 }
 
@@ -103,13 +117,16 @@ extension Fabric {
         static let price: FieldKey = .price
         static let buy: FieldKey = .buy
         static let stock: FieldKey = .stock
+        static let stores: FieldKey = .stores
+        static let count: FieldKey = .count
         static let location: FieldKey = .location
-//        static let tags: FieldKey = .tags
         static let description: FieldKey = .description
         static let note: FieldKey = .note
         static let images: FieldKey = .images
         static let createdAt: FieldKey = .createdAt
         static let updatedAt: FieldKey = .updatedAt
         static let log: FieldKey = .log
+        
+        
     }
 }

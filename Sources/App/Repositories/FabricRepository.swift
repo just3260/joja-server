@@ -7,6 +7,7 @@ protocol FabricRepository: Repository {
     func delete(id: UUID) async throws
     func find(id: UUID) async throws -> Fabric?
     func findAll(in sn: String) async throws -> [Fabric]
+    func addTag(in fabirc: Fabric, with tag: Tag) async throws
 }
 
 struct DatabaseFabricRepository: FabricRepository, DatabaseRepository {
@@ -31,6 +32,10 @@ struct DatabaseFabricRepository: FabricRepository, DatabaseRepository {
             .filter(\.$sn ~~ sn)
             .all()
 //            .sort(\.$createdAt, .descending)
+    }
+    
+    func addTag(in fabirc: Fabric, with tag: Tag) async throws {
+        try await fabirc.$tags.attach(tag, on: database)
     }
 }
 

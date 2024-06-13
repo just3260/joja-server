@@ -18,7 +18,7 @@ extension Fabric {
             buy: self.buy,
             stock: self.stock,
             location: self.location,
-//            tags: self.tags,
+            tags: self.tags.map({$0.name}),
             description: self.description,
             note: self.note,
             imageUrl: self.images,
@@ -48,7 +48,7 @@ extension FabricAPIModel: Content {
             buy: buy,
             stock: stock,
             location: location,
-//            tags: tags,
+            tags: tags,
             description: description,
             note: note,
             imageUrl: imageUrl,
@@ -61,7 +61,6 @@ extension FabricAPIModel: Content {
 
 extension FabricAPIModel {
     init(fabric: Fabric) throws {
-        
         try self.init(
             id: fabric.requireID(),
             name: fabric.name,
@@ -75,7 +74,7 @@ extension FabricAPIModel {
             buy: fabric.buy,
             stock: fabric.stock,
             location: fabric.location,
-//            tags: fabric.tags,
+            tags: fabric.tags.map({$0.name}),
             description: fabric.description,
             note: fabric.note,
             imageUrl: fabric.images,
@@ -100,12 +99,9 @@ extension FabricAPIModel.Request {
             buy: buy,
             stock: stock,
             location: location,
-//            tags: tags,
             description: description,
             note: note,
             images: [],
-            createdAt: Date(),
-            updatedAt: Date(),
             log: "新添購\(buy)碼，放置在\(location.getName())"
         )
     }

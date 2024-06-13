@@ -14,6 +14,9 @@ final class FabricTag: Model, Content {
 
     @Parent(key: Keys.tagId)
     var tag: Tag
+    
+    @Timestamp(key: Keys.createdAt, on: .create)
+    var createdAt: Date?
 
     init() { }
 
@@ -30,5 +33,6 @@ extension FabricTag {
         
         static let fabricId: FieldKey = .fabricId
         static let tagId: FieldKey = .tagId
+        static let createdAt: FieldKey = .createdAt
     }
 }

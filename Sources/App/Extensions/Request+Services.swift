@@ -10,4 +10,5 @@ extension Request {
     var trades: TradeRepository { application.repositories.trades.for(self) }
     var products: ProductRepository { application.repositories.products.for(self) }
     var fabrics: FabricRepository { application.repositories.fabrics.for(self) }
+    var tags: TagRepository { application.repositories.tags.for(self) }
 }

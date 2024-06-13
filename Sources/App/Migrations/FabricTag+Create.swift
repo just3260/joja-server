@@ -9,6 +9,19 @@ extension FabricTag {
                 .id()
                 .field(FabricTag.Keys.fabricId, .uuid, .required)
                 .field(FabricTag.Keys.tagId, .uuid, .required)
+                .field(FabricTag.Keys.createdAt, .datetime)
+                .foreignKey(
+                    FabricTag.Keys.fabricId,
+                    references: Fabric.schema, .id,
+                    onDelete: .cascade,
+                    onUpdate: .cascade
+                )
+                .foreignKey(
+                    FabricTag.Keys.tagId,
+                    references: Tag.schema, .id,
+                    onDelete: .cascade,
+                    onUpdate: .cascade
+                )
                 .unique(on: FabricTag.Keys.fabricId, FabricTag.Keys.tagId)
                 .create()
         }

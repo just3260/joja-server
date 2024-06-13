@@ -8,6 +8,10 @@ extension Tag {
                 .schema(Tag.schema)
                 .id()
                 .field(Tag.Keys.name, .string, .required)
+                .field(Tag.Keys.description, .string)
+                .field(Tag.Keys.createdAt, .datetime)
+                .field(Tag.Keys.updatedAt, .datetime)
+                .unique(on: Tag.Keys.name)
                 .create()
         }
         

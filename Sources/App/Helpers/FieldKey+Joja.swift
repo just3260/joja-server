@@ -57,6 +57,7 @@ extension FieldKey {
     static let price: FieldKey = "price"
     static let buy: FieldKey = "buy"
     static let stock: FieldKey = "stock"
+    static let stores: FieldKey = "stores"
     static let location: FieldKey = "location"
     static let tags: FieldKey = "tags"
     static let images: FieldKey = "images"
