@@ -22,7 +22,7 @@ public func configure(_ app: Application) throws {
 //    app.middleware.use(FileMiddleware(publicDirectory: app.directory.workingDirectory))
     
     app.middleware.use(Logging())
-    app.middleware.use(JOJAErrorMiddleware())
+//    app.middleware.use(JOJAErrorMiddleware())
     app.middleware.use(app.sessions.middleware)
     app.middleware.use(ErrorMiddleware.default(environment: app.environment))
     
@@ -71,11 +71,11 @@ public func configure(_ app: Application) throws {
 #else // Mac
     app.databases.use(DatabaseConfigurationFactory.postgres(configuration: .init(
         // 遠端連進 NAS
-//        hostname: "125.228.95.144",
-//        port: 12345,
+        hostname: "125.228.95.144",
+        port: 12345,
         // Local
-        hostname: Environment.get("DATABASE_HOST") ?? "localhost",
-        port: SQLPostgresConfiguration.ianaPortNumber,
+//        hostname: Environment.get("DATABASE_HOST") ?? "localhost",
+//        port: SQLPostgresConfiguration.ianaPortNumber,
         username: Environment.get("POSTGRES_USER") ?? "joja",
         password: Environment.get("POSTGRES_PASSWORD") ?? "joja_design",
         database: Environment.get("POSTGRES_DB") ?? "joja_postgres",

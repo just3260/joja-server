@@ -43,16 +43,17 @@ extension FieldKey {
     // MARK: - Product
     static let brand: FieldKey = "brand_type"
     static let goods: FieldKey = "goods_type"
-    static let material: FieldKey = "material_type"
-    static let color: FieldKey = "color_type"
-    static let design: FieldKey = "design_type"
+    static let material: FieldKey = "material"
+    static let color: FieldKey = "color"
+    static let design: FieldKey = "design"
     static let count: FieldKey = "count"
     static let tradeID: FieldKey = "trade_id"
     static let description: FieldKey = "description"
     
     // MARK: - Fabric
-    static let cottonType: FieldKey = "cotton_type"
-    static let age: FieldKey = "age_type"
+    static let component: FieldKey = "component"
+    static let cottonType: FieldKey = "cotton"
+    static let age: FieldKey = "age"
     static let sn: FieldKey = "serial_number"
     static let price: FieldKey = "price"
     static let buy: FieldKey = "buy"
@@ -62,6 +63,13 @@ extension FieldKey {
     static let tags: FieldKey = "tags"
     static let images: FieldKey = "images"
     static let log: FieldKey = "log"
+    
+    static let componentMaterial: FieldKey = "component_material"
+    static let componentCottonType: FieldKey = "component_cotton"
+    static let componentAge: FieldKey = "component_age"
+    static let componentDesign: FieldKey = "component_design"
+    static let componentColor: FieldKey = "component_color"
+    
     
     // MARK: - FabricTag
     static let fabricId: FieldKey = "fabric_id"

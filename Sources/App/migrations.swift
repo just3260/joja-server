@@ -30,24 +30,22 @@ func migrations(_ app: Application) throws {
     */
     
     
-    /*
     // seed
 #if os(Linux) // for NAS
     
 #else // Mac
     app.migrations.add([
-        User.Seed(),
+//        User.Seed(),
 //        Member.Seed_Test(),
-        Member.Seed_2021(),
-        Member.Seed_2022(),
-        Member.Seed_2023(),
+//        Member.Seed_2021(),
+//        Member.Seed_2022(),
+//        Member.Seed_2023(),
 //        Trade.Seed_Test(),
-        Trade.Seed_2021(),
-        Trade.Seed_2022(),
-        Trade.Seed_2023(),
+//        Trade.Seed_2021(),
+//        Trade.Seed_2022(),
+//        Trade.Seed_2023(),
     ])
 #endif
-     */
     
     
     
@@ -71,6 +69,8 @@ func migrations(_ app: Application) throws {
     
     
     app.migrations.add([
+//        Product.Create(),
+        
 //        Types.CreateMaterialType(),
 //        Types.CreateCottonMaterialType(),
 //        Types.CreateAgeType(),
@@ -78,11 +78,9 @@ func migrations(_ app: Application) throws {
 //        Types.CreateColorType(),
 //        Types.CreateLocationType(),
         
-        Fabric.Create(),
-        Tag.Create(),
-        FabricTag.Create(),
-        
-        Product.Create()
+//        Fabric.Create(),
+//        Tag.Create(),
+//        FabricTag.Create(),
     ])
     
     

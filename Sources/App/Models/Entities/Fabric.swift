@@ -13,20 +13,8 @@ final class Fabric: Model, Content, @unchecked Sendable {
     @OptionalField(key: Keys.name)
     var name: String?
     
-    @Enum(key: Keys.material)
-    var material: TypeAPIModel.Material
-    
-    @OptionalEnum(key: Keys.cottonType)
-    var cottonType: TypeAPIModel.CottonMaterial?
-    
-    @Enum(key: Keys.age)
-    var age: TypeAPIModel.Age
-    
-    @Enum(key: Keys.design)
-    var design: TypeAPIModel.Design
-    
-    @Enum(key: Keys.color)
-    var color: TypeAPIModel.Color
+    @Group(key: Keys.component)
+    var component: Component
     
     @Field(key: Keys.sn)
     var sn: String
@@ -69,14 +57,10 @@ final class Fabric: Model, Content, @unchecked Sendable {
     
     init() {}
     
-    init(id: UUID? = nil, name: String?, material: TypeAPIModel.Material, cottonType: TypeAPIModel.CottonMaterial?, age: TypeAPIModel.Age, design: TypeAPIModel.Design, color: TypeAPIModel.Color, sn: String, price: Int, buy: Int, stock: Int, location: TypeAPIModel.Location, description: String?, note: String?, images: [String], log: String?) {
+    init(id: UUID? = nil, name: String?, component: Component, sn: String, price: Int, buy: Int, stock: Int, location: TypeAPIModel.Location, description: String?, note: String?, images: [String], log: String?) {
         self.id = id
         self.name = name
-        self.material = material
-        self.cottonType = cottonType
-        self.age = age
-        self.design = design
-        self.color = color
+        self.component = component
         self.sn = sn
         self.price = price
         self.buy = buy
@@ -90,8 +74,31 @@ final class Fabric: Model, Content, @unchecked Sendable {
 }
 
 extension Fabric {
-    final class Component: Fields {
+    final class Component: Fields, @unchecked Sendable {
+        @Enum(key: Keys.material)
+        var material: TypeAPIModel.Material
         
+        @OptionalEnum(key: Keys.cottonType)
+        var cottonType: TypeAPIModel.CottonMaterial?
+        
+        @Enum(key: Keys.age)
+        var age: TypeAPIModel.Age
+        
+        @Enum(key: Keys.design)
+        var design: TypeAPIModel.Design
+        
+        @Enum(key: Keys.color)
+        var color: TypeAPIModel.Color
+        
+        init() {}
+        
+        init(material: TypeAPIModel.Material, cottonType: TypeAPIModel.CottonMaterial?, age: TypeAPIModel.Age, design: TypeAPIModel.Design, color: TypeAPIModel.Color) {
+            self.material = material
+            self.cottonType = cottonType
+            self.age = age
+            self.design = design
+            self.color = color
+        }
     }
     
     final class Store: Fields {
@@ -108,6 +115,7 @@ extension Fabric {
         static let schema = "fabrics"
         
         static let name: FieldKey = .name
+        static let component: FieldKey = .component
         static let material: FieldKey = .material
         static let cottonType: FieldKey = .cottonType
         static let age: FieldKey = .age
@@ -127,6 +135,10 @@ extension Fabric {
         static let updatedAt: FieldKey = .updatedAt
         static let log: FieldKey = .log
         
-        
+        static let componentMaterial: FieldKey = .componentMaterial
+        static let componentCottonType: FieldKey = .componentCottonType
+        static let componentAge: FieldKey = .componentAge
+        static let componentDesign: FieldKey = .componentDesign
+        static let componentColor: FieldKey = .componentColor
     }
 }

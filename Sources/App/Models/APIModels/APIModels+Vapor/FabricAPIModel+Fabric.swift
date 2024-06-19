@@ -8,11 +8,7 @@ extension Fabric {
         FabricAPIModel.Response(
             id: try self.requireID(),
             name: self.name,
-            material: self.material,
-            cottonMaterial: self.cottonType,
-            age: self.age,
-            design: self.design,
-            color: self.color,
+            component: try self.component.makeComponent(),
             sn: self.sn,
             price: self.price,
             buy: self.buy,
@@ -27,6 +23,18 @@ extension Fabric {
             log: self.log
         )
     }
+}
+
+extension Fabric.Component {
+    func makeComponent() throws -> FabricAPIModel.Component {
+        FabricAPIModel.Component(
+            material: material,
+            cottonMaterial: cottonType,
+            age: age,
+            design: design,
+            color: color
+        )
+    }
     
     func getSerialHeader() -> String {
         age.getSerial() + material.getSerial() + (cottonType == nil ? "0" : cottonType!.getSerial()) + design.getSerial() + color.getSerial()
@@ -38,11 +46,7 @@ extension FabricAPIModel: Content {
         FabricAPIModel.Response(
             id: id,
             name: name,
-            material: material,
-            cottonMaterial: cottonMaterial,
-            age: age,
-            design: design,
-            color: color,
+            component: component,
             sn: sn,
             price: price,
             buy: buy,
@@ -64,11 +68,7 @@ extension FabricAPIModel {
         try self.init(
             id: fabric.requireID(),
             name: fabric.name,
-            material: fabric.material,
-            cottonMaterial: fabric.cottonType,
-            age: fabric.age,
-            design: fabric.design,
-            color: fabric.color,
+            component: fabric.component.makeComponent(),
             sn: fabric.sn,
             price: fabric.price,
             buy: fabric.buy,
@@ -89,12 +89,8 @@ extension FabricAPIModel.Request {
     func createFabric() throws -> Fabric {
         Fabric(
             name: name,
-            material: material,
-            cottonType: cottonMaterial,
-            age: age,
-            design: design,
-            color: color,
-            sn: age.getSerial() + material.getSerial() + (cottonMaterial == nil ? "0" : cottonMaterial!.getSerial()) + design.getSerial() + color.getSerial(),
+            component: try component.createComponent(),
+            sn: component.getSerialHeader(),
             price: price,
             buy: buy,
             stock: stock,
@@ -104,6 +100,22 @@ extension FabricAPIModel.Request {
             images: [],
             log: "新添購\(buy)碼，放置在\(location.getName())"
         )
+    }
+}
+
+extension FabricAPIModel.Component: Content {
+    func createComponent() throws -> Fabric.Component {
+        Fabric.Component(
+            material: material,
+            cottonType: cottonMaterial,
+            age: age,
+            design: design,
+            color: color
+        )
+    }
+    
+    func getSerialHeader() -> String {
+        age.getSerial() + material.getSerial() + (cottonMaterial == nil ? "0" : cottonMaterial!.getSerial()) + design.getSerial() + color.getSerial()
     }
 }
 

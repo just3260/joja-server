@@ -8,6 +8,7 @@ protocol FabricRepository: Repository {
     func find(id: UUID) async throws -> Fabric?
     func findAll(in sn: String) async throws -> [Fabric]
     func addTag(in fabirc: Fabric, with tag: Tag) async throws
+    func updateImage(with images: [String], in fabricID: UUID) async throws
 }
 
 struct DatabaseFabricRepository: FabricRepository, DatabaseRepository {
@@ -36,6 +37,19 @@ struct DatabaseFabricRepository: FabricRepository, DatabaseRepository {
     
     func addTag(in fabirc: Fabric, with tag: Tag) async throws {
         try await fabirc.$tags.attach(tag, on: database)
+    }
+    
+    func updateImage(with images: [String], in fabricID: UUID) async throws {
+//        guard let fabric = try await Fabric.query(on: database)
+//            .filter(\.$id == fabricID)
+//            .first() else {
+//            throw JojaError.modelNotFound(type: "Fabric", id: fabricID.uuidString)
+//        }
+        
+        try await Fabric.query(on: database)
+            .set(\.$images, to: images)
+            .filter(\.$id == fabricID)
+            .update()
     }
 }
 

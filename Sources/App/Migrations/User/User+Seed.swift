@@ -12,6 +12,12 @@ extension User {
                 .init(username: "andrew", email: "andrew@ins.to", passwordHash: try Bcrypt.hash("a12345678")),
                 .init(username: "josie", email: "joja.design@hatmail.com", passwordHash: try Bcrypt.hash("Aa0909")),
                 .init(username: "jn", email: "jnhuang870910@gmail.com", passwordHash: try Bcrypt.hash("0935870936")),
+                .init(username: "mini", email: "kitu8200@gmail.com", passwordHash: try Bcrypt.hash("88888888")),
+                .init(username: "jacqueline", email: "jacqueline1225.jl@gmail.com", passwordHash: try Bcrypt.hash("88888888")),
+                .init(username: "shin", email: "sh03in08@gmail.com", passwordHash: try Bcrypt.hash("88888888")),
+                .init(username: "masako", email: "masako551177@gmail.com", passwordHash: try Bcrypt.hash("88888888")),
+                .init(username: "gung", email: "gung80503@gmail.com", passwordHash: try Bcrypt.hash("88888888")),
+                .init(username: "gackt", email: "Gackt0903@hotmail.com", passwordHash: try Bcrypt.hash("88888888")),
             ]
             
             try await withThrowingTaskGroup(of: Void.self, body: { taskGroup in

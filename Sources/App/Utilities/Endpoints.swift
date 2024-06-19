@@ -112,6 +112,10 @@ extension Endpoints {
         public static let getList = RouteDefinition(root: root, method: .POST, path: ["list"])
         /// 加上 tag
         public static let addTag = RouteDefinition(root: root, method: .POST, path: [":fabricID", "addTag"])
+        /// 上傳照片
+        public static let uploadImage = RouteDefinition(root: root, method: .POST, path: [":fabricID", "image"])
+        /// 刪除照片
+        public static let deleteImage = RouteDefinition(root: root, method: .DELETE, path: [":fabricID", "image", ":index"])
     }
     
     public struct Tags {

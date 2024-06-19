@@ -9,11 +9,13 @@ final class FabricController: RouteCollection {
         let fabricRoute = protectRoute.grouped(Endpoints.Fabrics.root.toPathComponents)
         
         fabricRoute.on(Endpoints.Fabrics.getSingle, use: getFabric)
-        fabricRoute.grouped([PermissionCheck(permission: .createFabric)]).on(Endpoints.Fabrics.create, use: createUpload)
+        fabricRoute.grouped([PermissionCheck(permission: .createFabric)]).on(Endpoints.Fabrics.create, use: create)
         fabricRoute.grouped([PermissionCheck(permission: .deleteFabric)]).on(Endpoints.Fabrics.delete, use: delete)
+        fabricRoute.grouped([PermissionCheck(permission: .deleteFabric)]).on(Endpoints.Fabrics.deleteImage, use: deleteImage)
 //        fabricRoute.on(Endpoints.Fabrics.getList, use: getFabricList)
         
         fabricRoute.grouped([PermissionCheck(permission: .createFabric)]).on(Endpoints.Fabrics.addTag, use: addTag)
+        fabricRoute.grouped([PermissionCheck(permission: .createFabric)]).on(Endpoints.Fabrics.uploadImage, use: uploadImage)
     }
     
     
@@ -28,24 +30,26 @@ final class FabricController: RouteCollection {
         return try fabric.makePublic()
     }
     
-    /*
     fileprivate func create(req: Request) async throws -> FabricAPIModel.Response {
         let model = try req.content.decode(FabricAPIModel.Request.self)
         let fabric = try model.createFabric()
+        let count = try await req.fabrics.findAll(in: fabric.component.getSerialHeader()).count
+        fabric.sn += "-" + String(format: "%03d", count + 1)
         
         try await req.fabrics.create(fabric)
         try await fabric.$tags.load(on: req.db)
         return try fabric.makePublic()
     }
-     */
     
+    /*
     fileprivate func createUpload(req: Request) async throws -> FabricAPIModel.Response {
         let uploadPath = req.application.directory.publicDirectory + "Uploads/Fabric/"
+//        let component = try req.content.decode(FabricAPIModel.Component.self)
         let model = try req.content.decode(FabricAPIModel.Request.self)
         let files = try req.content.decode(ImageFile.self)
         
         let fabric = try model.createFabric()
-        let count = try await req.fabrics.findAll(in: fabric.getSerialHeader()).count
+        let count = try await req.fabrics.findAll(in: fabric.component.getSerialHeader()).count
         fabric.sn += "-" + String(format: "%03d", count + 1)
         
         return try await withThrowingTaskGroup(of: String.self,
@@ -71,6 +75,7 @@ final class FabricController: RouteCollection {
             return try fabric.makePublic()
         })
     }
+     */
     
     fileprivate func delete(req: Request) async throws -> HTTPStatus {
         let fabricId = try req.requireUUID(parameterName: "fabricID")
@@ -136,5 +141,56 @@ final class FabricController: RouteCollection {
             try await fabric.$tags.load(on: req.db)
             return try fabric.makePublic()
         })
+    }
+    
+    fileprivate func uploadImage(req: Request) async throws -> String {
+        let fabricId = try req.requireUUID(parameterName: "fabricID")
+        guard let fabric = try await req.fabrics.find(id: fabricId) else {
+            throw JojaError.modelNotFound(type: "Fabric", id: fabricId.uuidString)
+        }
+        
+        let uploadPath = req.application.directory.publicDirectory + "Uploads/Fabric/"
+        let file = try req.content.decode(File.self)
+        let fileName = file.filename.isEmpty ? "\(fabric.sn)-\(fabric.images.count + 1).\(file.contentType?.subType ?? "jpg")" : file.filename
+        
+        try await req.fileio.writeFile(file.data, at: uploadPath + fileName)
+        
+        if file.filename.isEmpty {
+            var images = fabric.images
+            images.append(uploadPath + fileName)
+            try await req.fabrics.updateImage(with: images, in: fabricId)
+        }
+        return uploadPath + fileName
+    }
+    
+    fileprivate func deleteImage(req: Request) async throws -> HTTPStatus {
+        let fabricId = try req.requireUUID(parameterName: "fabricID")
+        guard let fabric = try await req.fabrics.find(id: fabricId) else {
+            throw JojaError.modelNotFound(type: "Fabric", id: fabricId.uuidString)
+        }
+        
+        guard let index = req.parameters.get("index") else {
+            throw JojaError.missingParameter(name: "index")
+        }
+        
+        let uploadPath = req.application.directory.publicDirectory + "Uploads/Fabric/"
+        let fileName = "\(fabric.sn)-\(index).jpg"
+        
+        let path = uploadPath + fileName
+        let manager = FileManager.default
+        
+        if manager.fileExists(atPath: path) {
+            if let url: URL = .init(string:"file://" + path) {
+                try manager.removeItem(at: url)
+            }
+            
+            var images = fabric.images
+            if images.contains(path) {
+                images.removeAll(where: {$0 == path})
+                try await req.fabrics.updateImage(with: images, in: fabricId)
+            }
+        }
+        
+        return .noContent
     }
 }
