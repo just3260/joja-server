@@ -22,17 +22,17 @@ final class Fabric: Model, Content, @unchecked Sendable {
     @Field(key: Keys.price)
     var price: Int
     
-    @Field(key: Keys.buy)
-    var buy: Int
+//    @Field(key: Keys.buy)
+//    var buy: Int
     
     @Field(key: Keys.stock)
     var stock: Int
     
-    @Enum(key: Keys.location)
-    var location: TypeAPIModel.Location
+//    @Enum(key: Keys.location)
+//    var location: TypeAPIModel.Location
     
-//    @Group(key: Keys.stores)
-//    var stores: Store
+    @Siblings(through: FabricStorage.self, from: \.$fabric, to: \.$storage)
+    public var storages: [Storage]
     
     @Siblings(through: FabricTag.self, from: \.$fabric, to: \.$tag)
     public var tags: [Tag]
@@ -57,15 +57,15 @@ final class Fabric: Model, Content, @unchecked Sendable {
     
     init() {}
     
-    init(id: UUID? = nil, name: String?, component: Component, sn: String, price: Int, buy: Int, stock: Int, location: TypeAPIModel.Location, description: String?, note: String?, images: [String], log: String?) {
+    init(id: UUID? = nil, name: String?, component: Component, sn: String, price: Int, /*buy: Int,*/ stock: Int, /*storage: TypeAPIModel.Location,*/ description: String?, note: String?, images: [String], log: String?) {
         self.id = id
         self.name = name
         self.component = component
         self.sn = sn
         self.price = price
-        self.buy = buy
+//        self.buy = buy
         self.stock = stock
-        self.location = location
+//        self.storage = storage
         self.description = description
         self.note = note
         self.images = images
@@ -100,14 +100,6 @@ extension Fabric {
             self.color = color
         }
     }
-    
-    final class Store: Fields {
-        @Field(key: Keys.count)
-        var count: Int
-        
-        @Enum(key: Keys.location)
-        var location: TypeAPIModel.Location
-    }
 }
 
 extension Fabric {
@@ -123,9 +115,9 @@ extension Fabric {
         static let color: FieldKey = .color
         static let sn: FieldKey = .sn
         static let price: FieldKey = .price
-        static let buy: FieldKey = .buy
+//        static let buy: FieldKey = .buy
         static let stock: FieldKey = .stock
-        static let stores: FieldKey = .stores
+//        static let storages: FieldKey = .storages
         static let count: FieldKey = .count
         static let location: FieldKey = .location
         static let description: FieldKey = .description

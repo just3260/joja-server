@@ -2,7 +2,7 @@
 import Fluent
 import Vapor
 
-final class FabricTag: Model, Content {
+final class FabricTag: Model, Content, @unchecked Sendable {
     
     static let schema = Keys.schema
 

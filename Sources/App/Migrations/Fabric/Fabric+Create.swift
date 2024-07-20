@@ -11,7 +11,7 @@ extension Fabric {
             let ageType = try await database.enum(TypeAPIModel.Age.getKey()).read()
             let designType = try await database.enum(TypeAPIModel.Design.getKey()).read()
             let colorType = try await database.enum(TypeAPIModel.Color.getKey()).read()
-            let locationType = try await database.enum(TypeAPIModel.Location.getKey()).read()
+//            let locationType = try await database.enum(TypeAPIModel.Location.getKey()).read()
             
             try await database
                 .schema(Fabric.schema)
@@ -24,9 +24,9 @@ extension Fabric {
                 .field(Fabric.Keys.componentColor, colorType, .required)
                 .field(Fabric.Keys.sn, .string, .required)
                 .field(Fabric.Keys.price, .int, .required)
-                .field(Fabric.Keys.buy, .int, .required)
+//                .field(Fabric.Keys.buy, .int, .required)
                 .field(Fabric.Keys.stock, .int, .required)
-                .field(Fabric.Keys.location, locationType, .required)
+//                .field(Fabric.Keys.location, locationType, .required)
                 .field(Fabric.Keys.description, .string)
                 .field(Fabric.Keys.note, .string)
                 .field(Fabric.Keys.images, .array(of: .string), .required)

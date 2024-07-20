@@ -20,7 +20,7 @@ extension Product {
     }
 }
 
-extension ProductAPIModel: Content {
+extension ProductAPIModel: Content, Connectable {
     func asPublic() throws -> ProductAPIModel.Response {
         ProductAPIModel.Response(id: id,
                                  brand: brand,
@@ -71,4 +71,4 @@ extension ProductAPIModel.Request {
     }
 }
 
-extension ProductAPIModel.Response: Content {}
+extension ProductAPIModel.Response: Content, Connectable {}

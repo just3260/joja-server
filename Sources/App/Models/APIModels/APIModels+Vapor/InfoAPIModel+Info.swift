@@ -9,4 +9,4 @@ import Vapor
 import JOJACore
 import Fluent
 
-extension InfoAPIModel: Content {}
+extension InfoAPIModel: Content, Connectable {}

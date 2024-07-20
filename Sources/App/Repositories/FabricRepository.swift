@@ -5,9 +5,11 @@ import Fluent
 protocol FabricRepository: Repository {
     func create(_ fabric: Fabric) async throws
     func delete(id: UUID) async throws
+    func page(with page: PageRequest) async throws -> Page<Fabric>
     func find(id: UUID) async throws -> Fabric?
     func findAll(in sn: String) async throws -> [Fabric]
     func addTag(in fabirc: Fabric, with tag: Tag) async throws
+    func store(fabirc: Fabric, in storage: Storage, with quantity: Int) async throws
     func updateImage(with images: [String], in fabricID: UUID) async throws
 }
 
@@ -24,6 +26,12 @@ struct DatabaseFabricRepository: FabricRepository, DatabaseRepository {
             .delete()
     }
     
+    func page(with page: PageRequest) async throws -> Page<Fabric> {
+        try await Fabric.query(on: database)
+//            .sort(\.$createdAt, .descending)
+            .page(withIndex: page.page, size: page.per)
+    }
+    
     func find(id: UUID) async throws -> Fabric? {
         try await Fabric.find(id, on: database)
     }
@@ -37,6 +45,13 @@ struct DatabaseFabricRepository: FabricRepository, DatabaseRepository {
     
     func addTag(in fabirc: Fabric, with tag: Tag) async throws {
         try await fabirc.$tags.attach(tag, on: database)
+    }
+    
+    func store(fabirc: Fabric, in storage: Storage, with quantity: Int) async throws {
+        try await fabirc.$storages.attach(storage, on: database) { pivot in
+            pivot.location = storage.location
+            pivot.stock = quantity
+        }
     }
     
     func updateImage(with images: [String], in fabricID: UUID) async throws {

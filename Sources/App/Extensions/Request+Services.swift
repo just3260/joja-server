@@ -11,4 +11,5 @@ extension Request {
     var products: ProductRepository { application.repositories.products.for(self) }
     var fabrics: FabricRepository { application.repositories.fabrics.for(self) }
     var tags: TagRepository { application.repositories.tags.for(self) }
+    var storages: StorageRepository { application.repositories.storages.for(self) }
 }

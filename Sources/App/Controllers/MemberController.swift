@@ -27,7 +27,7 @@ final class MemberController: RouteCollection {
     
     // MARK: - Private Function
     
-    fileprivate func create(req: Request) async throws -> MemberAPIModel.Response {
+    fileprivate func create(req: Request) async throws -> MemberAPIModel.Response.DTO {
         let model = try req.content.decode(MemberAPIModel.Request.self)
         let member = try model.createMember()
         
@@ -43,21 +43,21 @@ final class MemberController: RouteCollection {
             try await req.candidates.delete(id: candidateId)
         }
         
-        return try member.makeNewPublic()
+        return try member.makeNewPublic().toDTO()
     }
     
-    fileprivate func delete(req: Request) async throws -> HTTPStatus {
+    fileprivate func delete(req: Request) async throws -> Responser<Connector>.ResponseDTO {
         let memberId = try req.requireUUID(parameterName: "memberID")
         try await req.members.delete(id: memberId)
-        return .noContent
+        return Responser<Connector>.ResponseDTO(status: .success)
     }
     
-    fileprivate func getMemberTrades(req: Request) async throws -> [TradeAPIModel.Response] {
+    fileprivate func getMemberTrades(req: Request) async throws -> [TradeAPIModel.Response.DTO] {
         let memberId = try req.requireUUID(parameterName: "memberID")
         let trades = try await req.trades.findAll(by: memberId)
         
-        return try await withThrowingTaskGroup(of: TradeAPIModel.Response.self,
-                                               returning: [TradeAPIModel.Response].self,
+        return try await withThrowingTaskGroup(of: TradeAPIModel.Response.DTO.self,
+                                               returning: [TradeAPIModel.Response.DTO].self,
                                                body: { taskGroup in
             for trade in trades {
                 taskGroup.addTask {
@@ -65,34 +65,34 @@ final class MemberController: RouteCollection {
 //                        throw JojaError.modelNotFound(type: "Product", id: tradeId.uuidString)
 //                    }
 //                    return try trade.makePublic(with: try products.map({try $0.makePublic()}))
-                    return try trade.makePublic(with: [])
+                    return try trade.makePublic(with: []).toDTO()
                 }
             }
             
-            var tradeModels: [TradeAPIModel.Response] = []
+            var tradeModels: [TradeAPIModel.Response.DTO] = []
             for try await model in taskGroup {
                 tradeModels.append(model)
             }
             try await taskGroup.waitForAll()
-            return tradeModels.sorted(by: {$0.createdAt!.compare($1.createdAt!) == .orderedDescending})
+            return tradeModels.sorted(by: {$0.data!.createdAt!.compare($1.data!.createdAt!) == .orderedDescending})
         })
     }
     
-    fileprivate func getMember(req: Request) async throws -> MemberAPIModel.Response {
+    fileprivate func getMember(req: Request) async throws -> MemberAPIModel.Response.DTO {
         let memberId = try req.requireUUID(parameterName: "memberID")
         guard let member = try await req.members.find(id: memberId) else {
             throw JojaError.modelNotFound(type: "Member", id: memberId.uuidString)
         }
-        return try member.makeResponse()
+        return try member.makeResponse().toDTO()
     }
     
-    fileprivate func getAll(req: Request) async throws -> [MemberAPIModel.ListData] {
+    fileprivate func getAll(req: Request) async throws -> [MemberAPIModel.ListData.DTO] {
         try await req.members.all().map({ member in
-            try member.makeList()
+            try member.makeList().toDTO()
         })
     }
     
-    fileprivate func getPage(req: Request) async throws -> Page<MemberAPIModel.ListData> {
+    fileprivate func getPage(req: Request) async throws -> Page<MemberAPIModel.ListData>.DTO {
         let page = try req.query.decode(PageRequest.self)
         
         let pageData = try await req.members.page(with: page)
@@ -100,10 +100,10 @@ final class MemberController: RouteCollection {
         for item in pageData.items {
             items.append( try item.makeList())
         }
-        return Page(items: items, metadata: pageData.metadata)
+        return Page(items: items, metadata: pageData.metadata).toDTO()
     }
     
-    fileprivate func updateMember(req: Request) async throws -> MemberAPIModel.Response {
+    fileprivate func updateMember(req: Request) async throws -> MemberAPIModel.Response.DTO {
         let model = try req.content.decode(MemberAPIModel.Request.self)
         let newMember = try model.createMember()
         let memberId = try req.requireUUID(parameterName: "memberID")
@@ -114,11 +114,11 @@ final class MemberController: RouteCollection {
         guard let member = try await req.members.find(id: memberId) else {
             throw JojaError.modelNotFound(type: "Member", id: memberId.uuidString)
         }
-        return try member.makeResponse()
+        return try member.makeResponse().toDTO()
     }
     
-    fileprivate func search(req: Request) async throws -> Page<MemberAPIModel.ListData> {
-        let model = try req.query.decode(SearchAPIModel.self)
+    fileprivate func search(req: Request) async throws -> Page<MemberAPIModel.ListData>.DTO {
+        let model = try req.query.decode(SearchAPIModel<SearchType.Member>.self)
         let page = try req.query.decode(PageRequest.self)
         
         let pageData = try await req.members.search(with: page, and: model)
@@ -126,7 +126,7 @@ final class MemberController: RouteCollection {
         for item in pageData.items {
             items.append( try item.makeList())
         }
-        return Page(items: items, metadata: pageData.metadata)
+        return Page(items: items, metadata: pageData.metadata).toDTO()
     }
     
 }

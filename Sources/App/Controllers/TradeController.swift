@@ -18,7 +18,7 @@ final class TradeController: RouteCollection {
     
     // MARK: - Private Function
     
-    fileprivate func getTrade(req: Request) async throws -> TradeAPIModel.Response {
+    fileprivate func getTrade(req: Request) async throws -> TradeAPIModel.Response.DTO {
         let tradeId = try req.requireUUID(parameterName: "tradeID")
         guard let trade = try await req.trades.find(id: tradeId) else {
             throw JojaError.modelNotFound(type: "Trade", id: tradeId.uuidString)
@@ -31,10 +31,10 @@ final class TradeController: RouteCollection {
 //        return try trade.makePublic(with: try products.map({try $0.makePublic()}))
         
         try await trade.$products.load(on: req.db)
-        return try trade.makePublic(with: [])
+        return try trade.makePublic(with: []).toDTO()
     }
     
-    fileprivate func create(req: Request) async throws -> TradeAPIModel.Response {
+    fileprivate func create(req: Request) async throws -> TradeAPIModel.Response.DTO {
         let tradeModel = try req.content.decode(TradeAPIModel.Request.self)
         // totol amount from products
         let totalAmount = tradeModel.products.map({$0.amount}).reduce(0, +)
@@ -59,10 +59,10 @@ final class TradeController: RouteCollection {
         // add amount to member
         try await req.members.gainAmount(with: totalAmount, in: tradeModel.buyerID)
         
-        return try trade.makePublic(with: products.map({try $0.makePublic()}))
+        return try trade.makePublic(with: products.map({try $0.makePublic()})).toDTO()
     }
     
-    fileprivate func delete(req: Request) async throws -> HTTPStatus {
+    fileprivate func delete(req: Request) async throws -> Responser<Connector>.ResponseDTO {
         let tradeId = try req.requireUUID(parameterName: "tradeID")
         
         guard let trade = try await req.trades.find(id: tradeId) else {
@@ -70,14 +70,14 @@ final class TradeController: RouteCollection {
         }
         try await req.trades.delete(id: tradeId)
         try await req.members.reduceAmount(with: trade.amount, in: trade.$buyer.id)
-        return .noContent
+        return Responser<Connector>.ResponseDTO(status: .success)
     }
     
-    fileprivate func getTradeList(req: Request) async throws -> [TradeAPIModel.Response] {
+    fileprivate func getTradeList(req: Request) async throws -> [TradeAPIModel.Response.DTO] {
         let tradeIDs = try req.content.decode([UUID].self)
         
-        return try await withThrowingTaskGroup(of: TradeAPIModel.Response.self,
-                                               returning: [TradeAPIModel.Response].self,
+        return try await withThrowingTaskGroup(of: TradeAPIModel.Response.DTO.self,
+                                               returning: [TradeAPIModel.Response.DTO].self,
                                                body: { taskGroup in
             for tradeID in tradeIDs {
                 taskGroup.addTask {
@@ -87,16 +87,16 @@ final class TradeController: RouteCollection {
                     guard let products = try await req.products.findTrade(with: tradeID) else {
                         throw JojaError.modelNotFound(type: "Product", id: tradeID.uuidString)
                     }
-                    return try trade.makePublic(with: try products.map({try $0.makePublic()}))
+                    return try trade.makePublic(with: try products.map({try $0.makePublic()})).toDTO()
                 }
             }
             
-            var tradeModels: [TradeAPIModel.Response] = []
+            var tradeModels: [TradeAPIModel.Response.DTO] = []
             for try await model in taskGroup {
                 tradeModels.append(model)
             }
             try await taskGroup.waitForAll()
-            return tradeModels.sorted(by: {$0.createdAt!.compare($1.createdAt!) == .orderedDescending})
+            return tradeModels.sorted(by: {$0.data!.createdAt!.compare($1.data!.createdAt!) == .orderedDescending})
         })
     }
     

@@ -16,8 +16,10 @@ extension User {
                 .init(username: "jacqueline", email: "jacqueline1225.jl@gmail.com", passwordHash: try Bcrypt.hash("88888888")),
                 .init(username: "shin", email: "sh03in08@gmail.com", passwordHash: try Bcrypt.hash("88888888")),
                 .init(username: "masako", email: "masako551177@gmail.com", passwordHash: try Bcrypt.hash("88888888")),
-                .init(username: "gung", email: "gung80503@gmail.com", passwordHash: try Bcrypt.hash("88888888")),
-                .init(username: "gackt", email: "Gackt0903@hotmail.com", passwordHash: try Bcrypt.hash("88888888")),
+                .init(username: "howfun", email: "gung80503@gmail.com", passwordHash: try Bcrypt.hash("88888888")),
+                .init(username: "yuu", email: "Gackt0903@hotmail.com", passwordHash: try Bcrypt.hash("88888888")),
+                .init(username: "jorie", email: "jk632122@gmail.com", passwordHash: try Bcrypt.hash("88888888")),
+                .init(username: "yayun", email: "show871006@gmail.com", passwordHash: try Bcrypt.hash("88888888")),
             ]
             
             try await withThrowingTaskGroup(of: Void.self, body: { taskGroup in

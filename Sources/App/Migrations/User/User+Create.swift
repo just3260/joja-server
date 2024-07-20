@@ -23,4 +23,19 @@ extension User {
                 .delete()
         }
     }
+    
+    struct Middleware: AsyncModelMiddleware {
+        func create(model: User, on db: Database, next: AnyAsyncModelResponder) async throws {
+            // The model can be altered here before it is created.
+            model.username = model.username.lowercased()
+            try await next.create(model, on: db)
+            // Once the User has been created, the code
+            // here will be executed.
+            print ("User \(model.username) was created")
+        }
+        
+//        func update(model: User, on db: any Database, next: any AnyAsyncModelResponder) async throws {
+//            try await next.update(model, on: db)
+//        }
+    }
 }

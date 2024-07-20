@@ -51,7 +51,7 @@ extension Member {
     }
 }
 
-extension MemberAPIModel: Content {
+extension MemberAPIModel: Content, Connectable {
     func asPublic() throws -> MemberAPIModel.Response {
         MemberAPIModel.Response(
             id: id,
@@ -109,5 +109,5 @@ extension MemberAPIModel.Request {
     }
 }
 
-extension MemberAPIModel.Response: Content {}
-extension MemberAPIModel.ListData: Content {}
+extension MemberAPIModel.Response: Content, Connectable {}
+extension MemberAPIModel.ListData: Content, Connectable {}

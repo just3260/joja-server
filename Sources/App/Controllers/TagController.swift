@@ -16,33 +16,33 @@ final class TagController: RouteCollection {
     
     // MARK: - Private Function
     
-    fileprivate func getTag(req: Request) async throws -> TagAPIModel.Response {
+    fileprivate func getTag(req: Request) async throws -> TagAPIModel.Response.DTO {
         let tagId = try req.requireUUID(parameterName: "tagID")
         guard let tag = try await req.tags.find(id: tagId) else {
             throw JojaError.modelNotFound(type: "Tag", id: tagId.uuidString)
         }
-        return try tag.makePublic()
+        return try tag.makePublic().toDTO()
     }
     
-    fileprivate func getTagList(req: Request) async throws -> [TagAPIModel.Response] {
-        return try await req.tags.findAll().map({try $0.makePublic()})
+    fileprivate func getTagList(req: Request) async throws -> [TagAPIModel.Response.DTO] {
+        return try await req.tags.findAll().map({try $0.makePublic().toDTO()})
     }
     
-    fileprivate func create(req: Request) async throws -> TagAPIModel.Response {
+    fileprivate func create(req: Request) async throws -> TagAPIModel.Response.DTO {
         let model = try req.content.decode(TagAPIModel.Request.self)
         let tag = try model.createTag()
         
         try await req.tags.create(tag)
-        return try tag.makePublic()
+        return try tag.makePublic().toDTO()
     }
     
-    fileprivate func delete(req: Request) async throws -> HTTPStatus {
+    fileprivate func delete(req: Request) async throws -> Responser<Connector>.ResponseDTO {
         let tagId = try req.requireUUID(parameterName: "tagID")
         
         guard let tag = try await req.tags.find(id: tagId) else {
             throw JojaError.modelNotFound(type: "Tag", id: tagId.uuidString)
         }
         try await req.tags.delete(id: tagId)
-        return .noContent
+        return Responser<Connector>.ResponseDTO(status: .success)
     }
 }

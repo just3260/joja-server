@@ -8,4 +8,4 @@
 import Vapor
 import JOJACore
 
-extension SessionAPIModel: Content {}
+extension SessionAPIModel: Content, Connectable {}

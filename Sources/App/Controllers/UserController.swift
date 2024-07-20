@@ -27,7 +27,7 @@ struct UserController: RouteCollection {
         adminProtected.delete(":userID", use: deleteUser)
     }
     
-    fileprivate func register(req: Request) async throws -> SessionAPIModel {
+    fileprivate func register(req: Request) async throws -> SessionAPIModel.DTO {
         try SignupAPIModel.validate(content: req)
         let userSignup = try req.content.decode(SignupAPIModel.self)
         
@@ -45,18 +45,18 @@ struct UserController: RouteCollection {
         }
         token = newToken
         try await req.tokens.save(token)
-        return SessionAPIModel(token: token.value, user: try UserAPIModel(user: user).asPublic())
+        return SessionAPIModel(token: token.value, user: try UserAPIModel(user: user).asPublic()).toDTO()
     }
     
-    fileprivate func login(req: Request) async throws -> SessionAPIModel {
+    fileprivate func login(req: Request) async throws -> SessionAPIModel.DTO {
         let user = try req.auth.require(User.self)
         let token = try UserAPIModel(user: user).createToken(source: .login)
         
         try await req.tokens.save(token)
-        return SessionAPIModel(token: token.value, user: try UserAPIModel(user: user).asPublic())
+        return SessionAPIModel(token: token.value, user: try UserAPIModel(user: user).asPublic()).toDTO()
     }
     
-    func logout(_ req: Request) async throws -> HTTPStatus {
+    fileprivate func logout(_ req: Request) async throws -> Responser<Connector>.ResponseDTO {
         guard let user = req.auth.get(User.self), let bearer = req.headers["Authorization"].first else {
             throw Abort(.unauthorized)
         }
@@ -66,20 +66,20 @@ struct UserController: RouteCollection {
         let token = bearer.replacingOccurrences(of: "Bearer ", with: "")
         try await req.tokens.delete(token)
         req.auth.logout(User.self)
-        return .ok
+        return Responser<Connector>.ResponseDTO(status: .success)
     }
     
-    func deleteUser(_ req: Request) async throws -> HTTPStatus {
+    fileprivate func deleteUser(_ req: Request) async throws -> Responser<Connector>.ResponseDTO {
       guard let user: User = try await User.find(req.parameters.get("userID"), on: req.db) else {
         throw Abort(.notFound)
       }
       try await user.delete(on: req.db)
-      return .ok
+        return Responser<Connector>.ResponseDTO(status: .success)
     }
     
-    func getMyOwnUser(req: Request) throws -> UserAPIModel.Public {
+    fileprivate func getMyOwnUser(req: Request) async throws -> UserAPIModel.Public.DTO {
         let user = try req.auth.require(User.self)
-        return try UserAPIModel(user: user).asPublic()
+        return try UserAPIModel(user: user).asPublic().toDTO()
     }
     
     private func checkIfUserExists(_ email: String, req: Request) async throws -> Bool {

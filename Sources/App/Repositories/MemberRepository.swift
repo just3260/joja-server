@@ -15,7 +15,7 @@ protocol MemberRepository: Repository {
     func gainAmount(with: Int, in memberID: UUID) async throws
     func reduceAmount(with: Int, in memberID: UUID) async throws
     func update(_ member: Member, in memberID: UUID) async throws
-    func search(with page: PageRequest, and model: SearchAPIModel) async throws -> Page<Member>
+    func search(with page: PageRequest, and model: SearchAPIModel<SearchType.Member>) async throws -> Page<Member>
 }
 
 struct DatabaseMemberRepository: MemberRepository, DatabaseRepository {
@@ -124,8 +124,8 @@ struct DatabaseMemberRepository: MemberRepository, DatabaseRepository {
          */
     }
     
-    func search(with page: PageRequest, and model: SearchAPIModel) async throws -> Page<Member> {
-        let type = model.type.first ?? .phone
+    func search(with page: PageRequest, and model: SearchAPIModel<SearchType.Member>) async throws -> Page<Member> {
+        let type = model.type.first
         
         switch type {
         case .name:

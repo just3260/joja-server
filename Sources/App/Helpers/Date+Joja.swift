@@ -7,6 +7,22 @@
 
 import Foundation
 
+extension JSONEncoder {
+    static let joja : JSONEncoder = {
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601joja
+        return encoder
+    }()
+}
+
+extension JSONDecoder {
+    static let joja : JSONDecoder = {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601joja
+        return decoder
+    }()
+}
+
 extension ISO8601DateFormatter {
     convenience init(_ formatOptions: Options, timeZone: TimeZone? = TimeZone(identifier: "Asia/Taipei")) {
         self.init()

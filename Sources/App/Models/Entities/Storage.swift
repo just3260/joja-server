@@ -1,8 +1,9 @@
 
 import Fluent
 import Vapor
+import JOJACore
 
-final class Tag: Model, Content, @unchecked Sendable {
+final class Storage: Model, Content, @unchecked Sendable {
     
     static let schema = Keys.schema
     
@@ -12,32 +13,34 @@ final class Tag: Model, Content, @unchecked Sendable {
     @Field(key: Keys.name)
     var name: String
     
+    @Enum(key: Keys.location)
+    var location: TypeAPIModel.Location
+    
+    @Siblings(through: FabricStorage.self, from: \.$storage, to: \.$fabric)
+    public var fabric: [Fabric]
+    
     @OptionalField(key: Keys.description)
     var description: String?
-    
-    @Siblings(through: FabricTag.self, from: \.$tag, to: \.$fabric)
-    public var fabrics: [Fabric]
     
     @Timestamp(key: Keys.createdAt, on: .create)
     var createdAt: Date?
     
-    @Timestamp(key: Keys.updatedAt, on: .update)
-    var updatedAt: Date?
-    
     init() {}
     
-    init(id: UUID? = nil, name: String, description: String?) {
+    init(id: UUID? = nil, name: String, location: TypeAPIModel.Location, description: String?) {
         self.id = id
         self.name = name
+        self.location = location
         self.description = description
     }
 }
 
-extension Tag {
+extension Storage {
     enum Keys {
-        static let schema = "tags"
+        static let schema = "storages"
         
         static let name: FieldKey = .name
+        static let location: FieldKey = .location
         static let description: FieldKey = .description
         static let createdAt: FieldKey = .createdAt
         static let updatedAt: FieldKey = .updatedAt

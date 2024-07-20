@@ -19,35 +19,35 @@ final class CandidateController: RouteCollection {
     
     // MARK: - Private Function
     
-    fileprivate func create(req: Request) async throws -> CandidateAPIModel.Response {
+    fileprivate func create(req: Request) async throws -> CandidateAPIModel.Response.DTO {
         let model = try req.content.decode(CandidateAPIModel.Request.self)
         let candidate = try model.createCandidate()
         try await req.candidates.create(candidate)
-        return try candidate.makeNewPublic()
+        return try candidate.makeNewPublic().toDTO()
 //        return try MemberAPIModel(member: member).asPublic()
     }
     
-    fileprivate func delete(req: Request) async throws -> HTTPStatus {
+    fileprivate func delete(req: Request) async throws -> Responser<Connector>.ResponseDTO {
         let candidateId = try req.requireUUID(parameterName: "candidateID")
         try await req.candidates.delete(id: candidateId)
-        return .noContent
+        return Responser<Connector>.ResponseDTO(status: .success)
     }
     
-    fileprivate func getCandidate(req: Request) async throws -> CandidateAPIModel.Response {
+    fileprivate func getCandidate(req: Request) async throws -> CandidateAPIModel.Response.DTO {
         let candidateId = try req.requireUUID(parameterName: "candidateID")
         guard let candidate = try await req.candidates.find(id: candidateId) else {
             throw JojaError.modelNotFound(type: "Candidates", id: candidateId.uuidString)
         }
-        return try candidate.makeResponse()
+        return try candidate.makeResponse().toDTO()
     }
     
-    fileprivate func getPage(req: Request) async throws -> Page<CandidateAPIModel.ListData> {
+    fileprivate func getPage(req: Request) async throws -> Page<CandidateAPIModel.ListData>.DTO {
         let pageData = try await req.candidates.page(with: req)
         var items: [CandidateAPIModel.ListData] = []
         for item in pageData.items {
             items.append( try item.makeList())
         }
-        return Page(items: items, metadata: pageData.metadata)
+        return Page(items: items, metadata: pageData.metadata).toDTO()
     }
     
     /** 直接取得所有列表

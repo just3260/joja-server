@@ -11,10 +11,15 @@ import JOJACore
 
 final class SystemController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
-        let protected = routes.grouped(APIKeyCheck())
-        protected.get("sys", "info") { req in
-            // TODO: - 上版本前更新版號
-            return InfoAPIModel(version: "1.0.3")
-        }
+        let protectRoute = routes.grouped(APIKeyCheck())
+        let systemRoute = protectRoute.grouped(Endpoints.System.root.toPathComponents)
+        
+//        systemRoute.post(["sys", "info"], use: info)
+        systemRoute.on(Endpoints.System.info, use: info)
+    }
+    
+    fileprivate func info(req: Request) async throws -> InfoAPIModel.DTO {
+        // TODO: - 上版本前更新版號
+        return InfoAPIModel(version: "1.0.3").toDTO()
     }
 }

@@ -310,7 +310,7 @@ final class Types: Content {
         func prepare(on database: Database) async throws {
             _ = try await database.enum(TypeAPIModel.Location.getKey())
                 .case(TypeAPIModel.Location.chifeng.rawValue)
-                .case(TypeAPIModel.Location.chifengStore.rawValue)
+                .case(TypeAPIModel.Location.chifengStorage.rawValue)
                 .case(TypeAPIModel.Location.taipeiHome.rawValue)
                 .case(TypeAPIModel.Location.tainan.rawValue)
                 .case(TypeAPIModel.Location.daxi.rawValue)

@@ -28,6 +28,7 @@ extension Application {
                     $0.repositories.use { DatabaseProductRepository(database: $0.db) }
                     $0.repositories.use { DatabaseFabricRepository(database: $0.db) }
                     $0.repositories.use { DatabaseTagRepository(database: $0.db) }
+                    $0.repositories.use { DatabaseStorageRepository(database: $0.db) }
                 }
             }
             
@@ -43,6 +44,7 @@ extension Application {
             var makeProductRepository: ((Application) -> ProductRepository)?
             var makeFabricRepository: ((Application) -> FabricRepository)?
             var makeTagRepository: ((Application) -> TagRepository)?
+            var makeStorageRepository: ((Application) -> StorageRepository)?
             init() { }
         }
         

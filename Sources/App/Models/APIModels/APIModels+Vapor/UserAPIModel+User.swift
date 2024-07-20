@@ -9,7 +9,7 @@ import Vapor
 import JOJACore
 import Fluent
 
-extension UserAPIModel: Content {
+extension UserAPIModel: Content, Connectable {
     func asPublic() throws -> UserAPIModel.Public {
         UserAPIModel.Public(id: id,
                             username: username,
@@ -50,4 +50,4 @@ extension UserAPIModel.Create {
     }
 }
 
-extension UserAPIModel.Public: Content {}
+extension UserAPIModel.Public: Connectable {}

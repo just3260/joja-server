@@ -9,6 +9,7 @@ final class FabricController: RouteCollection {
         let fabricRoute = protectRoute.grouped(Endpoints.Fabrics.root.toPathComponents)
         
         fabricRoute.on(Endpoints.Fabrics.getSingle, use: getFabric)
+        fabricRoute.on(Endpoints.Fabrics.getAll, use: getPage)
         fabricRoute.grouped([PermissionCheck(permission: .createFabric)]).on(Endpoints.Fabrics.create, use: create)
         fabricRoute.grouped([PermissionCheck(permission: .deleteFabric)]).on(Endpoints.Fabrics.delete, use: delete)
         fabricRoute.grouped([PermissionCheck(permission: .deleteFabric)]).on(Endpoints.Fabrics.deleteImage, use: deleteImage)
@@ -21,24 +22,47 @@ final class FabricController: RouteCollection {
     
     // MARK: - Private Function
     
-    fileprivate func getFabric(req: Request) async throws -> FabricAPIModel.Response {
+    fileprivate func getPage(req: Request) async throws -> Page<FabricAPIModel.ListData>.DTO {
+        let page = try req.query.decode(PageRequest.self)
+        
+        let pageData = try await req.fabrics.page(with: page)
+        var items: [FabricAPIModel.ListData] = []
+        for item in pageData.items {
+            items.append( try item.makeList())
+        }
+        return Page(items: items, metadata: pageData.metadata).toDTO()
+    }
+    
+    fileprivate func getFabric(req: Request) async throws -> FabricAPIModel.Response.DTO {
         let fabricId = try req.requireUUID(parameterName: "fabricID")
         guard let fabric = try await req.fabrics.find(id: fabricId) else {
             throw JojaError.modelNotFound(type: "Fabric", id: fabricId.uuidString)
         }
+        
         try await fabric.$tags.load(on: req.db)
-        return try fabric.makePublic()
+        try await fabric.$storages.load(on: req.db)
+        try await fabric.$storages.$pivots.load(on: req.db)
+        
+        return try fabric.makePublic().toDTO()
     }
     
-    fileprivate func create(req: Request) async throws -> FabricAPIModel.Response {
+    fileprivate func create(req: Request) async throws -> FabricAPIModel.Response.DTO {
         let model = try req.content.decode(FabricAPIModel.Request.self)
         let fabric = try model.createFabric()
         let count = try await req.fabrics.findAll(in: fabric.component.getSerialHeader()).count
         fabric.sn += "-" + String(format: "%03d", count + 1)
         
         try await req.fabrics.create(fabric)
+        
+        if let storage = try await req.storages.findStorage(name: model.location.getName()) {
+            try await req.fabrics.store(fabirc: fabric, in: storage, with: model.buy)
+        }
+        
         try await fabric.$tags.load(on: req.db)
-        return try fabric.makePublic()
+        try await fabric.$storages.load(on: req.db)
+        try await fabric.$storages.$pivots.load(on: req.db)
+        
+        return try fabric.makePublic().toDTO()
     }
     
     /*
@@ -77,7 +101,7 @@ final class FabricController: RouteCollection {
     }
      */
     
-    fileprivate func delete(req: Request) async throws -> HTTPStatus {
+    fileprivate func delete(req: Request) async throws -> Responser<Connector>.ResponseDTO {
         let fabricId = try req.requireUUID(parameterName: "fabricID")
         
         guard let fabric = try await req.fabrics.find(id: fabricId) else {
@@ -101,10 +125,10 @@ final class FabricController: RouteCollection {
         }
         
         try await req.fabrics.delete(id: fabricId)
-        return .noContent
+        return Responser<Connector>.ResponseDTO(status: .success)
     }
     
-    fileprivate func addTag(req: Request) async throws -> FabricAPIModel.Response {
+    fileprivate func addTag(req: Request) async throws -> FabricAPIModel.Response.DTO {
         let fabricId = try req.requireUUID(parameterName: "fabricID")
         let model = try req.content.decode(FabricAPIModel.TagRequest.self)
         
@@ -117,7 +141,7 @@ final class FabricController: RouteCollection {
         let pendingTagNames = model.tags.filter({!currentTagNames.contains($0)})
         
         return try await withThrowingTaskGroup(of: Tag.self,
-                                               returning: FabricAPIModel.Response.self,
+                                               returning: FabricAPIModel.Response.DTO.self,
                                                body: { taskGroup in
             for tagName in pendingTagNames {
                 taskGroup.addTask {
@@ -139,7 +163,10 @@ final class FabricController: RouteCollection {
             }
             
             try await fabric.$tags.load(on: req.db)
-            return try fabric.makePublic()
+            try await fabric.$storages.load(on: req.db)
+            try await fabric.$storages.$pivots.load(on: req.db)
+            
+            return try fabric.makePublic().toDTO()
         })
     }
     
@@ -163,7 +190,7 @@ final class FabricController: RouteCollection {
         return uploadPath + fileName
     }
     
-    fileprivate func deleteImage(req: Request) async throws -> HTTPStatus {
+    fileprivate func deleteImage(req: Request) async throws -> Responser<Connector>.ResponseDTO {
         let fabricId = try req.requireUUID(parameterName: "fabricID")
         guard let fabric = try await req.fabrics.find(id: fabricId) else {
             throw JojaError.modelNotFound(type: "Fabric", id: fabricId.uuidString)
@@ -191,6 +218,6 @@ final class FabricController: RouteCollection {
             }
         }
         
-        return .noContent
+        return Responser<Connector>.ResponseDTO(status: .success)
     }
 }

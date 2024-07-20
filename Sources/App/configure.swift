@@ -17,14 +17,23 @@ public func configure(_ app: Application) throws {
     
     
     // MARK: - Middleware
+    
+    app.middleware = .init()
+    ConnectableKit.configureCORS(app)
+    
+    app.middleware.use(RouteLoggingMiddleware(logLevel: .debug))
+    
+    ConnectableKit.configureErrorMiddleware(app)
+//    app.middleware.use(ErrorMiddleware.default(environment: app.environment))
+//    app.middleware.use(JOJAErrorMiddleware())
+    
+    
     // uncomment to serve files from /Public folder
     app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
 //    app.middleware.use(FileMiddleware(publicDirectory: app.directory.workingDirectory))
     
     app.middleware.use(Logging())
-//    app.middleware.use(JOJAErrorMiddleware())
     app.middleware.use(app.sessions.middleware)
-    app.middleware.use(ErrorMiddleware.default(environment: app.environment))
     
     
     // MARK: - Leaf
@@ -46,14 +55,11 @@ public func configure(_ app: Application) throws {
         tls: .disable
     )
     
-    let encoder = JSONEncoder()
-    encoder.dateEncodingStrategy = .iso8601joja
-    
     app.databases.use(.postgres(
         configuration: configuration,
         maxConnectionsPerEventLoop: 1,
         connectionPoolTimeout: .seconds(10),
-        encodingContext: .init(jsonEncoder: encoder),
+        encodingContext: .init(jsonEncoder: encoder.joja),
         sqlLogLevel: .debug
     ), as: .psql)
      */
@@ -71,11 +77,11 @@ public func configure(_ app: Application) throws {
 #else // Mac
     app.databases.use(DatabaseConfigurationFactory.postgres(configuration: .init(
         // 遠端連進 NAS
-        hostname: "125.228.95.144",
-        port: 12345,
+//        hostname: "125.228.95.144",
+//        port: 12345,
         // Local
-//        hostname: Environment.get("DATABASE_HOST") ?? "localhost",
-//        port: SQLPostgresConfiguration.ianaPortNumber,
+        hostname: Environment.get("DATABASE_HOST") ?? "localhost",
+        port: SQLPostgresConfiguration.ianaPortNumber,
         username: Environment.get("POSTGRES_USER") ?? "joja",
         password: Environment.get("POSTGRES_PASSWORD") ?? "joja_design",
         database: Environment.get("POSTGRES_DB") ?? "joja_postgres",
@@ -95,23 +101,23 @@ public func configure(_ app: Application) throws {
 //    try app.autoRevert().wait()
     
     app.logger.log(level: .info, "migration complete")
+    
+    // Adding database middleware
+    app.logger.notice("Adding database middleware")
+    app.databases.middleware.use(User.Middleware(), on: .psql)
 }
 
 
 // MARK: - file private
 
-fileprivate func setTimeConfigure() {
+public func setTimeConfigure() {
     // create a new JSON encoder that uses unix-timestamp dates
     let formatter = ISO8601DateFormatter()
     formatter.formatOptions = [.withFullDate, .withFullTime]
     
     // Decoder
-    let decoder = JSONDecoder()
-    decoder.dateDecodingStrategy = .iso8601joja
-    ContentConfiguration.global.use(decoder: decoder, for: .json)
+    ContentConfiguration.global.use(decoder: JSONDecoder.joja, for: .json)
     
     // Encoder
-    let encoder = JSONEncoder()
-    encoder.dateEncodingStrategy = .iso8601joja
-    ContentConfiguration.global.use(encoder: encoder, for: .json)
+    ContentConfiguration.global.use(encoder: JSONEncoder.joja, for: .json)
 }

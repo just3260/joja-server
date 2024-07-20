@@ -10,10 +10,10 @@ extension Member {
                 
                 .init(name: "momo", phone: "852-97362021", birthday: nil, from: .taipei, address: "", email: "mmmowani@gmail.com", note: "", createdAt: Date.init(timeIntervalSince1970: 1700849460), updatedAt: Date()),
                 .init(name: "鄭韋娸", phone: "0918-807-702", birthday: nil, from: .taipei, address: "台北市士林區福港街280巷1號2樓", email: "vivian84453@gmail.com", note: "", createdAt: Date.init(timeIntervalSince1970: 1700849460), updatedAt: Date()),
-                .init(name: "陳盈融", phone: "0900000005", birthday: nil, from: .taipei, address: "大安區", email: "0900000005@fake.com", note: "", createdAt: Date.init(timeIntervalSince1970: 1700849460), updatedAt: Date()),
                 .init(name: "黃秋圓", phone: "0900000002", birthday: nil, from: .taipei, address: "", email: "392887757@qq.com", note: "很愛帽子的大陸姐姐", createdAt: Date.init(timeIntervalSince1970: 1700849460), updatedAt: Date()),
                 .init(name: "胡雅惠", phone: "0900000003", birthday: nil, from: .market, address: "", email: "0900000003@fake.com", note: "", createdAt: Date.init(timeIntervalSince1970: 1700849460), updatedAt: Date()),
                 .init(name: "邱鈺雯", phone: "0900000004", birthday: nil, from: .taipei, address: "永和區", email: "rita48672@gmail.com", note: "", createdAt: Date.init(timeIntervalSince1970: 1700849460), updatedAt: Date()),
+                .init(name: "陳盈融", phone: "0900000005", birthday: nil, from: .taipei, address: "大安區", email: "0900000005@fake.com", note: "", createdAt: Date.init(timeIntervalSince1970: 1700849460), updatedAt: Date()),
                 .init(name: "Valerie Chu", phone: "0900227571", birthday: nil, from: .taipei, address: "", email: "lemonpeelstickor@gmail.com", note: "", createdAt: Date.init(timeIntervalSince1970: 1700849460), updatedAt: Date()),
                 .init(name: "吳毓軒", phone: "0900296080", birthday: nil, from: .taipei, address: "新北市板橋區民生路二段6弄14號5樓", email: "0900296080@fake.com", note: "平面設計", createdAt: Date.init(timeIntervalSince1970: 1700849460), updatedAt: Date()),
                 .init(name: "陳盈蒨", phone: "0900782799", birthday: Date.init(timeIntervalSince1970: 891446400), from: .taipei, address: "", email: "stella9824@gmail.com", note: "", createdAt: Date.init(timeIntervalSince1970: 1700849460), updatedAt: Date()),

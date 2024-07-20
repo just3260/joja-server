@@ -38,6 +38,13 @@ extension RoutesBuilder {
 // MARK: - Custom Endpoints
 
 extension Endpoints {
+    public struct System {
+        public static let root = ["sys"]
+        
+        /// 建立新會員
+        public static let info = RouteDefinition(root: root, method: .GET, path: ["info"])
+    }
+    
     public struct Members {
         public static let root = ["members"]
         
@@ -106,6 +113,8 @@ extension Endpoints {
         public static let create = RouteDefinition(root: root, method: .POST, path: [])
         /// 取得布料資料
         public static let getSingle = RouteDefinition(root: root, method: .GET, path: [":fabricID"])
+        /// 取得所有布料資料（簡易資料型態）
+        public static let getAll = RouteDefinition(root: root, method: .GET, path: [])
         /// 刪除布料
         public static let delete = RouteDefinition(root: root, method: .DELETE, path: getSingle.path)
         /// 取得布料列表
@@ -128,6 +137,19 @@ extension Endpoints {
         /// 刪除 tag
         public static let delete = RouteDefinition(root: root, method: .DELETE, path: getSingle.path)
         /// 取得 tag 列表
+        public static let getList = RouteDefinition(root: root, method: .GET, path: ["list"])
+    }
+    
+    public struct Storages {
+        public static let root = ["storages"]
+        
+        /// 建立 storage
+        public static let create = RouteDefinition(root: root, method: .POST, path: [])
+        /// 取得 storage
+        public static let getSingle = RouteDefinition(root: root, method: .GET, path: [":storageID"])
+        /// 刪除 storage
+        public static let delete = RouteDefinition(root: root, method: .DELETE, path: getSingle.path)
+        /// 取得 storage 列表
         public static let getList = RouteDefinition(root: root, method: .GET, path: ["list"])
     }
     

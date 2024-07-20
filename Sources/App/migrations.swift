@@ -4,30 +4,40 @@ func migrations(_ app: Application) throws {
     
     // TODO: - 上版本前確認 Migrate 列表
     
-    /*
     // create TypeAPIModel's enum
     app.migrations.add([
-        Types.CreateWhereFromType(),
-        Types.CreateBrandType(),
-        Types.CreateEmployeeType(),
-        Types.CreateGoodsType(),
-        Types.CreateDesignType(),
-        Types.CreateOtherGoodsType(),
-        Types.CreateMaterialType(),
-        Types.CreateTransactionType(),
-        Types.CreateColorType()
+//        Types.CreateWhereFromType(),
+//        Types.CreateBrandType(),
+//        Types.CreateEmployeeType(),
+//        Types.CreateGoodsType(),
+//        Types.CreateOtherGoodsType(),
+//        Types.CreateTransactionType(),
+        
+//        Types.CreateMaterialType(),
+//        Types.CreateCottonMaterialType(),
+//        Types.CreateAgeType(),
+//        Types.CreateDesignType(),
+//        Types.CreateColorType(),
+//
+//        Types.CreateLocationType(),
     ])
     
     // create Model
     app.migrations.add([
-        User.Create(),
-        Token.Create(),
-        Member.Create(),
-        Candidate.Create(),
-        Trade.Create(),
-        Product.Create()
+//        User.Create(),
+//        Token.Create(),
+//        Member.Create(),
+//        Candidate.Create(),
+//        Trade.Create(),
+//        Product.Create()
+        
+//        Fabric.Create(),
+//        Tag.Create(),
+//        FabricTag.Create(),
+//        
+//        Storage.Create(),
+//        FabricStorage.Create(),
     ])
-    */
     
     
     // seed
@@ -44,6 +54,8 @@ func migrations(_ app: Application) throws {
 //        Trade.Seed_2021(),
 //        Trade.Seed_2022(),
 //        Trade.Seed_2023(),
+        
+//        Storage.Seed(),
     ])
 #endif
     
@@ -54,33 +66,13 @@ func migrations(_ app: Application) throws {
 //    ])
     
     
-    /*
-    app.migrations.add([
-        Product.Create(),
-        
-        Types.CreateMaterialType(),
-        Types.CreateCottonMaterialType(),
-        Types.CreateAgeType(),
-        Types.CreateDesignType(),
-        Types.CreateColorType(),
-        Types.CreateLocationType()
-    ])
-     */
     
     
     app.migrations.add([
-//        Product.Create(),
         
-//        Types.CreateMaterialType(),
-//        Types.CreateCottonMaterialType(),
-//        Types.CreateAgeType(),
-//        Types.CreateDesignType(),
-//        Types.CreateColorType(),
-//        Types.CreateLocationType(),
+
         
-//        Fabric.Create(),
-//        Tag.Create(),
-//        FabricTag.Create(),
+        
     ])
     
     

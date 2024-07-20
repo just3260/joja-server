@@ -17,12 +17,12 @@ final class ProductController: RouteCollection {
     
     // MARK: - Private Function
     
-    fileprivate func getProduct(req: Request) async throws -> ProductAPIModel.Response {
+    fileprivate func getProduct(req: Request) async throws -> ProductAPIModel.Response.DTO {
         let productId = try req.requireUUID(parameterName: "productID")
         guard let product = try await req.products.find(id: productId) else {
             throw JojaError.modelNotFound(type: "Product", id: productId.uuidString)
         }
-        return try ProductAPIModel(product: product).asPublic()
+        return try ProductAPIModel(product: product).asPublic().toDTO()
     }
     
 //    fileprivate func create(req: Request) async throws -> ProductAPIModel.Response {
@@ -32,9 +32,9 @@ final class ProductController: RouteCollection {
 //        return try product.makePublic()
 //    }
     
-//    fileprivate func delete(req: Request) async throws -> HTTPStatus {
+//    fileprivate func delete(req: Request) async throws -> Responser<Connector>.ResponseDTO {
 //        let productId = try req.requireUUID(parameterName: "productIdID")
 //        try await req.products.delete(id: productId)
-//        return .noContent
+//        return Responser<Connector>.ResponseDTO(status: .success)
 //    }
 }

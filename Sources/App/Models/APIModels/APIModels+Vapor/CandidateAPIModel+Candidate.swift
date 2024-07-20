@@ -39,7 +39,7 @@ extension Candidate {
     }
 }
 
-extension CandidateAPIModel: Content {
+extension CandidateAPIModel: Content, Connectable {
     func asPublic() throws -> CandidateAPIModel.Response {
         CandidateAPIModel.Response(id: id,
                                    name: name,
@@ -85,5 +85,5 @@ extension CandidateAPIModel.Request {
     }
 }
 
-extension CandidateAPIModel.Response: Content {}
-extension CandidateAPIModel.ListData: Content {}
+extension CandidateAPIModel.Response: Content, Connectable {}
+extension CandidateAPIModel.ListData: Content, Connectable {}

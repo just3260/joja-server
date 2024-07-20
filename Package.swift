@@ -16,11 +16,17 @@ let package = Package(
         // 🍃 An expressive, performant, and extensible templating language built for Swift.
         .package(url: "https://github.com/vapor/leaf.git", from: "4.2.4"),
         
+        // connectable-kit
+//        .package(url: "https://github.com/tugcanonbas/connectable-kit.git", from: "1.0.0"),
+        
 //        .package(url: "https://github.com/just3260/crud-kit", from: "1.1.1"),
         
         // joja core
         .package(path: "file:///Users/andrew/Dev/joja-core"), // run in local
-//        .package(url: "https://github.com/just3260/joja-core", from: "0.1.11"), // run in docker
+//        .package(url: "https://github.com/just3260/joja-core", from: "0.1.13"), // run in docker
+        
+        // Swift Prometheus
+//        .package(url: "https://github.com/swift-server/swift-prometheus.git", from: "2.0.0"),
     ],
     targets: [
         .target(
@@ -30,8 +36,10 @@ let package = Package(
                 .product(name: "Fluent", package: "fluent"),
                 .product(name: "FluentPostgresDriver", package: "fluent-postgres-driver"),
                 .product(name: "Leaf", package: "leaf"),
+//                .product(name: "ConnectableKit", package: "connectable-kit"),
 //                .product(name: "CRUDKit", package: "crud-kit"),
                 .product(name: "JOJACore", package: "joja-core"),
+//                .product(name: "Prometheus", package: "swift-prometheus"),
             ],
             swiftSettings: [
                 // Enable better optimizations when building in Release configuration. Despite the use of

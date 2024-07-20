@@ -38,6 +38,9 @@ func routes(_ app: Application) throws {
     // MARK: - Tag
     try v1Routes.register(collection: TagController())
     
+    // MARK: - Storage
+    try v1Routes.register(collection: StorageController())
+    
     
     // MARK: - Todo Lists
 //    v1Routes.crud("todo-lists", model: TodoList.self) { routes, parentController in

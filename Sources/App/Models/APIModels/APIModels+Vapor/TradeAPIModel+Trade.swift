@@ -26,7 +26,7 @@ extension Trade {
     }
 }
 
-extension TradeAPIModel: Content {
+extension TradeAPIModel: Content, Connectable {
     func asPublic() throws -> TradeAPIModel.Response {
         TradeAPIModel.Response(
             id: id,
@@ -87,4 +87,4 @@ extension TradeAPIModel.Request {
     }
 }
 
-extension TradeAPIModel.Response: Content {}
+extension TradeAPIModel.Response: Content, Connectable {}

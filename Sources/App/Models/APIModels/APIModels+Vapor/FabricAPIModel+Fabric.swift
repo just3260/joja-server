@@ -11,9 +11,9 @@ extension Fabric {
             component: try self.component.makeComponent(),
             sn: self.sn,
             price: self.price,
-            buy: self.buy,
             stock: self.stock,
-            location: self.location,
+//            storage: [:],
+            storage: getStorage(),
             tags: self.tags.map({$0.name}),
             description: self.description,
             note: self.note,
@@ -21,6 +21,24 @@ extension Fabric {
             createdAt: self.createdAt,
             updatedAt: self.updatedAt,
             log: self.log
+        )
+    }
+    
+    func getStorage() -> [String: Int] {
+        var storages: [String: Int] = [:]
+        for pivot in self.$storages.pivots {
+            storages[pivot.location.rawValue] = pivot.stock
+        }
+        return storages
+    }
+    
+    func makeList() throws -> FabricAPIModel.ListData {
+        return FabricAPIModel.ListData(
+            id: try self.requireID(),
+            name: self.name,
+            sn: self.sn,
+            component: try self.component.makeComponent(),
+            imageUrl: self.images.first
         )
     }
 }
@@ -41,7 +59,7 @@ extension Fabric.Component {
     }
 }
 
-extension FabricAPIModel: Content {
+extension FabricAPIModel: Content, Connectable {
     func asPublic() throws -> FabricAPIModel.Response {
         FabricAPIModel.Response(
             id: id,
@@ -49,9 +67,8 @@ extension FabricAPIModel: Content {
             component: component,
             sn: sn,
             price: price,
-            buy: buy,
             stock: stock,
-            location: location,
+            storage: storage,
             tags: tags,
             description: description,
             note: note,
@@ -71,9 +88,8 @@ extension FabricAPIModel {
             component: fabric.component.makeComponent(),
             sn: fabric.sn,
             price: fabric.price,
-            buy: fabric.buy,
             stock: fabric.stock,
-            location: fabric.location,
+            storage: [:],
             tags: fabric.tags.map({$0.name}),
             description: fabric.description,
             note: fabric.note,
@@ -92,9 +108,8 @@ extension FabricAPIModel.Request {
             component: try component.createComponent(),
             sn: component.getSerialHeader(),
             price: price,
-            buy: buy,
-            stock: stock,
-            location: location,
+            stock: buy,
+//            storage: storage,
             description: description,
             note: note,
             images: [],
@@ -119,4 +134,5 @@ extension FabricAPIModel.Component: Content {
     }
 }
 
-extension FabricAPIModel.Response: Content {}
+extension FabricAPIModel.Response: Content, Connectable {}
+extension FabricAPIModel.ListData: Content, Connectable {}

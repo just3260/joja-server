@@ -8,7 +8,7 @@
 import Vapor
 import JOJACore
 
-extension SignupAPIModel: Content {}
+extension SignupAPIModel: Content, Connectable {}
 
 extension SignupAPIModel: Validatable {
     public static func validations(_ validations: inout Validations) {

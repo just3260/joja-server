@@ -13,7 +13,7 @@ extension Tag {
     }
 }
 
-extension TagAPIModel: Content {
+extension TagAPIModel: Content, Connectable {
     func asPublic() throws -> TagAPIModel.Response {
         TagAPIModel.Response(
             id: id,
@@ -42,4 +42,4 @@ extension TagAPIModel.Request {
     }
 }
 
-extension TagAPIModel.Response: Content {}
+extension TagAPIModel.Response: Content, Connectable {}
