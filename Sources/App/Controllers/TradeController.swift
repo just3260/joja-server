@@ -36,6 +36,11 @@ final class TradeController: RouteCollection {
     
     fileprivate func create(req: Request) async throws -> TradeAPIModel.Response.DTO {
         let tradeModel = try req.content.decode(TradeAPIModel.Request.self)
+        
+        guard tradeModel.products.count > 0 else {
+            throw JojaError.valueEmpty(field: "商品")
+        }
+        
         // totol amount from products
         let totalAmount = tradeModel.products.map({$0.amount}).reduce(0, +)
         
@@ -73,11 +78,11 @@ final class TradeController: RouteCollection {
         return Responser<Connector>.ResponseDTO(status: .success)
     }
     
-    fileprivate func getTradeList(req: Request) async throws -> [TradeAPIModel.Response.DTO] {
+    fileprivate func getTradeList(req: Request) async throws -> [TradeAPIModel.Response] {
         let tradeIDs = try req.content.decode([UUID].self)
         
-        return try await withThrowingTaskGroup(of: TradeAPIModel.Response.DTO.self,
-                                               returning: [TradeAPIModel.Response.DTO].self,
+        return try await withThrowingTaskGroup(of: TradeAPIModel.Response.self,
+                                               returning: [TradeAPIModel.Response].self,
                                                body: { taskGroup in
             for tradeID in tradeIDs {
                 taskGroup.addTask {
@@ -87,16 +92,16 @@ final class TradeController: RouteCollection {
                     guard let products = try await req.products.findTrade(with: tradeID) else {
                         throw JojaError.modelNotFound(type: "Product", id: tradeID.uuidString)
                     }
-                    return try trade.makePublic(with: try products.map({try $0.makePublic()})).toDTO()
+                    return try trade.makePublic(with: try products.map({try $0.makePublic()}))
                 }
             }
             
-            var tradeModels: [TradeAPIModel.Response.DTO] = []
+            var tradeModels: [TradeAPIModel.Response] = []
             for try await model in taskGroup {
                 tradeModels.append(model)
             }
             try await taskGroup.waitForAll()
-            return tradeModels.sorted(by: {$0.data!.createdAt!.compare($1.data!.createdAt!) == .orderedDescending})
+            return tradeModels.sorted(by: {$0.createdAt!.compare($1.createdAt!) == .orderedDescending})
         })
     }
     

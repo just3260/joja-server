@@ -88,3 +88,5 @@ extension TradeAPIModel.Request {
 }
 
 extension TradeAPIModel.Response: Content, Connectable {}
+
+extension Array: Connectable where Element: Connectable {}

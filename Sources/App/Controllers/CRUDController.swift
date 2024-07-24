@@ -64,7 +64,6 @@ final class CRUDController<Entity: Model & Content & Updatable>: RouteCollection
     }
 }
 
-// TODO: Helpers
 
 extension CRUDController {
     private func findEntity(id: UUID? = nil, on req: Request) -> EventLoopFuture<Entity> {
