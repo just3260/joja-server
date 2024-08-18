@@ -45,6 +45,13 @@ extension Endpoints {
         public static let info = RouteDefinition(root: root, method: .GET, path: ["info"])
     }
     
+    public struct Images {
+        public static let root = ["images"]
+        
+        /// 取得 fabric 照片
+        public static let fabric = RouteDefinition(root: root, method: .GET, path: ["fabrics", ":imageName"])
+    }
+    
     public struct Members {
         public static let root = ["members"]
         

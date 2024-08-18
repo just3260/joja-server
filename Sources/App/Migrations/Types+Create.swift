@@ -50,6 +50,7 @@ final class Types: Content {
                 .case(TypeAPIModel.Brand.marco.rawValue)
                 .case(TypeAPIModel.Brand.vingt_six.rawValue)
                 .case(TypeAPIModel.Brand.design_3_14.rawValue)
+                .case(TypeAPIModel.Brand.yuguand.rawValue)
                 .case(TypeAPIModel.Brand.febbi.rawValue)
                 .case(TypeAPIModel.Brand.in_allyes.rawValue)
                 .case(TypeAPIModel.Brand.yr_wonder_land.rawValue)

@@ -65,42 +65,6 @@ final class FabricController: RouteCollection {
         return try fabric.makePublic().toDTO()
     }
     
-    /*
-    fileprivate func createUpload(req: Request) async throws -> FabricAPIModel.Response {
-        let uploadPath = req.application.directory.publicDirectory + "Uploads/Fabric/"
-//        let component = try req.content.decode(FabricAPIModel.Component.self)
-        let model = try req.content.decode(FabricAPIModel.Request.self)
-        let files = try req.content.decode(ImageFile.self)
-        
-        let fabric = try model.createFabric()
-        let count = try await req.fabrics.findAll(in: fabric.component.getSerialHeader()).count
-        fabric.sn += "-" + String(format: "%03d", count + 1)
-        
-        return try await withThrowingTaskGroup(of: String.self,
-                                               returning: FabricAPIModel.Response.self,
-                                               body: { taskGroup in
-            for (index, file) in files.images.enumerated() {
-                taskGroup.addTask {
-                    let fileName = "\(fabric.sn)-\(index).\(file.contentType?.subType ?? "jpg")"
-                    try await req.fileio.writeFile(file.data, at: uploadPath + fileName)
-                    return uploadPath + fileName
-                }
-            }
-            
-            var fielNames: [String] = []
-            for try await name in taskGroup {
-                fielNames.append(name)
-            }
-            try await taskGroup.waitForAll()
-            fabric.images = fielNames
-            
-            try await req.fabrics.create(fabric)
-            try await fabric.$tags.load(on: req.db)
-            return try fabric.makePublic()
-        })
-    }
-     */
-    
     fileprivate func delete(req: Request) async throws -> Responser<Connector>.ResponseDTO {
         let fabricId = try req.requireUUID(parameterName: "fabricID")
         
@@ -109,12 +73,17 @@ final class FabricController: RouteCollection {
         }
         
         do {
-            try fabric.images.forEach { filePath in
-                if filePath.isNotEmpty {
+            try fabric.images.forEach { fileName in
+                if fileName.isNotEmpty {
                     let manager = FileManager.default
-                    
+                    let filePath = req.application.directory.publicDirectory + "Uploads/Fabric/" + fileName
                     if manager.fileExists(atPath: filePath ) {
-                        if let url: URL = .init(string:"file://" + filePath) {
+#if os(Linux)
+                        let file = ""
+#else
+                        let file = "file://"
+#endif
+                        if let url: URL = .init(string: file + filePath) {
                             try manager.removeItem(at: url)
                         }
                     }
@@ -170,7 +139,7 @@ final class FabricController: RouteCollection {
         })
     }
     
-    fileprivate func uploadImage(req: Request) async throws -> String {
+    fileprivate func uploadImage(req: Request) async throws -> String.DTO {
         let fabricId = try req.requireUUID(parameterName: "fabricID")
         guard let fabric = try await req.fabrics.find(id: fabricId) else {
             throw JojaError.modelNotFound(type: "Fabric", id: fabricId.uuidString)
@@ -184,10 +153,10 @@ final class FabricController: RouteCollection {
         
         if file.filename.isEmpty {
             var images = fabric.images
-            images.append(uploadPath + fileName)
+            images.append(fileName)
             try await req.fabrics.updateImage(with: images, in: fabricId)
         }
-        return uploadPath + fileName
+        return fileName.toDTO()
     }
     
     fileprivate func deleteImage(req: Request) async throws -> Responser<Connector>.ResponseDTO {
@@ -207,7 +176,12 @@ final class FabricController: RouteCollection {
         let manager = FileManager.default
         
         if manager.fileExists(atPath: path) {
-            if let url: URL = .init(string:"file://" + path) {
+#if os(Linux)
+            let file = ""
+#else
+            let file = "file://"
+#endif
+            if let url: URL = .init(string: file + path) {
                 try manager.removeItem(at: url)
             }
             

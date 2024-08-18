@@ -71,8 +71,15 @@ extension TradeAPIModel.Request {
 //        let products = self.products.prefix(3)
         var desc = ""
         try self.products.forEach { prod in
-            if prod.amount < 0 || (prod.note ?? "").isEmpty {
-                throw JojaError.valueEmpty(field: "note")
+            switch prod.brand {
+            case .japan_socks, .design_3_14, .mount:
+                if prod.amount < 0 {
+                    throw JojaError.invalidParameterFormat(name: "amount", desiredType: "greater than zero")
+                }
+            default:
+                if prod.amount < 0 || (prod.note ?? "").isEmpty {
+                    throw JojaError.valueEmpty(field: "note")
+                }
             }
             desc += prod.brand.getName() + " " + (prod.note ?? "") + " $\(prod.amount)\n"
         }

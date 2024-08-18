@@ -23,7 +23,7 @@ let package = Package(
         
         // joja core
 //        .package(path: "file:///Users/andrew/Dev/joja-core"), // run in local
-        .package(url: "https://github.com/just3260/joja-core", from: "0.1.16"), // run in docker
+        .package(url: "https://github.com/just3260/joja-core", from: "0.1.17"), // run in docker
         
         // Swift Prometheus
 //        .package(url: "https://github.com/swift-server/swift-prometheus.git", from: "2.0.0"),

@@ -13,6 +13,10 @@ func routes(_ app: Application) throws {
     try v1Routes.register(collection: ServerInfoController())
     
     
+    // MARK: - Image
+    try v1Routes.register(collection: ImageController())
+    
+    
     // MARK: - User
     try v1Routes.register(collection: UserController())
     

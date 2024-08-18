@@ -29,6 +29,7 @@ public func configure(_ app: Application) throws {
     
     
     // uncomment to serve files from /Public folder
+    // FIXME: - 確認 FileMiddleware 是否需要
     app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
 //    app.middleware.use(FileMiddleware(publicDirectory: app.directory.workingDirectory))
     
