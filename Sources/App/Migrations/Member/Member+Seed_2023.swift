@@ -6,6 +6,7 @@ extension Member {
     struct Seed_2023: AsyncMigration {
         func prepare(on database: Database) async throws {
 
+            /*
             let members: [Member] = [
                 
                 .init(name: "陳秦玫", phone: "0981069886", birthday: Date.init(timeIntervalSince1970: 781977600), from: .ig, address: "", email: "tp61013@gmail.com", note: "", createdAt: Date.init(timeIntervalSince1970: 1669021860), updatedAt: Date()),
@@ -396,6 +397,8 @@ extension Member {
                 .init(name: "陳家莉", phone: "85362338890", birthday: nil, from: .taipei, address: "", email: "85362338890@fake.com", note: "", createdAt: Date.init(timeIntervalSince1970: 1616920800), updatedAt: Date()),
                 
             ]
+             */
+            let members: [Member] = []
             
             try await withThrowingTaskGroup(of: Void.self, body: { taskGroup in
                 for member in members {

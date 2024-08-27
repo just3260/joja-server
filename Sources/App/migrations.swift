@@ -39,6 +39,11 @@ func migrations(_ app: Application) throws {
 //        FabricStorage.Create(),
     ])
     
+    // update Model
+//    app.migrations.add([
+//        Member.FillAt(),
+//    ])
+    
     
     // seed
 #if os(Linux) // for NAS

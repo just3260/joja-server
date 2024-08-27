@@ -8,9 +8,9 @@ extension Member {
 
             let members: [Member] = [
                 
-                .init(name: "王小花", phone: "0987654321", birthday: Date.init(timeIntervalSince1970: 1604966400), from: .taipei, address: "蜂蜜花園", email: "bear@joja.com", note: "彩色熊", createdAt: Date(), updatedAt: Date()),
-                .init(name: "橡皮筋", phone: "0912345678", birthday: Date.init(timeIntervalSince1970: 1699228800), from: .friend, address: "Home", email: "elephant@joja.com", note: "皮皮", createdAt: Date(), updatedAt: Date()),
-                .init(name: "小啾", phone: "0988777666", birthday: Date.init(timeIntervalSince1970: 1659228800), from: .friend, address: "Home", email: "chu@joja.com", note: "小啾", createdAt: Date(), updatedAt: Date())
+                .init(name: "王小花", phone: "0987654321", birthday: Date.init(timeIntervalSince1970: 1604966400), from: .taipei, address: "蜂蜜花園", email: "bear@joja.com", note: "彩色熊", fillAt: Date(), createdAt: Date(), updatedAt: Date()),
+                .init(name: "橡皮筋", phone: "0912345678", birthday: Date.init(timeIntervalSince1970: 1699228800), from: .friend, address: "Home", email: "elephant@joja.com", note: "皮皮", fillAt: Date(), createdAt: Date(), updatedAt: Date()),
+                .init(name: "小啾", phone: "0988777666", birthday: Date.init(timeIntervalSince1970: 1659228800), from: .friend, address: "Home", email: "chu@joja.com", note: "小啾", fillAt: Date(), createdAt: Date(), updatedAt: Date())
                 
             ]
             

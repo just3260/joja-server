@@ -25,6 +25,7 @@ extension FieldKey {
     static let createdAt: FieldKey = "created_at"
     static let updatedAt: FieldKey = "updated_at"
     static let expiresAt: FieldKey = "expires_at"
+    static let fillAt: FieldKey = "fill_at"
     
     // MARK: - Member
     static let name: FieldKey = "name"

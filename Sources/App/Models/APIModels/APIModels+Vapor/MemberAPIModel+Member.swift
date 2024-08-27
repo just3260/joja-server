@@ -15,6 +15,7 @@ extension Member {
                                        note: self.note,
                                        amount: self.amount,
                                        isVip: self.isVip,
+                                       fillAt: self.fillAt,
                                        createdAt: self.createdAt,
                                        updatedAt: self.updatedAt,
                                        trades: []
@@ -34,6 +35,7 @@ extension Member {
                                        note: self.note,
                                        amount: self.amount,
                                        isVip: self.isVip,
+                                       fillAt: self.fillAt,
                                        createdAt: self.createdAt,
                                        updatedAt: self.updatedAt,
                                        trades: trades
@@ -64,6 +66,7 @@ extension MemberAPIModel: Content, Connectable {
             note: note,
             amount: amount,
             isVip: isVip,
+            fillAt: fillAt,
             createdAt: createdAt,
             updatedAt: updatedAt,
             trades: try trades?.compactMap({try $0.asSimple()})
@@ -84,6 +87,7 @@ extension MemberAPIModel {
             note: member.note.nilIfEmpty,
             amount: member.amount,
             isVip: member.isVip,
+            fillAt: member.fillAt,
             createdAt: member.createdAt,
             updatedAt: member.updatedAt,
             trades: try member.trades.map({ try TradeAPIModel(trade: $0) })
@@ -103,6 +107,7 @@ extension MemberAPIModel.Request {
             note: note,
             amount: 0,
             isVip: isVip,
+            fillAt: fillAt,
             createdAt: Date(),
             updatedAt: Date()
         )

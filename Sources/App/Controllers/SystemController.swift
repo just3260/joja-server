@@ -20,6 +20,6 @@ final class SystemController: RouteCollection {
     
     fileprivate func info(req: Request) async throws -> InfoAPIModel.DTO {
         // TODO: - 上版本前更新版號
-        return InfoAPIModel(version: "1.0.5").toDTO()
+        return InfoAPIModel(version: "1.0.7").toDTO()
     }
 }

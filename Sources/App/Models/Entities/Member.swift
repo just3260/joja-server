@@ -37,6 +37,9 @@ final class Member: Model, Content {
     @Field(key: Keys.isVip)
     var isVip: Bool
     
+    @Timestamp(key: Keys.fillAt, on: .none)
+    var fillAt: Date?
+    
     // TODO: - 匯入用，之後要改回來！
     @Timestamp(key: Keys.createdAt, on: .create)
 //    @Timestamp(key: Keys.createdAt, on: .none)
@@ -50,7 +53,7 @@ final class Member: Model, Content {
     
     init() {}
     
-    init(id: UUID? = nil, name: String, phone: String, birthday: Date?, from: TypeAPIModel.WhereToKnow, address: String?, email: String?, note: String?, amount: Int = 0, isVip: Bool = false, createdAt: Date?, updatedAt: Date?) {
+    init(id: UUID? = nil, name: String, phone: String, birthday: Date?, from: TypeAPIModel.WhereToKnow, address: String?, email: String?, note: String?, amount: Int = 0, isVip: Bool = false, fillAt: Date?, createdAt: Date?, updatedAt: Date?) {
         self.id = id
         self.name = name
         self.phone = phone
@@ -61,6 +64,7 @@ final class Member: Model, Content {
         self.note = note
         self.amount = amount
         self.isVip = isVip
+        self.fillAt = fillAt
         self.createdAt = createdAt
         self.updatedAt = updatedAt
     }
@@ -79,6 +83,7 @@ extension Member {
         static let note: FieldKey = .note
         static let amount: FieldKey = .amount
         static let isVip: FieldKey = .isVip
+        static let fillAt: FieldKey = .fillAt
         static let createdAt: FieldKey = .createdAt
         static let updatedAt: FieldKey = .updatedAt
     }
