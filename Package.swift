@@ -27,6 +27,12 @@ let package = Package(
         
         // Swift Prometheus
 //        .package(url: "https://github.com/swift-server/swift-prometheus.git", from: "2.0.0"),
+        
+        // Vapor Cron
+//        .package(url: "https://github.com/MihaelIsaev/VaporCron.git", from:"2.6.0"),
+        
+        // Redis
+        .package(url: "https://github.com/vapor/redis.git", from: "4.11.0"),
     ],
     targets: [
         .target(
@@ -40,6 +46,8 @@ let package = Package(
 //                .product(name: "CRUDKit", package: "crud-kit"),
                 .product(name: "JOJACore", package: "joja-core"),
 //                .product(name: "Prometheus", package: "swift-prometheus"),
+//                .target(name: "App", dependencies: ["VaporCron"]),
+//                .product(name: "Redis", package: "redis"),
             ],
             swiftSettings: [
                 // Enable better optimizations when building in Release configuration. Despite the use of

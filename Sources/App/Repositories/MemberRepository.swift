@@ -39,7 +39,7 @@ struct DatabaseMemberRepository: MemberRepository, DatabaseRepository {
     
     func page(with page: PageRequest) async throws -> Page<Member> {
         try await Member.query(on: database)
-            .sort(\.$createdAt, .descending)
+            .sort(\.$updatedAt, .descending)
             .page(withIndex: page.page, size: page.per)
     }
     
@@ -131,31 +131,31 @@ struct DatabaseMemberRepository: MemberRepository, DatabaseRepository {
         case .name:
             return try await Member.query(on: database)
                 .filter(model.matchAll ? \.$name == model.key : \.$name ~~ model.key)
-                .sort(\.$createdAt, .descending)
+                .sort(\.$updatedAt, .descending)
                 .page(withIndex: page.page, size: page.per)
             
         case .email:
             return try await Member.query(on: database)
                 .filter(model.matchAll ? \.$email == model.key : \.$email ~~ model.key)
-                .sort(\.$createdAt, .descending)
+                .sort(\.$updatedAt, .descending)
                 .page(withIndex: page.page, size: page.per)
             
         case .note:
             return try await Member.query(on: database)
                 .filter(model.matchAll ? \.$note == model.key : \.$note ~~ model.key)
-                .sort(\.$createdAt, .descending)
+                .sort(\.$updatedAt, .descending)
                 .page(withIndex: page.page, size: page.per)
             
         case .isVip:
             return try await Member.query(on: database)
                 .filter(\.$isVip == true)
-                .sort(\.$createdAt, .descending)
+                .sort(\.$updatedAt, .descending)
                 .page(withIndex: page.page, size: page.per)
             
         default: // .phone type
             return try await Member.query(on: database)
                 .filter(model.matchAll ? \.$phone == model.key : \.$phone ~~ model.key)
-                .sort(\.$createdAt, .descending)
+                .sort(\.$updatedAt, .descending)
                 .page(withIndex: page.page, size: page.per)
         }
     }

@@ -12,7 +12,7 @@ func migrations(_ app: Application) throws {
 //        Types.CreateGoodsType(),
 //        Types.CreateOtherGoodsType(),
 //        Types.CreateTransactionType(),
-        
+//        
 //        Types.CreateMaterialType(),
 //        Types.CreateCottonMaterialType(),
 //        Types.CreateAgeType(),
@@ -22,6 +22,7 @@ func migrations(_ app: Application) throws {
 //        Types.CreateLocationType(),
     ])
     
+    
     // create Model
     app.migrations.add([
 //        User.Create(),
@@ -29,20 +30,23 @@ func migrations(_ app: Application) throws {
 //        Member.Create(),
 //        Candidate.Create(),
 //        Trade.Create(),
-//        Product.Create()
-        
+//        Product.Create(),
+//        
 //        Fabric.Create(),
 //        Tag.Create(),
 //        FabricTag.Create(),
-//        
+//
 //        Storage.Create(),
 //        FabricStorage.Create(),
     ])
     
+    
     // update Model
-//    app.migrations.add([
+    app.migrations.add([
 //        Member.FillAt(),
-//    ])
+//        User.AddPermission(),
+    ])
+    
     
     
     // seed
@@ -61,15 +65,10 @@ func migrations(_ app: Application) throws {
 //        Trade.Seed_2023(),
         
 //        Storage.Seed(),
+        
+//        User.Seed2(),
     ])
 #endif
-    
-    
-    
-//    app.migrations.add([
-//        User.AddPermission(),
-//    ])
-    
     
     
     
